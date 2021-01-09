@@ -1,0 +1,15 @@
+schema {
+    query: Query
+    mutation: Mutation
+    subscription: Subscription
+}
+
+#修改、添加基本入口
+type Mutation {
+
+}
+#查询基础入口
+type Query {}
+
+#订阅的基本入口
+type Subscription{}

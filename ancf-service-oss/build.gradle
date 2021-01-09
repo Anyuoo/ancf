@@ -1,0 +1,5 @@
+dependencies {
+    def deps = this.rootProject.ext.dependencies
+    implementation project(":ancf-common")
+    implementation deps.aliyun_oss
+}

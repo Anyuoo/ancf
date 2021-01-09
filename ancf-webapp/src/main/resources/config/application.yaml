@@ -1,0 +1,80 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: AnCF
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ancf?tinyInt1isBit=false&useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+    hikari:
+      connection-test-query: SELECT 1
+      connection-timeout: 60000
+      idle-timeout: 500000
+      max-lifetime: 540000
+      maximum-pool-size: 12
+      minimum-idle: 10
+      pool-name: GuliHikariPool
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+  #mail邮箱配置
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: anyuzhao@qq.com
+    password: zngjtedtoxzhdfca
+    protocol: smtps
+
+  redis:
+    host: 8.129.20.24
+    port: 6380
+    database: 1
+
+  main:
+    allow-bean-definition-overriding: true
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-field: status
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    map-underscore-to-camel-case: true
+    #枚举包
+  type-enums-package: com.anyu.common.model.enums
+
+graphql:
+  tools:
+    use-default-objectmapper: true
+  servlet:
+    enabled: true
+    mapping: /graphql
+    corsEnabled: true
+    exception-handlers-enabled: true
+    maxQueryDepth: 100
+    async-mode-enabled: true
+
+graphiql:
+  cdn:
+    enabled: true
+
+
+
+#aliyun OSS 配置
+aliyun:
+  oss:
+    bucket-name: ancf
+    endpoint: oss-cn-chengdu.aliyuncs.com
+    key-id: LTAI4GJR7WPEATJpoJZCT7Xq
+    key-secret: DB53VQf8BZ4FlXHHw6zr1GxinViYaQ
+app:
+  jwt:
+    aud: add
+    iss: anyu
+

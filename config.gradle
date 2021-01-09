@@ -1,0 +1,31 @@
+ext {
+    dependencies = [
+            "mysql"                   : 'mysql:mysql-connector-java:8.0.20',
+            //mybatis-plus
+            "mybatis_plus"            : 'com.baomidou:mybatis-plus-boot-starter:3.4.0',
+            //graphql 相关依赖
+            "graphql"                 : 'com.graphql-java-kickstart:graphql-spring-boot-starter:8.0.0',
+            "graphql_webflux"         : "com.graphql-java-kickstart:graphql-kickstart-spring-boot-starter-webflux:8.0.0",
+            //  Altair tool
+            "graphql_altair"          : 'com.graphql-java-kickstart:altair-spring-boot-starter:8.0.0',
+            // GraphiQL tool
+            "graphiql"                : 'com.graphql-java-kickstart:graphiql-spring-boot-starter:8.0.0',
+            // Voyager tool
+            "graphql_voyager"         : 'com.graphql-java-kickstart:voyager-spring-boot-starter:8.0.0',
+
+            "graphql_extended_scalars": 'com.graphql-java:graphql-java-extended-scalars:1.0',
+
+            "lombok"                  : 'org.projectlombok:lombok',
+
+            "jjwt_api"                : 'io.jsonwebtoken:jjwt-api:0.11.2',
+            "jjwt_impl"               : 'io.jsonwebtoken:jjwt-impl:0.11.2',
+            "jjwt_jackson"            : 'io.jsonwebtoken:jjwt-jackson:0.11.2',
+
+
+            "aliyun_oss"              : 'com.aliyun.oss:aliyun-sdk-oss:3.10.2',
+            "redis"                   : 'org.springframework.boot:spring-boot-starter-data-redis'
+
+
+//            "shiro"                   : 'org.apache.shiro-spring-boot-web-starter:1.6.0'
+    ]
+}

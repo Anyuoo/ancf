@@ -1,0 +1,17 @@
+# Project exclude paths
+/.gradle/
+/ancf-common/build/
+/ancf-common/build/classes/java/main/
+/ancf-service-auth/build/
+/ancf-service-auth/build/classes/java/main/
+/ancf-service-msg/build/
+/ancf-service-msg/build/classes/java/main/
+/ancf-service-oss/build/
+/ancf-service-oss/build/classes/java/main/
+/ancf-service-post/build/
+/ancf-service-post/build/classes/java/main/
+/ancf-service-user/build/
+/ancf-service-user/build/classes/java/main/
+/ancf-webapp/build/
+/ancf-webapp/build/classes/java/main/
+/build/

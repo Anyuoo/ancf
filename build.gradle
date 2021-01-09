@@ -1,0 +1,65 @@
+//声明gradle脚本自身需要使用的资源,优先执行
+buildscript {
+    //引入gradle依赖配置文件
+    apply from: "config.gradle"
+    ext {
+        springBootVersion = '2.3.4.RELEASE'
+    }
+    repositories {
+        // 本地maven仓库
+        mavenLocal()
+        maven { url = 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        //和maven中央仓库一样的另一个依赖管理仓库,主要是java
+        jcenter()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    }
+}
+
+//  allProjects  所有项目共享的配置
+allprojects {
+//    apply plugin: 'idea'
+    apply plugin: 'java-library'
+    group 'com.anyu'
+    version '1.0.0'
+    sourceCompatibility = 11
+    targetCompatibility = 11
+}
+
+// subprojects : 所有子模块共享的配置
+subprojects {
+    apply plugin: 'java'
+
+    apply plugin: 'org.springframework.boot'  //使用springboot插件
+    apply plugin: 'io.spring.dependency-management'  //版本管理插件
+    apply plugin: 'application'  // 识别mainClassName 插件
+
+    //如果是多模块项目,需要指定一个程序入口,必须指定,否则无法build,单模块可以不用指定
+    mainClassName = 'com.anyu.webapp.WebApplication'
+    // java编译的时候缺省状态下会因为中文字符而失败
+    [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+
+    // 配置所有子模块的依赖仓库地址
+    repositories {
+        mavenLocal()
+        maven { url = 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        jcenter()
+    }
+    //所有子模块共有依赖
+    dependencies {
+        //依赖
+        def deps = rootProject.ext.dependencies
+        implementation fileTree(dir: 'libs', include: ['*.jar'])
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+        implementation deps.mysql
+        implementation deps.mybatis_plus
+        implementation deps.graphql
+        implementation deps.graphql_webflux
+        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+        compileOnly deps.lombok
+        annotationProcessor deps.lombok
+
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+}

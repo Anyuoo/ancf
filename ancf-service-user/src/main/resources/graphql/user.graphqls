@@ -1,0 +1,107 @@
+extend type Query {
+    #查询单个用户
+    user(id: ID, email: String, mobile: String,account:String): User
+    #用户信息分页
+    users(first: Int!, after: String,userPageCondition: UserPageCondition): UserConnection @connection(for: "User")
+
+}
+
+
+extend type Mutation {
+    #用户注册
+    register(userInput: UserInput!):CommonResult
+    #用户登录
+    login(principal: String!, password:String!):CommonResult
+    #用户激活(activationKey: 邮箱或手机号，activationCode： 激活码)
+    activateUser(activationKey: String!, activationCode: String!, isEmail: Boolean!): CommonResult
+    #更新用户信息
+    updateUserInfo(id: ID!, userInput: UserInput!): CommonResult
+    #上传用户头像
+    uploadAvatar: CommonResult
+    #删除用户
+    removeUser(id: ID!): CommonResult
+}
+#用户查询条件
+input UserPageCondition {
+    #性别
+    gender: Gender
+    #最小年龄
+    minAge: Int
+    #最大年龄
+    maxAge: Int
+    #用户昵称
+    nickname: String
+    #用户真实名
+    realName: String
+    #排序方式
+    orderType: UserOrderType
+}
+
+#排序规则类型
+enum UserOrderType {
+    DEFAULT
+    DESC_CREATE_TIME
+    DESC_MODIFIED_TIME
+    DESC_AGE
+    ASC_CREATE_TIME
+    ASC_MODIFIED_TIME
+    ASC_AGE
+}
+#创建用户的参数
+input UserInput {
+    #用户账号
+    account: String
+    #邮箱
+    email: String
+    #密码
+    password: String
+    #用户昵称
+    nickname: String
+    #性别
+    gender: Gender
+    #年龄
+    age: Int
+    #生日
+    birthday: DateTime
+    #用户真实名
+    realName: String
+    #头像地址
+    avatar: String
+    #手机号
+    mobile: String
+}
+
+#性别枚举
+enum Gender {
+    NUKNOWN
+    MALE
+    FEMALE
+}
+
+#用户实体
+type User {
+    #用户ID
+    id: ID
+    #用户真实名
+    realName: String
+    #性别
+    gender: Gender
+    #年龄
+    age: Int
+    #生日
+    birthday: String
+    #用户账号
+    account: String!
+    #用户昵称
+    nickname: String
+    #头像地址
+    avatar: String
+    #邮箱
+    email: String
+    #手机号
+    mobile: String
+    #用户信息创建时间
+    createTime: String
+    #用户信息修改时间
+    modifiedTime: String
+}

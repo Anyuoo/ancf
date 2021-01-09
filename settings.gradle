@@ -1,0 +1,10 @@
+rootProject.name = 'ancf'
+include 'ancf-common'
+include 'ancf-webapp'
+include 'ancf-service-auth'
+include 'ancf-service-post'
+include 'ancf-service-msg'
+include 'ancf-service-user'
+include 'ancf-service-oss'
+
+

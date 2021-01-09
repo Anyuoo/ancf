@@ -1,0 +1,41 @@
+extend type Query {
+    #查询消息
+    message(id: ID): Message
+
+    messages(first:Int!, after: String, chartId: String!): MessageConnection @connection(for: "Message")
+}
+extend type Subscription{
+    test: Int
+    receiveMsg(first:Int!, after: String, chartId: String!): MessageConnection @connection(for: "Message")
+}
+extend type Mutation {
+    #创建消息
+    sendMsg(messageInput: MessageInput!): CommonResult
+}
+#消息创建实体
+input MessageInput {
+    #消息发送者
+    fromId: ID!
+    #消息接受者
+    toId: ID!
+    #消息内容
+    content: String!
+}
+
+#消息查询实体
+type Message {
+    #消息ID
+    id: ID
+    #消息发送者
+    fromId: ID
+    #消息接受者
+    toId: ID
+    #对话ID {fromId}-{toId}
+    chartId: String
+    #消息内容
+    content: String
+    #创建时间
+    createTime: String
+    #修改时间
+    modifiedTime: String
+}

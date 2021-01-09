@@ -1,0 +1,10 @@
+dependencies {
+    def deps = rootProject.ext.dependencies
+    implementation project(':ancf-common')
+    implementation project(':ancf-service-oss')
+    implementation project(':ancf-service-auth')
+    //mysql驱动
+    implementation deps.graphql_extended_scalars
+    implementation deps.redis
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+}

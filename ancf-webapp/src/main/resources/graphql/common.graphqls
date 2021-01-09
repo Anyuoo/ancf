@@ -1,0 +1,16 @@
+#处理结果
+type CommonResult{
+    #请求是否成功
+    success: Boolean
+    #状态码
+    code: Int
+    #提示信息
+    message: String
+    #数据
+    data: Object
+}
+
+
+
+
+

@@ -1,0 +1,80 @@
+extend type Query {
+    #查询评论单体
+    comment(id: ID): Comment
+
+    #帖子评论
+    comments(first:Int,after: String,postId: ID!): CommentVoConnection @connection(for: "CommentVo")
+}
+extend type Mutation {
+    #创建评论
+    createComment(commentInput: CommentInput): CommonResult
+}
+
+#评论创建
+input CommentInput {
+    #评论者
+    userId: ID!
+    #帖子内容
+    content: String!
+    #实体类型
+    entityType: EntityType!
+    #实体ID
+    entityId: ID!
+    #目标实体ID
+    targetId: ID
+}
+#评论实体
+type Comment {
+    #帖子ID
+    id: ID
+    #评论者
+    userId: ID
+    #帖子内容
+    content: String
+    #实体类型
+    entityType: EntityType
+    #实体ID
+    entityId: ID
+    #目标实体ID
+    targetId: ID
+    #创建时间
+    createTime: String
+    #修改时间
+    modifiedTime: String
+}
+
+#评论类型枚举
+enum EntityType {
+    #帖子
+    POST
+    #评论
+    COMMENT
+}
+
+
+#评论vo
+type CommentVo{
+    #评论
+    comment: Comment
+    #评论者
+    observer: User
+    #评论点赞数
+    cmtLikeNum: Int
+    #评论点赞状态
+    cmtLikeStatus: Boolean
+    #评论的回复
+    replies(first: Int,after: String): ReplyVoConnection @connection(for: "ReplyVo")
+}
+#回复Vo
+type ReplyVo{
+    #回复
+    reply: Comment
+    #回复者
+    replier: User
+    #回复的人
+    target: User
+    #回复的点赞数
+    replyLikeNum: Int
+    #回复的点赞状态
+    replyLikeStatus: Boolean
+}

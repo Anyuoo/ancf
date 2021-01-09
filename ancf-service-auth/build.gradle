@@ -1,0 +1,15 @@
+dependencies {
+    def deps = rootProject.ext.dependencies
+    implementation project(":ancf-common")
+    //jwt依赖
+    implementation deps.jjwt_api
+    implementation deps.jjwt_jackson
+    implementation deps.jjwt_impl
+    //mysql驱动
+    implementation deps.mysql
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation deps.mybatis_plus
+    implementation deps.graphql
+    implementation deps.graphql_extended_scalars
+}

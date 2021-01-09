@@ -1,0 +1,78 @@
+extend type Query {
+    #查询帖子
+    post(id: ID!): Post
+    #    posts(first: Int, next: String, condition: PostQueryCondition):Post
+    postDetails(id: ID!): PostVo
+}
+
+
+
+extend type Mutation {
+    #创建帖子
+    publishPost(postInput: PostInput!): CommonResult
+}
+input PostQueryCondition {
+    #帖子类型
+    type: PostType!
+    #发布帖子用户ID
+    userId: ID!
+    #帖子标题
+    title: String!
+}
+
+
+#帖子创建实体输入
+input PostInput {
+    #帖子类型
+    type: PostType!
+    #发布帖子用户ID
+    userId: ID!
+    #帖子标题
+    title: String!
+    #内容
+    content: String!
+}
+
+#帖子查寻实体
+type Post {
+    #id
+    id: ID
+    #帖子类型
+    type: PostType
+    #发布帖子用户ID
+    userId: ID
+    #帖子标题
+    title: String
+    #内容
+    content: String
+    #评论数量
+    cmtNum: Int
+    #帖子得分
+    score: Float
+    #帖子创建时间
+    createTime: String
+    #帖子修改时间
+    modifiedTime: String
+}
+
+#帖子类型
+enum PostType {
+    #正常
+    NORMAL
+    #加精
+    QUALITY
+}
+
+#帖子详情
+type PostVo {
+    #帖子
+    post: Post
+    #发帖者
+    publisher: User
+    #帖子的点赞数量
+    PostLikeNum: Int
+    #帖子的点赞状态
+    postLikeStatus: Boolean
+    #帖子的评论
+    comments: CommentVoConnection
+}
