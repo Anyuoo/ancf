@@ -27,12 +27,12 @@ spring:
   mail:
     host: smtp.qq.com
     port: 465
-    username: anyuzhao@qq.com
-    password: zngjtedtoxzhdfca
+    username: 
+    password: 
     protocol: smtps
 
   redis:
-    host: 8.129.20.24
+    host: 
     port: 6380
     database: 1
 
@@ -71,8 +71,8 @@ aliyun:
   oss:
     bucket-name: ancf
     endpoint: oss-cn-chengdu.aliyuncs.com
-    key-id: LTAI4GJR7WPEATJpoJZCT7Xq
-    key-secret: DB53VQf8BZ4FlXHHw6zr1GxinViYaQ
+    key-id: 
+    key-secret: 
 app:
   jwt:
     aud: add
