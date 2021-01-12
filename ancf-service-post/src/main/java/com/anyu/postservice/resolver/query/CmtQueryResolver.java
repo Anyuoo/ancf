@@ -22,7 +22,6 @@ public class CmtQueryResolver implements GraphQLQueryResolver {
     @Autowired
     private CommentService commentService;
 
-
     public CompletableFuture<Optional<Comment>> getComment(Long id) {
         return CompletableFuture.supplyAsync(() -> Optional.ofNullable(commentService.getById(id)));
     }
