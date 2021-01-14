@@ -7,7 +7,7 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/ancf?tinyInt1isBit=false&useSSL=false&serverTimezone=GMT%2B8
+    url: jdbc:mysql://172.17.0.1:3306/ancf?tinyInt1isBit=false&useSSL=false&serverTimezone=GMT%2B8
     username: root
     password: 123456
     hikari:
@@ -22,18 +22,16 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
-
   #mail邮箱配置
   mail:
     host: smtp.qq.com
     port: 465
-    username: 
-    password: 
+    username: anyuzhao@qq.com
+    password: zngjtedtoxzhdfca
     protocol: smtps
-
   redis:
-    host: 
-    port: 6380
+    host: 172.17.0.1
+    port: 6379
     database: 1
 
   main:
@@ -64,17 +62,18 @@ graphiql:
   cdn:
     enabled: true
 
-
-
 #aliyun OSS 配置
 aliyun:
   oss:
     bucket-name: ancf
     endpoint: oss-cn-chengdu.aliyuncs.com
-    key-id: 
-    key-secret: 
+    key-id: LTAI4GJR7WPEATJpoJZCT7Xq
+    key-secret: DB53VQf8BZ4FlXHHw6zr1GxinViYaQ
 app:
   jwt:
     aud: add
     iss: anyu
 
+logging:
+  level:
+    com.anyu: debug

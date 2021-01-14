@@ -42,8 +42,8 @@ public class UserMutationResolver implements GraphQLMutationResolver {
      * @param input 注册参数
      * @return 结果
      */
-    public CompletableFuture<CommonResult> register(@NotNull UserInput input) {
-        return CompletableFuture.supplyAsync(() -> userService.register(input));
+    public CommonResult register(@NotNull UserInput input) {
+        return userService.register(input);
     }
 
     public CompletableFuture<CommonResult> login(@NotBlank String principal, @NotBlank String password) {
@@ -53,9 +53,9 @@ public class UserMutationResolver implements GraphQLMutationResolver {
                     if (result.getSuccess()) {
                         User user = (User) result.getData();
                         Optional<String> token = authService.createJwt(String.valueOf(user.getId()), user.getNickname(), "admin");
-                        return CommonResult.success(result.getMessage(), token);
+                        return CommonResult.succeed(result.getMessage(), token);
                     }
-                    return CommonResult.failure(result.getMessage());
+                    return CommonResult.failed(result.getMessage());
                 });
     }
 
@@ -77,11 +77,11 @@ public class UserMutationResolver implements GraphQLMutationResolver {
             AncfGqlHttpContext context = environment.getContext();
             Part avatar = context.getFilePart("avatar");
             if (avatar == null) {
-                return CommonResult.failure("上传失败");
+                return CommonResult.failed("上传失败");
             }
             String url = ossService.uploadAvatar(avatar);
             logger.info("filename: {}, size: {},url length {}", avatar.getName(), avatar.getSize(), url.length());
-            return CommonResult.success(url);
+            return CommonResult.succeed(url);
         });
     }
 

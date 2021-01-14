@@ -6,7 +6,7 @@ type CommonResult{
     code: Int
     #提示信息
     message: String
-    #数据
+    #data
     data: Object
 }
 

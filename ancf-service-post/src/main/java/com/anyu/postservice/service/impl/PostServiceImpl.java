@@ -58,7 +58,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
                 .setScore(0f)
                 .setType(PostType.NORMAL);
 
-        return this.save(post) ? CommonResult.success("帖子发布成功！") : CommonResult.failure("帖子发布失败！");
+        return this.save(post) ? CommonResult.succeed("帖子发布成功！") : CommonResult.failed("帖子发布失败！");
     }
 
 

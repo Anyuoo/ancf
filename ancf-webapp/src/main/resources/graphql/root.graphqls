@@ -5,9 +5,7 @@ schema {
 }
 
 #修改、添加基本入口
-type Mutation {
-
-}
+type Mutation {}
 #查询基础入口
 type Query {}
 

@@ -55,7 +55,6 @@ subprojects {
         implementation deps.mysql
         implementation deps.mybatis_plus
         implementation deps.graphql
-        implementation deps.graphql_webflux
         annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
         compileOnly deps.lombok
         annotationProcessor deps.lombok

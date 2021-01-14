@@ -1,4 +1,8 @@
 dependencies {
+    def deps = rootProject.ext.dependencies
     implementation project(':ancf-common')
-
+    //use subscription need webflux dependence
+//    implementation deps.graphql_webflux
+    implementation "io.reactivex.rxjava2:rxjava"
+    implementation "io.projectreactor:reactor-core"
 }

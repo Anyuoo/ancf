@@ -1,5 +1,6 @@
 ext {
-    dependencies = [
+
+    def map = dependencies = [
             "mysql"                   : 'mysql:mysql-connector-java:8.0.20',
             //mybatis-plus
             "mybatis_plus"            : 'com.baomidou:mybatis-plus-boot-starter:3.4.0',
@@ -28,4 +29,5 @@ ext {
 
 //            "shiro"                   : 'org.apache.shiro-spring-boot-web-starter:1.6.0'
     ]
+    map
 }

@@ -33,7 +33,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
         Message message = new Message();
         BeanUtils.copyProperties(input, message);
         message.setChartId(chartId);
-        return this.save(message) ? CommonResult.success("消息发送成功!") : CommonResult.failure("消息发送失败！");
+        return this.save(message) ? CommonResult.succeed("消息发送成功!") : CommonResult.failed("消息发送失败！");
     }
 
     @Override

@@ -31,7 +31,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         input.setContent(HtmlUtils.htmlEscape(input.getContent()));
         Comment comment = Comment.build();
         BeanUtils.copyProperties(input, comment);
-        return this.save(comment) ? CommonResult.success("评论成功！") : CommonResult.failure("评论失败！");
+        return this.save(comment) ? CommonResult.succeed("评论成功！") : CommonResult.failed("评论失败！");
     }
 
     @Override

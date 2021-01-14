@@ -23,17 +23,17 @@ public class CommonResult {
      *
      * @return CommonResult
      */
-    public static CommonResult success() {
-        return success(ResultType.SUCCESS.getMessage());
+    public static CommonResult succeed() {
+        return succeed(ResultType.SUCCESS.getMessage());
     }
 
 
-    public static CommonResult success(String message) {
-        return success(message, null);
+    public static CommonResult succeed(String message) {
+        return succeed(message, null);
     }
 
 
-    public static CommonResult success(String message, Object data) {
+    public static CommonResult succeed(String message, Object data) {
         return new CommonResult(true, ResultType.SUCCESS.getCode(), message, data);
     }
 
@@ -42,8 +42,8 @@ public class CommonResult {
      *
      * @return CommonResult
      */
-    public static CommonResult failure() {
-        return failure(ResultType.FAILED.getMessage());
+    public static CommonResult failed() {
+        return failed(ResultType.FAILED.getMessage());
     }
 
     /**
@@ -51,7 +51,7 @@ public class CommonResult {
      *
      * @return Result
      */
-    public static CommonResult failure(String message) {
+    public static CommonResult failed(String message) {
         return new CommonResult(false, ResultType.FAILED.getCode(), message, null);
     }
 

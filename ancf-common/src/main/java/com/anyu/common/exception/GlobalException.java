@@ -6,7 +6,7 @@ public class GlobalException extends RuntimeException {
     /**
      * 结果枚举
      */
-    private ResultType resultType;
+    private final ResultType resultType;
 
 
     private GlobalException(ResultType resultType) {

@@ -86,14 +86,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         if (!this.save(user)) {
             log.info("UserServiceImpl: register[saveUser:{},注册失败]", user.getEmail());
-            return CommonResult.failure("注册失败！");
+            return CommonResult.failed("注册失败！");
         }
         //激活用户，邮箱注册
         if (StringUtils.isNotBlank(user.getEmail()) && sendActivationEmail(user.getEmail())) {
-            return CommonResult.success("注册成功，请尽快激活");
+            return CommonResult.succeed("注册成功，请尽快激活");
         }
         //TODO 激活用户，手机注册验证
-        return CommonResult.failure("发送激活码失败");
+        return CommonResult.failed("发送激活码失败");
     }
 
 
@@ -101,14 +101,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public CommonResult updateUserById(@NonNull Long id, UserInput input) {
         User original = this.getById(id);
         if (original == null) {
-            return CommonResult.failure("该用户不存在！");
+            return CommonResult.failed("该用户不存在！");
         }
         CommonResult result = verifyUserInput(input);
         if (!result.getSuccess()) {
             return result;
         }
         BeanUtils.copyProperties(input, original);
-        return this.updateById(original) ? CommonResult.success("用户信息已更新！") : CommonResult.failure("用户信息更新失败！");
+        return this.updateById(original) ? CommonResult.succeed("用户信息已更新！") : CommonResult.failed("用户信息更新失败！");
     }
 
     /**
@@ -152,7 +152,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public CommonResult removeUserById(@NonNull Long id) {
-        return this.removeById(id) ? CommonResult.success("注销用户成功！") : CommonResult.failure("注销用户失败！");
+        return this.removeById(id) ? CommonResult.succeed("注销用户成功！") : CommonResult.failed("注销用户失败！");
     }
 
     /**
@@ -176,18 +176,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                     Optional<User> userByEmail = getUserByEmail(activationKey);
                     if (userByEmail.isPresent() && doActivate(userByEmail.get())) {
                         log.info("activateUser[email:{}激活成功]", activationKey);
-                        return CommonResult.success("用户激活成功");
+                        return CommonResult.succeed("用户激活成功");
                     }
                 } else {
                     Optional<User> userByMobile = getUserByMobile(activationKey);
                     if (userByMobile.isPresent() && doActivate(userByMobile.get())) {
                         log.info("activateUser[mobile:{}激活成功]", activationKey);
-                        return CommonResult.success("用户激活成功");
+                        return CommonResult.succeed("用户激活成功");
                     }
                 }
             }
         }
-        return CommonResult.failure("用户激活失败");
+        return CommonResult.failed("用户激活失败");
     }
 
     /**
@@ -234,16 +234,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (user.isPresent()) {
             var original = user.get();
             if (original.getActivation() == ActiveStatus.UNACTIVED) {
-                return CommonResult.success("用户未激活");
+                return CommonResult.succeed("用户未激活");
             }
             String salt = original.getSalt();
             password = CommonUtils.md5(password + salt);
             if (StringUtils.equals(password, original.getPassword())) {
-                return CommonResult.success("验证成功", original);
+                return CommonResult.succeed("验证成功", original);
             }
-            return CommonResult.failure("密码错误");
+            return CommonResult.failed("密码错误");
         }
-        return CommonResult.failure("用户不存在");
+        return CommonResult.failed("用户不存在");
     }
 
 
@@ -260,27 +260,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (StringUtils.isNotBlank(input.getEmail())) {
             input.setEmail(input.getEmail().trim());
             if (verifyAndCleanUserWith(input.getEmail(), true)) {
-                log.info("UserServiceImpl: register[email:{} 已经存在]", input.getEmail());
-                return CommonResult.failure("该邮箱已经被绑定！");
+                log.debug("register[email:{} 已经存在]", input.getEmail());
+                return CommonResult.failed("该邮箱已经被绑定！");
             }
         }
         //验证手机号
         if (StringUtils.isNotBlank(input.getMobile())) {
             input.setMobile(input.getMobile());
             if (verifyAndCleanUserWith(input.getMobile(), false)) {
-                log.info("UserServiceImpl: register[mobile:{} 已经存在]", input.getMobile());
-                return CommonResult.failure("该手机号已经被注册！");
+                log.debug("register[mobile:{} 已经存在]", input.getMobile());
+                return CommonResult.failed("该手机号已经被注册！");
             }
         }
         //验证账号
         if (StringUtils.isNotBlank(input.getAccount())) {
             input.setAccount(input.getAccount().trim());
             if (verifyAndCleanUserWith(input.getAccount())) {
-                log.info("UserServiceImpl: register[account:{} 已被注冊]", input.getAccount());
-                return CommonResult.failure("该账号已经被注册！");
+                log.debug("register[account:{} 已被注冊]", input.getAccount());
+                return CommonResult.failed("该账号已经被注册！");
             }
         }
-        return CommonResult.success("参数合理，可继续操作");
+        return CommonResult.succeed("参数合理，可继续操作");
     }
 
     /**
