@@ -2,7 +2,7 @@ package com.anyu.authservice.jwt;
 
 
 import com.anyu.common.exception.GlobalException;
-import com.anyu.common.model.enums.ResultType;
+import com.anyu.common.result.type.ResultType;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;

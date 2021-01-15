@@ -1,4 +1,5 @@
 dependencies {
+    implementation 'org.junit.jupiter:junit-jupiter:5.4.2'
     def deps = rootProject.ext.dependencies
     implementation project(':ancf-common')
     implementation project(':ancf-service-oss')

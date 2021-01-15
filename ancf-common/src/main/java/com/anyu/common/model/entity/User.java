@@ -94,7 +94,6 @@ public class User implements Serializable {
 
     public static User build() {
         return new User();
-
     }
 
 

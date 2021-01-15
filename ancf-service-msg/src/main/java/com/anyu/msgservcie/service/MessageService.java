@@ -1,7 +1,6 @@
 package com.anyu.msgservcie.service;
 
 
-import com.anyu.common.model.CommonResult;
 import com.anyu.common.model.entity.Message;
 import com.anyu.msgservcie.entity.MessageInput;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -17,7 +16,7 @@ import java.util.List;
  * @since 2020-10-10 12:51:56
  */
 public interface MessageService extends IService<Message> {
-    CommonResult sendMsg(MessageInput input);
+    boolean sendMsg(MessageInput input);
 
     List<Message> listMsgAfter(@Nullable Long id, int first, @NotNull String chartId);
 }

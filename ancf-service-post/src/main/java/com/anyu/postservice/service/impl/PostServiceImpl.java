@@ -1,7 +1,6 @@
 package com.anyu.postservice.service.impl;
 
 
-import com.anyu.common.model.CommonResult;
 import com.anyu.common.model.entity.Post;
 import com.anyu.common.model.enums.PostType;
 import com.anyu.postservice.entity.input.PostInput;
@@ -49,7 +48,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
      */
     @Override
     @Transactional
-    public CommonResult publishPost(@NonNull PostInput input) {
+    public boolean publishPost(@NonNull PostInput input) {
         input.setTitle(HtmlUtils.htmlEscape(input.getTitle()));
         input.setContent(HtmlUtils.htmlEscape(input.getContent()));
         Post post = Post.build();
@@ -58,7 +57,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
                 .setScore(0f)
                 .setType(PostType.NORMAL);
 
-        return this.save(post) ? CommonResult.succeed("帖子发布成功！") : CommonResult.failed("帖子发布失败！");
+        return this.save(post);
     }
 
 

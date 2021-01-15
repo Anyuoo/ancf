@@ -50,14 +50,14 @@ mybatis-plus:
 graphql:
   tools:
     use-default-objectmapper: true
+    schema-location-pattern: "**/*.graphql"
   servlet:
     enabled: true
     mapping: /graphql
     corsEnabled: true
-    exception-handlers-enabled: true
+    exception-handlers-enabled: false
     maxQueryDepth: 100
     async-mode-enabled: true
-
 graphiql:
   cdn:
     enabled: true

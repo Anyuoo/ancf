@@ -6,7 +6,7 @@ import com.anyu.ancf.config.OSSProperties;
 import com.anyu.ancf.service.OssService;
 import com.anyu.ancf.util.OssUtils;
 import com.anyu.common.exception.GlobalException;
-import com.anyu.common.model.enums.ResultType;
+import com.anyu.common.result.type.FileResultType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,11 +60,11 @@ public class OssServiceImpl implements OssService {
             // 关闭OSSClient。
             ossClient.shutdown();
             String AvatarUrl = "https://" + bucketName + "." + endpoint + "/" + fileUrl;
-            logger.info("[OssService] {}上传成功,aliyun 地址：{}", original, AvatarUrl);
+            logger.info("[OssService] {},size:{},上传成功,aliyun 地址：{}", original, file.getSize(), AvatarUrl);
             return AvatarUrl;
         } catch (IOException e) {
             logger.warn("[OssService] {}上传失败", file.getName());
-            throw GlobalException.causeBy(ResultType.FILE_UPLOAD_ERROR);
+            throw GlobalException.causeBy(FileResultType.UPLOAD_ERROR);
         }
     }
 

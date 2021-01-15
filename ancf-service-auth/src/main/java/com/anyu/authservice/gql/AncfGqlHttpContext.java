@@ -2,7 +2,7 @@ package com.anyu.authservice.gql;
 
 import com.anyu.authservice.entity.AuthSubject;
 import com.anyu.common.exception.GlobalException;
-import com.anyu.common.model.enums.ResultType;
+import com.anyu.common.result.type.FileResultType;
 import graphql.kickstart.servlet.context.GraphQLServletContext;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
@@ -50,7 +50,7 @@ public class AncfGqlHttpContext extends AncfGqlBaseContext implements GraphQLSer
                     .filter(part -> part.getContentType() != null)
                     .collect(Collectors.toUnmodifiableList());
         } catch (IOException | ServletException e) {
-            throw GlobalException.causeBy(ResultType.FILE_UPLOAD_REQUEST_ERROR);
+            throw GlobalException.causeBy(FileResultType.UPLOAD_REQUEST_ERROR);
         }
     }
 
@@ -66,7 +66,7 @@ public class AncfGqlHttpContext extends AncfGqlBaseContext implements GraphQLSer
         try {
             return httpServletRequest.getPart(fileName);
         } catch (IOException | ServletException e) {
-            throw GlobalException.causeBy(ResultType.FILE_UPLOAD_REQUEST_ERROR);
+            throw GlobalException.causeBy(FileResultType.UPLOAD_REQUEST_ERROR);
         }
     }
 

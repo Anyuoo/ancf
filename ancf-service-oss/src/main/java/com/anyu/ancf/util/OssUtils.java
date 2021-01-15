@@ -2,7 +2,7 @@ package com.anyu.ancf.util;
 
 
 import com.anyu.common.exception.GlobalException;
-import com.anyu.common.model.enums.ResultType;
+import com.anyu.common.result.type.FileResultType;
 import com.anyu.common.util.CommonUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -22,7 +22,7 @@ public class OssUtils {
         //文件名：uuid.扩展名
         String fileName = CommonUtils.randomString().substring(0, 8);
         if (StringUtils.isBlank(original)) {
-            throw GlobalException.causeBy(ResultType.FILE_UPLOAD_NAME_ERROR);
+            throw GlobalException.causeBy(FileResultType.UPLOAD_NAME_ERROR);
         }
         String fileType = original.substring(original.lastIndexOf("."));
         return folderName + FILE_SPLIT + filePath + FILE_SPLIT + fileName + fileType;

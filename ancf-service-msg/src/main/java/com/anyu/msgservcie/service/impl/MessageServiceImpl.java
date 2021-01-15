@@ -1,7 +1,6 @@
 package com.anyu.msgservcie.service.impl;
 
 
-import com.anyu.common.model.CommonResult;
 import com.anyu.common.model.entity.Message;
 import com.anyu.common.util.CommonUtils;
 import com.anyu.msgservcie.entity.MessageInput;
@@ -26,14 +25,14 @@ import java.util.List;
 public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> implements MessageService {
 
     @Override
-    public CommonResult sendMsg(MessageInput input) {
+    public boolean sendMsg(MessageInput input) {
         //进行转码
         input.setContent(HtmlUtils.htmlEscape(input.getContent()));
         String chartId = CommonUtils.createChartId(input.getFromId(), input.getToId());
         Message message = new Message();
         BeanUtils.copyProperties(input, message);
         message.setChartId(chartId);
-        return this.save(message) ? CommonResult.succeed("消息发送成功!") : CommonResult.failed("消息发送失败！");
+        return this.save(message);
     }
 
     @Override

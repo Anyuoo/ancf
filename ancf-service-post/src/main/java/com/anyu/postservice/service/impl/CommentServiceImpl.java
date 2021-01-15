@@ -1,7 +1,6 @@
 package com.anyu.postservice.service.impl;
 
 
-import com.anyu.common.model.CommonResult;
 import com.anyu.common.model.entity.Comment;
 import com.anyu.common.model.enums.EntityType;
 import com.anyu.postservice.entity.input.CommentInput;
@@ -26,12 +25,12 @@ import java.util.List;
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
 
     @Override
-    public CommonResult createComment(CommentInput input) {
+    public boolean createComment(CommentInput input) {
         //將评论类容进行编码处理
         input.setContent(HtmlUtils.htmlEscape(input.getContent()));
         Comment comment = Comment.build();
         BeanUtils.copyProperties(input, comment);
-        return this.save(comment) ? CommonResult.succeed("评论成功！") : CommonResult.failed("评论失败！");
+        return this.save(comment);
     }
 
     @Override

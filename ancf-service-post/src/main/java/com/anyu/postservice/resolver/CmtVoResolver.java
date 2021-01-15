@@ -1,9 +1,9 @@
 package com.anyu.postservice.resolver;
 
 
-import com.anyu.common.model.CommonPage;
 import com.anyu.common.model.entity.User;
 import com.anyu.common.model.enums.EntityType;
+import com.anyu.common.result.CommonPage;
 import com.anyu.postservice.entity.vo.CommentVo;
 import com.anyu.postservice.entity.vo.ReplyVo;
 import com.anyu.postservice.service.CommentService;

@@ -1,4 +1,4 @@
-package com.anyu.common.model;
+package com.anyu.common.result;
 
 
 import com.anyu.common.util.CommonUtils;

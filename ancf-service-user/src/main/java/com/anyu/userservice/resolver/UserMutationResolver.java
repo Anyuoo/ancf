@@ -3,9 +3,7 @@ package com.anyu.userservice.resolver;
 
 import com.anyu.ancf.service.OssService;
 import com.anyu.authservice.gql.AncfGqlHttpContext;
-import com.anyu.authservice.service.AuthService;
-import com.anyu.common.model.CommonResult;
-import com.anyu.common.model.entity.User;
+import com.anyu.common.result.CommonResult;
 import com.anyu.userservice.entity.input.UserInput;
 import com.anyu.userservice.service.UserService;
 import graphql.kickstart.tools.GraphQLMutationResolver;
@@ -20,7 +18,6 @@ import javax.servlet.http.Part;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 public class UserMutationResolver implements GraphQLMutationResolver {
@@ -32,9 +29,6 @@ public class UserMutationResolver implements GraphQLMutationResolver {
     @Autowired
     private OssService ossService;
 
-    @Autowired
-    private AuthService authService;
-
 
     /**
      * 用户注册接口
@@ -43,46 +37,51 @@ public class UserMutationResolver implements GraphQLMutationResolver {
      * @return 结果
      */
     public CommonResult register(@NotNull UserInput input) {
-        return userService.register(input);
+        if (userService.register(input)) {
+            return CommonResult.succeed("user register successful!");
+        }
+        return CommonResult.failed("user register failed");
     }
 
-    public CompletableFuture<CommonResult> login(@NotBlank String principal, @NotBlank String password) {
-        return CompletableFuture.supplyAsync(() -> userService.login(principal, password))
-                .thenApply(result -> {
-                    //success == true 登录成功
-                    if (result.getSuccess()) {
-                        User user = (User) result.getData();
-                        Optional<String> token = authService.createJwt(String.valueOf(user.getId()), user.getNickname(), "admin");
-                        return CommonResult.succeed(result.getMessage(), token);
-                    }
-                    return CommonResult.failed(result.getMessage());
-                });
+    public CommonResult login(@NotBlank String principal, @NotBlank String password) {
+
+        Optional<String> loginJtw = userService.login(principal, password);
+        return loginJtw.map(jwt -> CommonResult.succeed("login successfully", jwt))
+                .orElseGet(() -> CommonResult.failed("login unsuccessfully"));
     }
 
-    public CompletableFuture<CommonResult> activateUser(@NotBlank String activationKey,
-                                                        @NotBlank String activationCode, boolean isEmail) {
-        return CompletableFuture.supplyAsync(() -> userService.activateUser(activationKey, activationCode, isEmail));
+    public CommonResult activateUser(@NotBlank String activationKey,
+                                     @NotBlank String activationCode, boolean isEmail) {
+        if (userService.activateUser(activationKey, activationCode, isEmail)) {
+            return CommonResult.succeed("user active successful");
+        }
+        return CommonResult.failed("user active unsuccessfully");
     }
 
-    public CompletableFuture<CommonResult> removeUser(@NonNull Long id) {
-        return CompletableFuture.supplyAsync(() -> userService.removeUserById(id));
+    public CommonResult removeUser(@NonNull Long id) {
+        if (userService.removeUserById(id)) {
+            return CommonResult.succeed("remove user successfully");
+        }
+        return CommonResult.failed("remove user unsuccessfully");
+
     }
 
-    public CompletableFuture<CommonResult> updateUserInfo(@NotNull Long id, @NotNull UserInput input) {
-        return CompletableFuture.supplyAsync(() -> userService.updateUserById(id, input));
+    public CommonResult updateUserInfo(@NotNull Long id, @NotNull UserInput input) {
+        if (userService.updateUserById(id, input)) {
+            return CommonResult.succeed("user information has been updated");
+        }
+        return CommonResult.failed("user information updated unsuccessfully");
     }
 
-    public CompletableFuture<CommonResult> uploadAvatar(DataFetchingEnvironment environment) {
-        return CompletableFuture.supplyAsync(() -> {
-            AncfGqlHttpContext context = environment.getContext();
-            Part avatar = context.getFilePart("avatar");
-            if (avatar == null) {
-                return CommonResult.failed("上传失败");
-            }
-            String url = ossService.uploadAvatar(avatar);
-            logger.info("filename: {}, size: {},url length {}", avatar.getName(), avatar.getSize(), url.length());
-            return CommonResult.succeed(url);
-        });
+    public CommonResult uploadAvatar(DataFetchingEnvironment environment) {
+        AncfGqlHttpContext context = environment.getContext();
+        Part avatar = context.getFilePart("avatar");
+        if (avatar == null) {
+            return CommonResult.failed("上传失败");
+        }
+        String url = ossService.uploadAvatar(avatar);
+        logger.debug("filename: {}, size: {},url length {}", avatar.getName(), avatar.getSize(), url.length());
+        return CommonResult.succeed("upload successfully", url);
     }
 
 }

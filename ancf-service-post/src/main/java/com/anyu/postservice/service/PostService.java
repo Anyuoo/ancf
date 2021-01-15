@@ -1,7 +1,6 @@
 package com.anyu.postservice.service;
 
 
-import com.anyu.common.model.CommonResult;
 import com.anyu.common.model.entity.Post;
 import com.anyu.postservice.entity.input.PostInput;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -25,5 +24,5 @@ public interface PostService extends IService<Post> {
      * @param input 输入参数
      * @return 结果
      */
-    CommonResult publishPost(@NonNull PostInput input);
+    boolean publishPost(@NonNull PostInput input);
 }

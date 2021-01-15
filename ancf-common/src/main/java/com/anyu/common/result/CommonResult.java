@@ -1,6 +1,6 @@
-package com.anyu.common.model;
+package com.anyu.common.result;
 
-import com.anyu.common.model.enums.ResultType;
+import com.anyu.common.result.type.ResultType;
 
 public class CommonResult {
     private Boolean success;

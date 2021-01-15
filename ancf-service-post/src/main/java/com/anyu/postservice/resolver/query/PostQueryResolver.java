@@ -11,7 +11,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 
 /**
  * 帖子信息查询
@@ -27,10 +26,8 @@ public class PostQueryResolver implements GraphQLQueryResolver {
     @Autowired
     private UserService userService;
 
-    public CompletableFuture<Optional<Post>> getPost(@NonNull Long id) {
-        return CompletableFuture.supplyAsync(() -> {
-            return postService.getPostById(id);
-        });
+    public Optional<Post> getPost(@NonNull Long id) {
+        return postService.getPostById(id);
     }
 
     public PostVo postDetails(Long id) {

@@ -6,7 +6,6 @@ extend type Query {
 
 }
 
-
 extend type Mutation {
     #用户注册
     register(userInput: UserInput!):CommonResult

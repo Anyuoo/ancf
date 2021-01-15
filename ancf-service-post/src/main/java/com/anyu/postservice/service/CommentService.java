@@ -1,7 +1,6 @@
 package com.anyu.postservice.service;
 
 
-import com.anyu.common.model.CommonResult;
 import com.anyu.common.model.entity.Comment;
 import com.anyu.common.model.enums.EntityType;
 import com.anyu.postservice.entity.input.CommentInput;
@@ -21,5 +20,5 @@ public interface CommentService extends IService<Comment> {
 
     List<Comment> listCommentsByEntity(int first, @Nullable Long id, @NotNull EntityType entityType, @NotNull Long entityId);
 
-    CommonResult createComment(CommentInput input);
+    boolean createComment(CommentInput input);
 }

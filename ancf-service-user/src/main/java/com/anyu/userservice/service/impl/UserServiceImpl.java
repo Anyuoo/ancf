@@ -1,9 +1,11 @@
 package com.anyu.userservice.service.impl;
 
 
-import com.anyu.common.model.CommonResult;
+import com.anyu.authservice.service.AuthService;
+import com.anyu.common.exception.GlobalException;
 import com.anyu.common.model.entity.User;
 import com.anyu.common.model.enums.ActiveStatus;
+import com.anyu.common.result.type.UserResultType;
 import com.anyu.common.util.CommonUtils;
 import com.anyu.common.util.MailClient;
 import com.anyu.common.util.RedisKeyUtils;
@@ -29,10 +31,7 @@ import org.thymeleaf.context.Context;
 
 import javax.validation.constraints.NotBlank;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -50,6 +49,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private TemplateEngine templateEngine;
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+    @Autowired
+    private AuthService authService;
 
     @Override
     public Optional<User> getUserById(Long id) {
@@ -67,11 +68,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     @Transactional(isolation = Isolation.READ_UNCOMMITTED, propagation = Propagation.REQUIRED)
-    public CommonResult register(UserInput input) {
-        CommonResult result = verifyUserInput(input);
-        if (!result.getSuccess()) {
-            return result;
-        }
+    public boolean register(UserInput input) {
+        verifyUserInput(input);
         User user = User.build();
         BeanUtils.copyProperties(input, user);
         //密码加密,加盐加密
@@ -86,29 +84,30 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         if (!this.save(user)) {
             log.info("UserServiceImpl: register[saveUser:{},注册失败]", user.getEmail());
-            return CommonResult.failed("注册失败！");
+            //注册失败！
+            throw GlobalException.causeBy(UserResultType.REGISTER_ERROR);
         }
-        //激活用户，邮箱注册
-        if (StringUtils.isNotBlank(user.getEmail()) && sendActivationEmail(user.getEmail())) {
-            return CommonResult.succeed("注册成功，请尽快激活");
+        //激活用户，邮箱注册,if user email is blank or send activation email failed,then throw exception
+        if (StringUtils.isBlank(user.getEmail()) || !sendActivationEmail(user.getEmail())) {
+            throw GlobalException.causeBy(UserResultType.SEND_ACTIVATION_EMAIL_ERROR);
         }
         //TODO 激活用户，手机注册验证
-        return CommonResult.failed("发送激活码失败");
+
+        //if everything is completed ,return true;
+        return Boolean.TRUE;
     }
 
 
     @Override
-    public CommonResult updateUserById(@NonNull Long id, UserInput input) {
+    public boolean updateUserById(@NonNull Long id, UserInput input) {
+        verifyUserInput(input);
         User original = this.getById(id);
         if (original == null) {
-            return CommonResult.failed("该用户不存在！");
-        }
-        CommonResult result = verifyUserInput(input);
-        if (!result.getSuccess()) {
-            return result;
+            //该用户不存在
+            throw GlobalException.causeBy(UserResultType.NOT_EXIST);
         }
         BeanUtils.copyProperties(input, original);
-        return this.updateById(original) ? CommonResult.succeed("用户信息已更新！") : CommonResult.failed("用户信息更新失败！");
+        return this.updateById(original);
     }
 
     /**
@@ -151,8 +150,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public CommonResult removeUserById(@NonNull Long id) {
-        return this.removeById(id) ? CommonResult.succeed("注销用户成功！") : CommonResult.failed("注销用户失败！");
+    public boolean removeUserById(@NonNull Long id) {
+        return this.removeById(id);
     }
 
     /**
@@ -165,29 +164,34 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return 结果
      */
     @Override
-    public CommonResult activateUser(@NotBlank String activationKey, @NotBlank String activationCode, boolean isEmail) {
+    public boolean activateUser(@NotBlank String activationKey, @NotBlank String activationCode, boolean isEmail) {
         String key = isEmail ? RedisKeyUtils.getActivationKeyByEmail(activationKey)
                 : RedisKeyUtils.getActivationKeyByMobile(activationKey);
         Boolean hasKey = redisTemplate.hasKey(key);
-        if (hasKey != null && hasKey) {
-            String code = (String) redisTemplate.opsForValue().get(key);
-            if (StringUtils.equals(code, activationCode.trim())) {
-                if (isEmail) {
-                    Optional<User> userByEmail = getUserByEmail(activationKey);
-                    if (userByEmail.isPresent() && doActivate(userByEmail.get())) {
-                        log.info("activateUser[email:{}激活成功]", activationKey);
-                        return CommonResult.succeed("用户激活成功");
-                    }
-                } else {
-                    Optional<User> userByMobile = getUserByMobile(activationKey);
-                    if (userByMobile.isPresent() && doActivate(userByMobile.get())) {
-                        log.info("activateUser[mobile:{}激活成功]", activationKey);
-                        return CommonResult.succeed("用户激活成功");
-                    }
-                }
+        //redis don't have activationKey data
+        if (hasKey == null || !hasKey) {
+            return Boolean.FALSE;
+        }
+        String code = (String) redisTemplate.opsForValue().get(key);
+        //activationKey does not equal original activationKey
+        if (!StringUtils.equals(code, activationCode.trim())) {
+            return Boolean.FALSE;
+        }
+        if (isEmail) {
+            Optional<User> userByEmail = getUserByEmail(activationKey);
+            if (userByEmail.isPresent() && doActivate(userByEmail.get())) {
+                log.info("activateUser[email:{}激活成功]", activationKey);
+                return Boolean.TRUE;
+            }
+        } else {
+            Optional<User> userByMobile = getUserByMobile(activationKey);
+            if (userByMobile.isPresent() && doActivate(userByMobile.get())) {
+                log.info("activateUser[mobile:{}激活成功]", activationKey);
+                return Boolean.TRUE;
             }
         }
-        return CommonResult.failed("用户激活失败");
+
+        return Boolean.FALSE;
     }
 
     /**
@@ -207,43 +211,59 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      *
      * @param principal 账号、邮箱、手机号
      * @param password  密码
-     * @return 验证结果
+     * @return jwt
      */
     @Override
-    public CommonResult login(@NotBlank String principal, @NotBlank String password) {
+    public Optional<String> login(@NotBlank String principal, @NotBlank String password) {
         principal = principal.trim();
         password = password.trim();
-
         //邮箱
         if (StringUtils.containsAny(principal, "@")) {
-            CommonResult result = checkLogin(getUserByEmail(principal), password);
-            if (result.getSuccess()) {
-                return result;
-            }
-        } else {
-            //手机号
-            CommonResult result = checkLogin(getUserByMobile(principal), password);
-            if (result.getSuccess()) {
-                return result;
+            Optional<User> userByEmail = getUserByEmail(principal);
+            if (checkLogin(userByEmail, password)) {
+                User user = userByEmail.get();
+                return authService.createJwt(user.getId().toString(), user.getNickname(), "user");
             }
         }
-        return checkLogin(getUserByAccount(principal), password);
+        //mobil
+        //TODO verify
+        if (principal.length() == 11) {
+            Optional<User> userByMobile = getUserByMobile(principal);
+            //verify login
+            if (checkLogin(userByMobile, password)) {
+                User user = userByMobile.get();
+                return authService.createJwt(user.getId().toString(), user.getNickname(), "user");
+            }
+        }
+        //account
+        Optional<User> userByAccount = getUserByAccount(principal);
+        if (checkLogin(userByAccount, password)) {
+            User user = userByAccount.get();
+            return authService.createJwt(user.getId().toString(), user.getNickname(), "user");
+        }
+        return Optional.empty();
     }
 
-    private CommonResult checkLogin(Optional<User> user, String password) {
+    /**
+     * @param user     current user
+     * @param password input password
+     * @return login result
+     */
+    private boolean checkLogin(Optional<User> user, String password) {
         if (user.isPresent()) {
             var original = user.get();
             if (original.getActivation() == ActiveStatus.UNACTIVED) {
-                return CommonResult.succeed("用户未激活");
+                throw GlobalException.causeBy(UserResultType.NOT_ACTIVE);
             }
             String salt = original.getSalt();
             password = CommonUtils.md5(password + salt);
             if (StringUtils.equals(password, original.getPassword())) {
-                return CommonResult.succeed("验证成功", original);
+                return Boolean.TRUE;
             }
-            return CommonResult.failed("密码错误");
+            //密码错误
+            throw GlobalException.causeBy(UserResultType.PASSWORD_ERROR);
         }
-        return CommonResult.failed("用户不存在");
+        return Boolean.FALSE;
     }
 
 
@@ -253,15 +273,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * {@link #verifyAndCleanUserWith(String)} 验证并清理过期账号
      *
      * @param input 输入参数
-     * @return 是否合法
      */
-    private CommonResult verifyUserInput(UserInput input) {
+    private void verifyUserInput(UserInput input) {
         //验证邮箱
         if (StringUtils.isNotBlank(input.getEmail())) {
             input.setEmail(input.getEmail().trim());
             if (verifyAndCleanUserWith(input.getEmail(), true)) {
                 log.debug("register[email:{} 已经存在]", input.getEmail());
-                return CommonResult.failed("该邮箱已经被绑定！");
+                throw GlobalException.causeBy(UserResultType.EMAIL_EXISTED);
             }
         }
         //验证手机号
@@ -269,7 +288,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             input.setMobile(input.getMobile());
             if (verifyAndCleanUserWith(input.getMobile(), false)) {
                 log.debug("register[mobile:{} 已经存在]", input.getMobile());
-                return CommonResult.failed("该手机号已经被注册！");
+                throw GlobalException.causeBy(UserResultType.MOBILE_EXISTED);
             }
         }
         //验证账号
@@ -277,10 +296,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             input.setAccount(input.getAccount().trim());
             if (verifyAndCleanUserWith(input.getAccount())) {
                 log.debug("register[account:{} 已被注冊]", input.getAccount());
-                return CommonResult.failed("该账号已经被注册！");
+                throw GlobalException.causeBy(UserResultType.ACCOUNT_EXISTED);
             }
         }
-        return CommonResult.succeed("参数合理，可继续操作");
     }
 
     /**
@@ -338,7 +356,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 if (StringUtils.isNotBlank(user.getMobile())) {
                     verifyAndCleanUserWith(user.getMobile(), false);
                 }
-
             }
         });
         return getUserByAccount(account).isPresent();
@@ -369,7 +386,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             variables.put("createTime", createTime);
             context.setVariables(variables);
             var content = templateEngine.process("activation", context);
-            mailClient.sendMail(null, user.getEmail(), "激活邮件", content);
+            mailClient.sendMail(null, Collections.singletonList(user.getEmail()), "激活邮件", content);
         });
         return original.isPresent();
     }

@@ -1,31 +1,41 @@
 package com.anyu.common.exception;
 
-import com.anyu.common.model.enums.ResultType;
+import com.anyu.common.result.IResultType;
+import com.anyu.common.result.type.ResultType;
+import org.jetbrains.annotations.NotNull;
 
+/**
+ * global application exception
+ *
+ * @author Anyu
+ * @since 2021/1/15 上午10:59
+ */
 public class GlobalException extends RuntimeException {
-    /**
-     * 结果枚举
-     */
-    private final ResultType resultType;
 
+    private final int code;
+    private final String message;
 
-    private GlobalException(ResultType resultType) {
+    private GlobalException(@NotNull IResultType resultType) {
         super(resultType.getMessage());
-        this.resultType = resultType;
-
+        this.code = resultType.getCode();
+        this.message = resultType.getMessage();
     }
 
     /**
      * 通过{@link ResultType}构建异常
      *
-     * @param result 结果枚举类
+     * @param resultType 结果枚举类
      */
-    public static GlobalException causeBy(ResultType result) {
-        return new GlobalException(result);
+    public static GlobalException causeBy(IResultType resultType) {
+        return new GlobalException(resultType);
     }
 
-
-    public ResultType getResultCode() {
-        return resultType;
+    public int getCode() {
+        return this.code;
     }
+
+    public String getMessage() {
+        return this.message;
+    }
+
 }

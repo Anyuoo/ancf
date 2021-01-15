@@ -1,7 +1,6 @@
 package com.anyu.userservice.service;
 
 
-import com.anyu.common.model.CommonResult;
 import com.anyu.common.model.entity.User;
 import com.anyu.userservice.entity.input.UserInput;
 import com.anyu.userservice.entity.input.condition.UserPageCondition;
@@ -30,14 +29,14 @@ public interface UserService extends IService<User> {
 
     Optional<User> getUserByMobile(@NotBlank String mobile);
 
-    CommonResult register(UserInput input);
+    boolean register(UserInput input);
 
-    CommonResult updateUserById(@NonNull Long id, UserInput input);
+    boolean updateUserById(@NonNull Long id, UserInput input);
 
-    CommonResult removeUserById(@NonNull Long id);
+    boolean removeUserById(@NonNull Long id);
 
-    CommonResult activateUser(@NotBlank String activationKey, @NotBlank String activationCode, boolean isEmail);
+    boolean activateUser(@NotBlank String activationKey, @NotBlank String activationCode, boolean isEmail);
 
-    CommonResult login(String principal, String password);
+    Optional<String> login(String principal, String password);
 
 }

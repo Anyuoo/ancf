@@ -8,6 +8,5 @@ schema {
 type Mutation {}
 #查询基础入口
 type Query {}
-
 #订阅的基本入口
 type Subscription{}

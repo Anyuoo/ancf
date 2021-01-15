@@ -1,8 +1,8 @@
 package com.anyu.msgservcie.resolver;
 
 
-import com.anyu.common.model.CommonPage;
 import com.anyu.common.model.entity.Message;
+import com.anyu.common.result.CommonPage;
 import com.anyu.msgservcie.service.MessageService;
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import graphql.relay.Connection;
