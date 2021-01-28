@@ -3,6 +3,8 @@ package com.anyu.authservice.gql;
 import com.anyu.authservice.entity.AuthSubject;
 import graphql.kickstart.servlet.context.GraphQLWebSocketContext;
 import org.dataloader.DataLoaderRegistry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.websocket.Session;
 import javax.websocket.server.HandshakeRequest;
@@ -14,6 +16,7 @@ import javax.websocket.server.HandshakeRequest;
  * @since 2020/11/2
  */
 public class AncfGqlSocketContext extends AncfGqlBaseContext implements GraphQLWebSocketContext {
+    private static final Logger logger = LoggerFactory.getLogger(AncfGqlContextBuilder.class);
     private final Session session;
     private final HandshakeRequest handshakeRequest;
 

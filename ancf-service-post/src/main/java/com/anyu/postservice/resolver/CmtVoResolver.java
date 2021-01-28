@@ -7,6 +7,7 @@ import com.anyu.common.result.CommonPage;
 import com.anyu.postservice.entity.vo.CommentVo;
 import com.anyu.postservice.entity.vo.ReplyVo;
 import com.anyu.postservice.service.CommentService;
+import com.anyu.postservice.service.LikeService;
 import com.anyu.userservice.service.UserService;
 import graphql.kickstart.tools.GraphQLResolver;
 import graphql.relay.Connection;
@@ -24,6 +25,8 @@ public class CmtVoResolver implements GraphQLResolver<CommentVo> {
     private CommentService commentService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private LikeService likeService;
 
 
     public CompletableFuture<Optional<User>> getObserver(CommentVo commentVo) {
@@ -47,13 +50,14 @@ public class CmtVoResolver implements GraphQLResolver<CommentVo> {
             return CommonPage.<ReplyVo>build()
                     .newConnection(first, after, () -> replies.stream().map(reply -> {
                         var replier = userService.getUserById(reply.getUserId());
+                        var replyLikeNum  = likeService.countCommentLikeNum(String.valueOf(reply.getId()));
                         var target = reply.getTargetId() == null ? Optional.<User>empty()
                                 : userService.getUserById(reply.getTargetId());
                         var replyVo = ReplyVo.build()
                                 .setReplier(replier.orElse(User.build()))
                                 .setReply(reply)
-                                .setReplyLikeNum(100)
-                                .setReplyLikeStatus(false)
+                                .setReplyLikeNum(replyLikeNum)
+                                .setReplyLikeStatus()
                                 .setTarget(target.orElse(null));
                         return new DefaultEdge<>(replyVo, CommonPage.createCursorWith(replyVo.getReply().getId()));
                     }).collect(Collectors.toUnmodifiableList()));

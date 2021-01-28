@@ -1,4 +1,4 @@
-package com.anyu.common.config;
+package com.anyu.cacheservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

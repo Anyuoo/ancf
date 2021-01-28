@@ -12,8 +12,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
@@ -27,16 +25,16 @@ public class MsgQueryResolver implements GraphQLQueryResolver {
     @Autowired
     private MessageService messageService;
 
-    public CompletableFuture<Message> getMessage(@NonNull Long id) {
-        return CompletableFuture.supplyAsync(() -> messageService.getById(id));
+    public Message getMessage(@NonNull Long id) {
+        return messageService.getById(id);
     }
 
-    public CompletableFuture<Connection<Message>> getMessages(int first, @Nullable String after, @NonNull String chartId) {
-        List<Message> messages = messageService.listMsgAfter(CommonPage.decodeCursorWith(after), first, chartId);
-        return CompletableFuture.supplyAsync(() -> CommonPage.<Message>build()
+    public Connection<Message> getMessages(int first, @Nullable String after, @NonNull String chartId) {
+        final var messages = messageService.listMsgAfter(CommonPage.decodeCursorWith(after), first, chartId);
+        return CommonPage.<Message>build()
                 .newConnection(first, after, () -> messages.stream()
                         .map(message -> new DefaultEdge<>(message, CommonPage.createCursorWith(message.getId())))
-                        .collect(Collectors.toUnmodifiableList())));
+                        .collect(Collectors.toUnmodifiableList()));
     }
 
 }

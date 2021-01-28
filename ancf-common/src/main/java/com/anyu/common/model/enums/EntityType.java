@@ -11,7 +11,8 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
  */
 public enum EntityType implements IEnumsCode {
     POST(0, "帖子"),
-    COMMENT(1, "评论");
+    COMMENT(1, "评论"),
+    USER(2, "用户");
 
     @EnumValue
     final int code;

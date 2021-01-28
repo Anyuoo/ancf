@@ -14,7 +14,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import java.util.List;
 
 /**
@@ -42,8 +41,8 @@ public class MailClient {
     public void sendMail(@Nullable String sender, @NotNull List<String> receivers, String subject, String content) {
         receivers.forEach(receiver -> {
             try {
-                MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-                MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
+                final var mimeMessage = javaMailSender.createMimeMessage();
+                final var helper = new MimeMessageHelper(mimeMessage);
                 //sender 不存在默认发送者为系统
                 if (StringUtils.isBlank(sender)) {
                     helper.setFrom(from);

@@ -6,7 +6,6 @@ import com.anyu.common.util.CommonUtils;
 import com.anyu.msgservcie.entity.MessageInput;
 import com.anyu.msgservcie.mapper.MessageMapper;
 import com.anyu.msgservcie.service.MessageService;
-import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -28,8 +27,8 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
     public boolean sendMsg(MessageInput input) {
         //进行转码
         input.setContent(HtmlUtils.htmlEscape(input.getContent()));
-        String chartId = CommonUtils.createChartId(input.getFromId(), input.getToId());
-        Message message = new Message();
+        final var chartId = CommonUtils.createChartId(input.getFromId(), input.getToId());
+        final var message = new Message();
         BeanUtils.copyProperties(input, message);
         message.setChartId(chartId);
         return this.save(message);
@@ -37,7 +36,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
 
     @Override
     public List<Message> listMsgAfter(Long id, int first, @NotNull String chartId) {
-        LambdaQueryChainWrapper<Message> chainWrapper = this.lambdaQuery()
+        final var chainWrapper = this.lambdaQuery()
                 .eq(Message::getChartId, chartId)
                 .orderByAsc(Message::getCreateTime);
         if (id == null) {

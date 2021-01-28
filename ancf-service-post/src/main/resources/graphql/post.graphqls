@@ -1,7 +1,9 @@
 extend type Query {
     #查询帖子
     post(id: ID!): Post
-    #    posts(first: Int, next: String, condition: PostQueryCondition):Post
+    #post 分页查询
+    posts(first: Int, after: String,condition: PostQueryCondition): PostVoConnection @connection(for: "PostVo")
+
     postDetails(id: ID!): PostVo
 }
 

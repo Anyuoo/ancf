@@ -12,7 +12,7 @@ public class PostVo {
     //发帖者
     private User publisher;
     //帖子的点赞数量
-    private int PostLikeNum;
+    private long PostLikeNum;
     //帖子的点赞状态
     private boolean postLikeStatus;
     //帖子的评论,分页显示
@@ -43,11 +43,11 @@ public class PostVo {
         return this;
     }
 
-    public int getPostLikeNum() {
+    public long getPostLikeNum() {
         return PostLikeNum;
     }
 
-    public PostVo setPostLikeNum(int postLikeNum) {
+    public PostVo setPostLikeNum(long postLikeNum) {
         PostLikeNum = postLikeNum;
         return this;
     }

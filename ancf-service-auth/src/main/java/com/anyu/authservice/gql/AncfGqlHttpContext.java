@@ -7,6 +7,8 @@ import graphql.kickstart.servlet.context.GraphQLServletContext;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.dataloader.DataLoaderRegistry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
  * @since 2020/11/2
  */
 public class AncfGqlHttpContext extends AncfGqlBaseContext implements GraphQLServletContext {
+    private static final Logger logger = LoggerFactory.getLogger(AncfGqlHttpContext.class);
     private final HttpServletRequest httpServletRequest;
     private final HttpServletResponse httpServletResponse;
 
@@ -66,6 +69,7 @@ public class AncfGqlHttpContext extends AncfGqlBaseContext implements GraphQLSer
         try {
             return httpServletRequest.getPart(fileName);
         } catch (IOException | ServletException e) {
+            logger.info("获取上传文件{}失败", fileName);
             throw GlobalException.causeBy(FileResultType.UPLOAD_REQUEST_ERROR);
         }
     }

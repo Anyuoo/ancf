@@ -2,13 +2,13 @@ package com.anyu.userservice.service.impl;
 
 
 import com.anyu.authservice.service.AuthService;
+import com.anyu.cacheservice.service.CacheService;
 import com.anyu.common.exception.GlobalException;
 import com.anyu.common.model.entity.User;
 import com.anyu.common.model.enums.ActiveStatus;
 import com.anyu.common.result.type.UserResultType;
 import com.anyu.common.util.CommonUtils;
 import com.anyu.common.util.MailClient;
-import com.anyu.common.util.RedisKeyUtils;
 import com.anyu.userservice.entity.input.UserInput;
 import com.anyu.userservice.entity.input.condition.UserPageCondition;
 import com.anyu.userservice.mapper.UserMapper;
@@ -20,7 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -31,8 +30,10 @@ import org.thymeleaf.context.Context;
 
 import javax.validation.constraints.NotBlank;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * (User)表服务实现类
@@ -48,13 +49,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     private TemplateEngine templateEngine;
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
-    @Autowired
     private AuthService authService;
+    @Autowired
+    private CacheService cacheService;
 
     @Override
     public Optional<User> getUserById(Long id) {
-        User user = this.lambdaQuery().eq(User::getId, id).one();
+        var user = this.lambdaQuery().eq(User::getId, id).one();
         return Optional.ofNullable(user);
     }
 
@@ -70,11 +71,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Transactional(isolation = Isolation.READ_UNCOMMITTED, propagation = Propagation.REQUIRED)
     public boolean register(UserInput input) {
         verifyUserInput(input);
-        User user = User.build();
+        final var user = User.build();
         BeanUtils.copyProperties(input, user);
         //密码加密,加盐加密
-        var salt = CommonUtils.randomString().substring(0, 5);
-        var password = CommonUtils.md5(user.getPassword() + salt);
+        final var salt = CommonUtils.randomString().substring(0, 5);
+        final var password = CommonUtils.md5(user.getPassword() + salt);
 
         user.setSalt(salt);
         user.setPassword(password);
@@ -94,14 +95,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //TODO 激活用户，手机注册验证
 
         //if everything is completed ,return true;
-        return Boolean.TRUE;
+        return true;
     }
 
 
     @Override
     public boolean updateUserById(@NonNull Long id, UserInput input) {
         verifyUserInput(input);
-        User original = this.getById(id);
+        final var original = this.getById(id);
         if (original == null) {
             //该用户不存在
             throw GlobalException.causeBy(UserResultType.NOT_EXIST);
@@ -121,31 +122,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public List<User> listUserAfter(int first, Long id, UserPageCondition condition) {
-        LambdaQueryChainWrapper<User> chainWrapper = this.lambdaQuery();
-        if (id != null) {
-            chainWrapper.ge(User::getId, id);
-        }
+        final var chainWrapper = this.lambdaQuery();
+        if (id != null) chainWrapper.ge(User::getId, id);
         UserPageCondition.initWrapperByCondition(chainWrapper, condition);
-        chainWrapper
-                .last("limit " + first);
+        if (first == 0) first = PAGE_FIRST;
+        chainWrapper.last(PAGE_SQL_LIMIT + first);
         return chainWrapper.list();
     }
 
     @Override
     public Optional<User> getUserByAccount(@NotBlank String account) {
-        User user = this.lambdaQuery().eq(User::getAccount, account).one();
+        final var user = this.lambdaQuery().eq(User::getAccount, account).one();
         return Optional.ofNullable(user);
     }
 
     @Override
     public Optional<User> getUserByEmail(@NotBlank String email) {
-        User user = this.lambdaQuery().eq(User::getEmail, email).one();
+        final var user = this.lambdaQuery().eq(User::getEmail, email).one();
         return Optional.ofNullable(user);
     }
 
     @Override
     public Optional<User> getUserByMobile(@NotBlank String mobile) {
-        User user = this.lambdaQuery().eq(User::getMobile, mobile).one();
+        final var user = this.lambdaQuery().eq(User::getMobile, mobile).one();
         return Optional.ofNullable(user);
     }
 
@@ -165,33 +164,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public boolean activateUser(@NotBlank String activationKey, @NotBlank String activationCode, boolean isEmail) {
-        String key = isEmail ? RedisKeyUtils.getActivationKeyByEmail(activationKey)
-                : RedisKeyUtils.getActivationKeyByMobile(activationKey);
-        Boolean hasKey = redisTemplate.hasKey(key);
-        //redis don't have activationKey data
-        if (hasKey == null || !hasKey) {
-            return Boolean.FALSE;
-        }
-        String code = (String) redisTemplate.opsForValue().get(key);
+        Optional<String> code = cacheService.getActivationCode(isEmail, activationKey);
+        //缓存不存在
+        if (code.isEmpty()) return false;
         //activationKey does not equal original activationKey
-        if (!StringUtils.equals(code, activationCode.trim())) {
-            return Boolean.FALSE;
+        if (!StringUtils.equals(code.get(), activationCode.trim())) {
+            return false;
         }
         if (isEmail) {
             Optional<User> userByEmail = getUserByEmail(activationKey);
             if (userByEmail.isPresent() && doActivate(userByEmail.get())) {
                 log.info("activateUser[email:{}激活成功]", activationKey);
-                return Boolean.TRUE;
+                return true;
             }
         } else {
             Optional<User> userByMobile = getUserByMobile(activationKey);
             if (userByMobile.isPresent() && doActivate(userByMobile.get())) {
                 log.info("activateUser[mobile:{}激活成功]", activationKey);
-                return Boolean.TRUE;
+                return true;
             }
         }
-
-        return Boolean.FALSE;
+        return false;
     }
 
     /**
@@ -221,7 +214,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (StringUtils.containsAny(principal, "@")) {
             Optional<User> userByEmail = getUserByEmail(principal);
             if (checkLogin(userByEmail, password)) {
-                User user = userByEmail.get();
+                final var user = userByEmail.get();
                 return authService.createJwt(user.getId().toString(), user.getNickname(), "user");
             }
         }
@@ -231,14 +224,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             Optional<User> userByMobile = getUserByMobile(principal);
             //verify login
             if (checkLogin(userByMobile, password)) {
-                User user = userByMobile.get();
+                final var user = userByMobile.get();
                 return authService.createJwt(user.getId().toString(), user.getNickname(), "user");
             }
         }
         //account
         Optional<User> userByAccount = getUserByAccount(principal);
         if (checkLogin(userByAccount, password)) {
-            User user = userByAccount.get();
+            final var user = userByAccount.get();
             return authService.createJwt(user.getId().toString(), user.getNickname(), "user");
         }
         return Optional.empty();
@@ -251,19 +244,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     private boolean checkLogin(Optional<User> user, String password) {
         if (user.isPresent()) {
-            var original = user.get();
+            final var original = user.get();
             if (original.getActivation() == ActiveStatus.UNACTIVED) {
                 throw GlobalException.causeBy(UserResultType.NOT_ACTIVE);
             }
-            String salt = original.getSalt();
+            final var salt = original.getSalt();
             password = CommonUtils.md5(password + salt);
             if (StringUtils.equals(password, original.getPassword())) {
-                return Boolean.TRUE;
+                return true;
             }
             //密码错误
             throw GlobalException.causeBy(UserResultType.PASSWORD_ERROR);
         }
-        return Boolean.FALSE;
+        return false;
     }
 
 
@@ -309,18 +302,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     private boolean verifyAndCleanUserWith(@NotBlank String emailOrMobile, boolean isEmail) {
         //获取缓存key
-        var activationKey = isEmail ? RedisKeyUtils.getActivationKeyByEmail(emailOrMobile)
-                : RedisKeyUtils.getActivationKeyByMobile(emailOrMobile);
-        Optional<Boolean> hasKey = Optional.ofNullable(redisTemplate.hasKey(activationKey));
+        Optional<String> code = cacheService.getActivationCode(isEmail, emailOrMobile);
         //缓存为空，先将激活码失效的邮箱或手机号账户注销
-        if (hasKey.isEmpty() || !hasKey.get()) {
-            LambdaQueryChainWrapper<User> chainWrapper = this.lambdaQuery();
+        if (code.isEmpty()) {
+            var chainWrapper = this.lambdaQuery();
             if (isEmail) {
                 chainWrapper.eq(User::getEmail, emailOrMobile);
             } else {
                 chainWrapper.eq(User::getMobile, emailOrMobile);
             }
-            List<User> users = chainWrapper.list();
+            var users = chainWrapper.list();
             users.forEach(user -> {
                 if (user.getActivation() == ActiveStatus.UNACTIVED) {
                     this.removeById(user.getId());
@@ -328,9 +319,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             });
         }
         //缓存中有该手机号或邮箱
-        if (hasKey.isPresent() && hasKey.get()) {
-            return true;
-        }
+        if (code.isPresent()) return true;
         //已注册并激活的用户
         if (isEmail) {
             return getUserByEmail(emailOrMobile).isPresent();
@@ -346,7 +335,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return 是否存在
      */
     private boolean verifyAndCleanUserWith(@NotBlank String account) {
-        List<User> users = this.lambdaQuery().eq(User::getAccount, account).list();
+        final var users = this.lambdaQuery().eq(User::getAccount, account).list();
         users.forEach(user -> {
             //未激活的账户
             if (user.getActivation() == ActiveStatus.UNACTIVED) {
@@ -370,22 +359,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private boolean sendActivationEmail(@NotBlank String email) {
         var original = getUserByEmail(email);
         original.ifPresent(user -> {
-            Context context = new Context();
-            Map<String, Object> variables = new HashMap<>(4);
+            final var context = new Context();
+            final var variables = new HashMap<String, Object>(4);
             variables.put("nickName", user.getNickname());
             //邮箱
             variables.put("email", user.getEmail());
             //激活码
-            var activeCode = CommonUtils.randomNumberString().substring(0, 5);
+            final var activeCode = CommonUtils.randomNumberString().substring(0, 5);
             variables.put("activeCode", activeCode);
-            //将激活码缓存有效期两个小时
-            var activationKey = RedisKeyUtils.getActivationKeyByEmail(user.getEmail());
-            redisTemplate.opsForValue().set(activationKey, activeCode, 2, TimeUnit.HOURS);
+            //添加置缓存
+            cacheService.setActivationCode(true, email, activeCode);
             //注册时间
-            var createTime = user.getCreateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            final var createTime = user.getCreateTime().format(DateTimeFormatter.ofPattern(DATETIME_FORMAT));
             variables.put("createTime", createTime);
             context.setVariables(variables);
-            var content = templateEngine.process("activation", context);
+            final var content = templateEngine.process("activation", context);
             mailClient.sendMail(null, Collections.singletonList(user.getEmail()), "激活邮件", content);
         });
         return original.isPresent();
