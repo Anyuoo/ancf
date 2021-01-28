@@ -13,7 +13,7 @@ public class CommentVo {
     //评论者
     private User observer;
     //评论点赞数
-    private int cmtLikeNum;
+    private long cmtLikeNum;
     //评论点赞状态
     private boolean cmtLikeStatus;
     //评论的评论
@@ -44,11 +44,11 @@ public class CommentVo {
         return this;
     }
 
-    public int getCmtLikeNum() {
+    public long getCmtLikeNum() {
         return cmtLikeNum;
     }
 
-    public CommentVo setCmtLikeNum(int cmtLikeNum) {
+    public CommentVo setCmtLikeNum(long cmtLikeNum) {
         this.cmtLikeNum = cmtLikeNum;
         return this;
     }

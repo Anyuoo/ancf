@@ -1,6 +1,5 @@
 package com.anyu.ancf.service.impl;
 
-import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.anyu.ancf.config.OSSProperties;
 import com.anyu.ancf.service.OssService;
@@ -41,29 +40,29 @@ public class OssServiceImpl implements OssService {
      */
     private String uploadFile(@NotBlank String fileType, Part file) {
         // Endpoint以杭州为例，其它Region请按实际情况填写。
-        String endpoint = ossProperties.getEndpoint();
+        final var endpoint = ossProperties.getEndpoint();
         // 阿里云主账号AccessKey拥有所有API的访问权限，风险很高。强烈建议您创建并使用RAM账号进行API访问或日常运维，请登录RAM控制台创建RAM账号。
-        String accessKeyId = ossProperties.getKeyId();
-        String accessKeySecret = ossProperties.getKeySecret();
-        String bucketName = ossProperties.getBucketName();
+        final var accessKeyId = ossProperties.getKeyId();
+        final var accessKeySecret = ossProperties.getKeySecret();
+        final var bucketName = ossProperties.getBucketName();
         // <yourObjectName>上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg。
 
         // 创建OSSClient实例。
-        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+        final var ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
 
         // 上传文件到指定的存储空间（bucketName）并将其保存为指定的文件名称（objectName）。
 
         try (InputStream inputStream = file.getInputStream()) {
-            String original = file.getSubmittedFileName();
-            String fileUrl = OssUtils.getOssFileUrl(fileType, original);
+            final var original = file.getSubmittedFileName();
+            final var fileUrl = OssUtils.getOssFileUrl(fileType, original);
             ossClient.putObject(bucketName, fileUrl, new ByteArrayInputStream(inputStream.readAllBytes()));
             // 关闭OSSClient。
             ossClient.shutdown();
-            String AvatarUrl = "https://" + bucketName + "." + endpoint + "/" + fileUrl;
-            logger.info("[OssService] {},size:{},上传成功,aliyun 地址：{}", original, file.getSize(), AvatarUrl);
+            final var AvatarUrl = "https://" + bucketName + "." + endpoint + "/" + fileUrl;
+            logger.info("[OssService: {}类型] {},size:{},上传成功,aliyun 地址：{}", fileType, original, file.getSize(), AvatarUrl);
             return AvatarUrl;
         } catch (IOException e) {
-            logger.warn("[OssService] {}上传失败", file.getName());
+            logger.warn("[OssService: {}类型] {}上传失败", fileType, file.getName());
             throw GlobalException.causeBy(FileResultType.UPLOAD_ERROR);
         }
     }

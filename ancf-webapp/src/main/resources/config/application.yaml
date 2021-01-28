@@ -50,7 +50,7 @@ mybatis-plus:
 graphql:
   tools:
     use-default-objectmapper: true
-    schema-location-pattern: "**/*.graphql"
+    schema-location-pattern: "**/*.graphqls"
   servlet:
     enabled: true
     mapping: /graphql
@@ -76,4 +76,4 @@ app:
 
 logging:
   level:
-    com.anyu: debug
+    com.anyu: info

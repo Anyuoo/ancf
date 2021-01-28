@@ -12,7 +12,6 @@ import graphql.relay.DefaultEdge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -31,8 +30,7 @@ public class CmtQueryResolver implements GraphQLQueryResolver {
      * @param postId 帖子id
      */
     public Connection<CommentVo> getComments(int first, String after, Long postId) {
-        List<Comment> comments =
-                commentService.listCommentsByEntity(first, CommonPage.decodeCursorWith(after), EntityType.POST, postId);
+        var comments = commentService.listCommentsByEntity(first, CommonPage.decodeCursorWith(after), EntityType.POST, postId);
         return CommonPage.<CommentVo>build()
                 .newConnection(first, after, () -> comments.stream().map(comment -> {
                     var commentVo = CommentVo.build()

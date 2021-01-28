@@ -8,7 +8,7 @@ public class ReplyVo {
     private Comment reply;
     private User replier;
     private User target;
-    private int replyLikeNum;
+    private long replyLikeNum;
     private boolean replyLikeStatus;
 
     public ReplyVo() {
@@ -45,11 +45,11 @@ public class ReplyVo {
         return this;
     }
 
-    public int getReplyLikeNum() {
+    public long getReplyLikeNum() {
         return replyLikeNum;
     }
 
-    public ReplyVo setReplyLikeNum(int replyLikeNum) {
+    public ReplyVo setReplyLikeNum(long replyLikeNum) {
         this.replyLikeNum = replyLikeNum;
         return this;
     }

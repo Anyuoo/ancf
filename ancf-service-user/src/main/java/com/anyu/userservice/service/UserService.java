@@ -2,6 +2,7 @@ package com.anyu.userservice.service;
 
 
 import com.anyu.common.model.entity.User;
+import com.anyu.common.util.GlobalConstant;
 import com.anyu.userservice.entity.input.UserInput;
 import com.anyu.userservice.entity.input.condition.UserPageCondition;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -17,7 +18,7 @@ import java.util.Optional;
  * @author Anyu
  * @since 2020-10-07 09:56:09
  */
-public interface UserService extends IService<User> {
+public interface UserService extends IService<User>, GlobalConstant {
 
     List<User> listUserAfter(int first, Long id, UserPageCondition condition);
 

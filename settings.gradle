@@ -6,5 +6,5 @@ include 'ancf-service-post'
 include 'ancf-service-msg'
 include 'ancf-service-user'
 include 'ancf-service-oss'
-
+include 'ancf-service-cache'
 
