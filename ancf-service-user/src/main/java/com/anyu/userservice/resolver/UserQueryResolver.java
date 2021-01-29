@@ -3,7 +3,7 @@ package com.anyu.userservice.resolver;
 
 import com.anyu.common.model.entity.User;
 import com.anyu.common.result.CommonPage;
-import com.anyu.userservice.entity.input.condition.UserPageCondition;
+import com.anyu.userservice.entity.condition.UserPageCondition;
 import com.anyu.userservice.service.UserService;
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import graphql.relay.Connection;

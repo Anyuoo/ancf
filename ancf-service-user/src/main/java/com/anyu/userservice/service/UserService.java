@@ -4,7 +4,7 @@ package com.anyu.userservice.service;
 import com.anyu.common.model.entity.User;
 import com.anyu.common.util.GlobalConstant;
 import com.anyu.userservice.entity.input.UserInput;
-import com.anyu.userservice.entity.input.condition.UserPageCondition;
+import com.anyu.userservice.entity.condition.UserPageCondition;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.lang.NonNull;
 

@@ -2,6 +2,7 @@ package com.anyu.postservice.resolver.mutation;
 
 
 import com.anyu.common.result.CommonResult;
+import com.anyu.common.result.type.PostResultType;
 import com.anyu.postservice.entity.input.PostInput;
 import com.anyu.postservice.service.PostService;
 import graphql.kickstart.tools.GraphQLMutationResolver;
@@ -22,9 +23,9 @@ public class PostMutationResolver implements GraphQLMutationResolver {
 
     public CommonResult publishPost(PostInput input) {
         if (postService.publishPost(input)) {
-            return CommonResult.succeed("publish post successfully");
+            return CommonResult.with(PostResultType.PULISH_SUCCESS);
         }
-        return CommonResult.failed();
+        return CommonResult.with(PostResultType.PUBLISH_ERROR);
     }
 
 }

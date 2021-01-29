@@ -10,7 +10,7 @@ import com.anyu.common.result.type.UserResultType;
 import com.anyu.common.util.CommonUtils;
 import com.anyu.common.util.MailClient;
 import com.anyu.userservice.entity.input.UserInput;
-import com.anyu.userservice.entity.input.condition.UserPageCondition;
+import com.anyu.userservice.entity.condition.UserPageCondition;
 import com.anyu.userservice.mapper.UserMapper;
 import com.anyu.userservice.service.UserService;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
