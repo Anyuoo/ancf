@@ -2,6 +2,7 @@ package com.anyu.msgservcie.resolver;
 
 
 import com.anyu.common.result.CommonResult;
+import com.anyu.common.result.type.MsgResultType;
 import com.anyu.msgservcie.entity.MessageInput;
 import com.anyu.msgservcie.service.MessageService;
 import graphql.kickstart.tools.GraphQLMutationResolver;
@@ -15,8 +16,8 @@ public class MsgMutationResolver implements GraphQLMutationResolver {
 
     public CommonResult sendMsg(MessageInput input) {
         if (messageService.sendMsg(input)) {
-            return CommonResult.succeed("message succeed ");
+            return CommonResult.with(MsgResultType.SEND_SUCCESS);
         }
-        return CommonResult.failed("message failed to send ");
+        return CommonResult.with(MsgResultType.SEND_ERROR);
     }
 }

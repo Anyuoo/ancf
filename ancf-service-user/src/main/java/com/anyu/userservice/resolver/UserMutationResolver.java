@@ -4,6 +4,8 @@ package com.anyu.userservice.resolver;
 import com.anyu.ancf.service.OssService;
 import com.anyu.authservice.gql.AncfGqlHttpContext;
 import com.anyu.common.result.CommonResult;
+import com.anyu.common.result.type.FileResultType;
+import com.anyu.common.result.type.UserResultType;
 import com.anyu.userservice.entity.input.UserInput;
 import com.anyu.userservice.service.UserService;
 import graphql.kickstart.tools.GraphQLMutationResolver;
@@ -38,50 +40,50 @@ public class UserMutationResolver implements GraphQLMutationResolver {
      */
     public CommonResult register(@NotNull UserInput input) {
         if (userService.register(input)) {
-            return CommonResult.succeed("user register successful!");
+            return CommonResult.with(UserResultType.REGISTER_SUCCESS);
         }
-        return CommonResult.failed("user register failed");
+        return CommonResult.with(UserResultType.REGISTER_ERROR);
     }
 
     public CommonResult login(@NotBlank String principal, @NotBlank String password) {
 
         Optional<String> loginJtw = userService.login(principal, password);
-        return loginJtw.map(jwt -> CommonResult.succeed("login successfully", jwt))
-                .orElseGet(() -> CommonResult.failed("login unsuccessfully"));
+        return loginJtw.map(jwt -> CommonResult.with(UserResultType.LOGIN_SUCCESS, jwt))
+                .orElseGet(() -> CommonResult.with(UserResultType.LOGIN_ERROR));
     }
 
     public CommonResult activateUser(@NotBlank String activationKey,
                                      @NotBlank String activationCode, boolean isEmail) {
         if (userService.activateUser(activationKey, activationCode, isEmail)) {
-            return CommonResult.succeed("user active successful");
+            return CommonResult.with(UserResultType.ACTIVE_SUCCESS);
         }
-        return CommonResult.failed("user active unsuccessfully");
+        return CommonResult.with(UserResultType.ACTIVE_ERROR);
     }
 
     public CommonResult removeUser(@NonNull Long id) {
         if (userService.removeUserById(id)) {
-            return CommonResult.succeed("remove user successfully");
+            return CommonResult.with(UserResultType.REMOVE_SUCCESS);
         }
-        return CommonResult.failed("remove user unsuccessfully");
+        return CommonResult.with(UserResultType.REMOVE_ERROR);
 
     }
 
     public CommonResult updateUserInfo(@NotNull Long id, @NotNull UserInput input) {
         if (userService.updateUserById(id, input)) {
-            return CommonResult.succeed("user information has been updated");
+            return CommonResult.with(UserResultType.UPDATE_INFO_SUCCESS);
         }
-        return CommonResult.failed("user information updated unsuccessfully");
+        return CommonResult.with(UserResultType.UPDATE_INFO_ERROR);
     }
 
     public CommonResult uploadAvatar(DataFetchingEnvironment environment) {
         AncfGqlHttpContext context = environment.getContext();
         Part avatar = context.getFilePart("avatar");
         if (avatar == null) {
-            return CommonResult.failed("上传失败");
+            return CommonResult.with(FileResultType.UPLOAD_ERROR);
         }
         String url = ossService.uploadAvatar(avatar);
         logger.debug("filename: {}, size: {},url length {}", avatar.getName(), avatar.getSize(), url.length());
-        return CommonResult.succeed("upload successfully", url);
+        return CommonResult.with(FileResultType.UPLOAD_SUCCESS, url);
     }
 
 }

@@ -1,6 +1,6 @@
 package com.anyu.common.result;
 
-import com.anyu.common.result.type.ResultType;
+import com.anyu.common.result.type.SystemResultType;
 
 public class CommonResult {
     private Boolean success;
@@ -19,41 +19,17 @@ public class CommonResult {
     }
 
     /**
-     * 成功的处理结果
-     *
-     * @return CommonResult
+     * 根据枚举结果得到同意返回对象
      */
-    public static CommonResult succeed() {
-        return succeed(ResultType.SUCCESS.getMessage());
+    public static CommonResult with(IResultType resultType,Object data) {
+        return new CommonResult(resultType.isSuccess(), resultType.getCode(), resultType.getMessage(), data);
+    }
+
+    public static CommonResult with(IResultType resultType) {
+        return with(resultType, null);
     }
 
 
-    public static CommonResult succeed(String message) {
-        return succeed(message, null);
-    }
-
-
-    public static CommonResult succeed(String message, Object data) {
-        return new CommonResult(true, ResultType.SUCCESS.getCode(), message, data);
-    }
-
-    /**
-     * 失败的处理结果
-     *
-     * @return CommonResult
-     */
-    public static CommonResult failed() {
-        return failed(ResultType.FAILED.getMessage());
-    }
-
-    /**
-     * 失败的处理结果
-     *
-     * @return Result
-     */
-    public static CommonResult failed(String message) {
-        return new CommonResult(false, ResultType.FAILED.getCode(), message, null);
-    }
 
     public Boolean getSuccess() {
         return success;

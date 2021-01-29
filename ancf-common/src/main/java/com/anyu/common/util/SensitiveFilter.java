@@ -1,7 +1,7 @@
 package com.anyu.common.util;
 
 import com.anyu.common.exception.GlobalException;
-import com.anyu.common.result.type.ResultType;
+import com.anyu.common.result.type.SystemResultType;
 import org.apache.commons.lang3.CharUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +40,7 @@ public class SensitiveFilter {
             logger.info("敏感字源文件初始化完成,共{}个", num);
         } catch (Exception e) {
             logger.error("初始化敏感字源出错");
-            throw GlobalException.causeBy(ResultType.FAILED);
+            throw GlobalException.causeBy(SystemResultType.FAILED);
         }
 
     }

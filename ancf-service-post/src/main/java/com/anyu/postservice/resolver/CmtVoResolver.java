@@ -49,15 +49,16 @@ public class CmtVoResolver implements GraphQLResolver<CommentVo> {
                     commentService.listCommentsByEntity(first, CommonPage.decodeCursorWith(after), EntityType.COMMENT, comment.getId());
             return CommonPage.<ReplyVo>build()
                     .newConnection(first, after, () -> replies.stream().map(reply -> {
-                        var replier = userService.getUserById(reply.getUserId());
+                        var replier = userService.getUserById(reply.getUserId()).orElse(User.build());
                         var replyLikeNum  = likeService.countCommentLikeNum(String.valueOf(reply.getId()));
+                        var cmtLikeStatus = likeService.getCmtLikeStatus(String.valueOf(replier.getId()), String.valueOf(reply.getId()));
                         var target = reply.getTargetId() == null ? Optional.<User>empty()
                                 : userService.getUserById(reply.getTargetId());
                         var replyVo = ReplyVo.build()
-                                .setReplier(replier.orElse(User.build()))
+                                .setReplier(replier)
                                 .setReply(reply)
                                 .setReplyLikeNum(replyLikeNum)
-                                .setReplyLikeStatus()
+                                .setReplyLikeStatus(cmtLikeStatus)
                                 .setTarget(target.orElse(null));
                         return new DefaultEdge<>(replyVo, CommonPage.createCursorWith(replyVo.getReply().getId()));
                     }).collect(Collectors.toUnmodifiableList()));

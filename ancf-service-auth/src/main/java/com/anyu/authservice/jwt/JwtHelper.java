@@ -2,7 +2,8 @@ package com.anyu.authservice.jwt;
 
 
 import com.anyu.common.exception.GlobalException;
-import com.anyu.common.result.type.ResultType;
+import com.anyu.common.result.type.AuthResultType;
+import com.anyu.common.result.type.SystemResultType;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -57,7 +58,7 @@ public class JwtHelper {
             return Optional.ofNullable(builder.compact());
         } catch (Exception e) {
             logger.error("jwt 签名失败 ,message:{}", e.getMessage());
-            throw GlobalException.causeBy(ResultType.TOKEN_SIGNATURE_ERROR);
+            throw GlobalException.causeBy(AuthResultType.TOKEN_SIGNATURE_ERROR);
         }
     }
 
@@ -71,7 +72,7 @@ public class JwtHelper {
             return Optional.ofNullable(claims);
         } catch (Exception e) {
             logger.error("jwt 解析失败 ,message:{}", e.getMessage());
-            throw GlobalException.causeBy(ResultType.TOKEN_PARSE_ERROR);
+            throw GlobalException.causeBy(AuthResultType.TOKEN_PARSE_ERROR);
         }
     }
 
@@ -82,7 +83,7 @@ public class JwtHelper {
      * @param token token
      */
     public boolean isAvailable(String token) {
-        var claims = parseJwt(token).orElseThrow(() -> GlobalException.causeBy(ResultType.TOKEN_PARSE_ERROR));
+        var claims = parseJwt(token).orElseThrow(() -> GlobalException.causeBy(AuthResultType.TOKEN_PARSE_ERROR));
         //是否过期
         var expired = claims.getExpiration().before(new Date());
         return !expired;
