@@ -1,7 +1,5 @@
 package com.anyu.postservice.service;
 
-import com.anyu.common.model.enums.EntityType;
-
 /**
 *
 * @author Anyu
@@ -11,19 +9,19 @@ public interface LikeService {
     /**
      *
      */
-    void doPostLike(String userId,String postId,String postOwnerId);
+    void doPostLike(Long userId,Long postId,Long postOwnerId);
 
-    void doCommentLike(String userId, String cmtId,String cmtOwnerId);
+    void doCommentLike(Long userId, Long cmtId,Long cmtOwnerId);
 
-    long countPostLikeNum(String postId);
+    long countPostLikeNum(Long postId);
 
-    long countCommentLikeNum(String cmtId);
+    long countCommentLikeNum(Long cmtId);
 
-    long countUserLikeNum(String userId);
+    long countUserLikeNum(Long userId);
 
-    boolean getPostLikeStatus(String userId,String postId);
+    boolean getPostLikeStatus(Long userId,Long postId);
 
-    boolean getCmtLikeStatus(String userId, String cmtId);
+    boolean getCmtLikeStatus(Long userId, Long cmtId);
 
 
 }

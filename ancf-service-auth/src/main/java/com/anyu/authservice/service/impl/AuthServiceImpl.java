@@ -6,6 +6,7 @@ import com.anyu.authservice.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.HandshakeRequest;
 import java.util.Optional;
@@ -13,16 +14,28 @@ import java.util.Optional;
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    @Autowired
+    @Resource
     private JwtHelper jwtHelper;
+    
 
     @Override
     public Optional<AuthSubject> getAuthSubjectWith(HttpServletRequest httpServletRequest) {
-        Optional<String> token = jwtHelper.getTokenWith(httpServletRequest);
-        if (token.isPresent()) {
-
+        var token = jwtHelper.getTokenWith(httpServletRequest).orElse(null);
+        if (token == null) {
+            return Optional.empty();
         }
-        return Optional.empty();
+        var userId = jwtHelper.getUserId(token).orElse(null);
+        if (userId == null) {
+            return Optional.empty();
+        }
+        var username = jwtHelper.getUsername(token).orElse(null);
+        if (username == null) {
+            return Optional.empty();
+        }
+        AuthSubject authSubject = new AuthSubject();
+        authSubject.setUserId(Integer.parseInt(userId));
+        authSubject.setUsername(username);
+        return  Optional.of(authSubject);
     }
 
     @Override

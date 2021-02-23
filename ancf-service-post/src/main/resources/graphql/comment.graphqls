@@ -3,7 +3,9 @@ extend type Query {
     comment(id: ID): Comment
 
     #帖子评论
-    comments(first:Int,after: String,postId: ID!): CommentVoConnection @connection(for: "CommentVo")
+    comments(first:Int,after: String,postId: ID!): CommentVOConnection @connection(for: "CommentVO")
+    #评论的回复
+    replies(first: Int,after: String,targetId :ID!): ReplyVOConnection @connection(for: "ReplyVO")
 }
 extend type Mutation {
     #创建评论
@@ -53,26 +55,35 @@ enum EntityType {
 
 
 #评论vo
-type CommentVo{
-    #评论
-    comment: Comment
-    #评论者
-    observer: User
+type CommentVO{
+    #评论ID
+    id:ID
+    #评论者ID
+    userId:ID
+    #评论者昵称
+    nickname:String
+    #评论内容
+    content:String
     #评论点赞数
     cmtLikeNum: Int
     #评论点赞状态
     cmtLikeStatus: Boolean
-    #评论的回复
-    replies(first: Int,after: String): ReplyVoConnection @connection(for: "ReplyVo")
+
 }
 #回复Vo
-type ReplyVo{
-    #回复
-    reply: Comment
-    #回复者
-    replier: User
-    #回复的人
-    target: User
+type ReplyVO{
+    #回复ID
+    id:ID
+    #回复者的ID
+    userId:ID
+    #回复者昵称
+    nickname:String
+    #回复内容
+    content:String
+    #回复的人的ID
+    targetId: ID
+    #回复的人的昵称
+    targetNickname: String
     #回复的点赞数
     replyLikeNum: Int
     #回复的点赞状态

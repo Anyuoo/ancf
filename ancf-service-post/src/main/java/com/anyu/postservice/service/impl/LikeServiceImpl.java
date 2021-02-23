@@ -4,7 +4,6 @@ import com.anyu.cacheservice.service.CacheService;
 import com.anyu.common.model.enums.EntityType;
 import com.anyu.postservice.service.LikeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,39 +13,39 @@ public class LikeServiceImpl implements LikeService {
 
 
     @Override
-    public void doPostLike(String userId, String postId, String postOwnerId) {
-        cacheService.like(userId,EntityType.POST,postId,postOwnerId);
+    public void doPostLike(Long userId, Long postId, Long postOwnerId) {
+        cacheService.like(String.valueOf(userId),EntityType.POST,String.valueOf(postId),String.valueOf(postOwnerId));
     }
 
     @Override
-    public void doCommentLike(String userId, String cmtId, String cmtOwnerId) {
-        cacheService.like(userId, EntityType.COMMENT, cmtId, cmtOwnerId);
+    public void doCommentLike(Long userId, Long cmtId, Long cmtOwnerId) {
+        cacheService.like(String.valueOf(userId), EntityType.COMMENT, String.valueOf(cmtId), String.valueOf(cmtOwnerId));
     }
 
     @Override
-    public long countPostLikeNum(String postId) {
-        return cacheService.countEntityLikeNum(EntityType.POST,postId);
+    public long countPostLikeNum(Long postId) {
+        return cacheService.countEntityLikeNum(EntityType.POST,String.valueOf(postId));
     }
 
     @Override
-    public long countCommentLikeNum(String cmtId) {
-        return cacheService.countEntityLikeNum(EntityType.COMMENT,cmtId);
+    public long countCommentLikeNum(Long cmtId) {
+        return cacheService.countEntityLikeNum(EntityType.COMMENT,String.valueOf(cmtId));
     }
 
 
 
     @Override
-    public long countUserLikeNum(String userId) {
-        return cacheService.countUserLikeNum(userId);
+    public long countUserLikeNum(Long userId) {
+        return cacheService.countUserLikeNum(String.valueOf(userId));
     }
 
     @Override
-    public boolean getPostLikeStatus(String userId, String postId) {
-        return cacheService.getEntityLikeStatus(userId,EntityType.POST,postId);
+    public boolean getPostLikeStatus(Long userId, Long postId) {
+        return cacheService.getEntityLikeStatus(String.valueOf(userId),EntityType.POST,String.valueOf(postId));
     }
 
     @Override
-    public boolean getCmtLikeStatus(String userId, String cmtId) {
-        return cacheService.getEntityLikeStatus(userId, EntityType.COMMENT, cmtId);
+    public boolean getCmtLikeStatus(Long userId, Long cmtId) {
+        return cacheService.getEntityLikeStatus(String.valueOf(userId), EntityType.COMMENT, String.valueOf(cmtId));
     }
 }

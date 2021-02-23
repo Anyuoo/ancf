@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.servlet.http.Part;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -25,10 +26,10 @@ import java.util.Optional;
 public class UserMutationResolver implements GraphQLMutationResolver {
     private static final Logger logger = LoggerFactory.getLogger(UserMutationResolver.class);
 
-    @Autowired
+    @Resource
     private UserService userService;
 
-    @Autowired
+    @Resource
     private OssService ossService;
 
 

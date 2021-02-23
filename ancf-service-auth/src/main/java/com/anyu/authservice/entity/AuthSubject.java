@@ -1,22 +1,24 @@
 package com.anyu.authservice.entity;
 
-public abstract class AuthSubject {
-    private int id;
-    private AuthUser authUser;
+public class AuthSubject {
+    private Integer userId;
 
-    public int getId() {
-        return id;
+    private String username;
+
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public AuthUser getAuthUser() {
-        return authUser;
+    public String getUsername() {
+        return username;
     }
 
-    public void setAuthUser(AuthUser authUser) {
-        this.authUser = authUser;
+    public AuthSubject setUsername(String username) {
+        this.username = username;
+        return this;
     }
 }
