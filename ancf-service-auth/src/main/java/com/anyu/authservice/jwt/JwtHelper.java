@@ -72,8 +72,9 @@ public class JwtHelper {
             return Optional.ofNullable(claims);
         } catch (Exception e) {
             logger.error("jwt 解析失败 ,message:{}", e.getMessage());
-            throw GlobalException.causeBy(AuthResultType.TOKEN_PARSE_ERROR);
+//            throw GlobalException.causeBy(AuthResultType.TOKEN_PARSE_ERROR);
         }
+        return Optional.empty();
     }
 
 
@@ -112,13 +113,27 @@ public class JwtHelper {
      * 通过header获取token
      */
     public Optional<String> getTokenWith(String authHeader) {
-        if (StringUtils.isNotBlank(authHeader) && authHeader.startsWith(jwtProperties.getAuthHeaderKey())) {
+        if (StringUtils.isNotBlank(authHeader) && authHeader.startsWith(jwtProperties.getTokenPrefix())) {
             return Optional.of(authHeader.substring(7));
         }
         return Optional.empty();
     }
 
     public Optional<String> getUsername(String token) {
-        return Optional.empty();
+        var claims = parseJwt(token).orElse(null);
+        if (claims == null) {
+            return Optional.empty();
+        }
+        var username = (String) claims.getSubject();
+        return Optional.of(username);
+    }
+
+    public Optional<String> getUserId(String token) {
+        var claims = parseJwt(token).orElse(null);
+        if (claims == null) {
+            return Optional.empty();
+        }
+        var userId = (String) claims.get("userId");
+        return Optional.of(userId);
     }
 }

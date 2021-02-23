@@ -9,6 +9,8 @@ import graphql.kickstart.tools.GraphQLMutationResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
 /**
  * 帖子信息变更操作
  *
@@ -18,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PostMutationResolver implements GraphQLMutationResolver {
 
-    @Autowired
+    @Resource
     private PostService postService;
 
     public CommonResult publishPost(PostInput input) {

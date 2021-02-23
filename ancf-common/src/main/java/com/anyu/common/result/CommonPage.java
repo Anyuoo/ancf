@@ -7,6 +7,7 @@ import graphql.relay.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class CommonPage<T> {
@@ -32,6 +33,12 @@ public class CommonPage<T> {
         return StringUtils.isBlank(base64Id) ? null : Long.parseLong(CommonUtils.base64DecodeWith(base64Id));
     }
 
+    public static <T> DefaultEdge<T> getDefaultEdge(T vo,Long voId) {
+        return new DefaultEdge<>(vo, CommonPage.createCursorWith(voId));
+    }
+
+
+
     public static <T> CommonPage<T> build() {
         return new CommonPage<>();
     }
@@ -53,6 +60,8 @@ public class CommonPage<T> {
                 edges.size() >= first);
         return new DefaultConnection<>(edges, pageInfo);
     }
+
+
 
     /**
      * 第一个node 的游标

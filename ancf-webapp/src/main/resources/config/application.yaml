@@ -47,6 +47,8 @@ mybatis-plus:
     #枚举包
   type-enums-package: com.anyu.common.model.enums
 
+
+
 graphql:
   tools:
     use-default-objectmapper: true
@@ -69,6 +71,7 @@ aliyun:
     endpoint: oss-cn-chengdu.aliyuncs.com
     key-id: LTAI4GJR7WPEATJpoJZCT7Xq
     key-secret: DB53VQf8BZ4FlXHHw6zr1GxinViYaQ
+
 app:
   jwt:
     aud: add

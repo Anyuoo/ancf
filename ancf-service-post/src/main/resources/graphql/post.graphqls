@@ -2,9 +2,9 @@ extend type Query {
     #查询帖子
     post(id: ID!): Post
     #post 分页查询
-    posts(first: Int, after: String,condition: PostQueryCondition): PostVoConnection @connection(for: "PostVo")
+    posts(first: Int, after: String,condition: PostQueryCondition): PostVOConnection @connection(for: "PostVO")
 
-    postDetails(id: ID!): PostVo
+    postDetails(id: ID!): PostVO
 }
 
 
@@ -66,15 +66,27 @@ enum PostType {
 }
 
 #帖子详情
-type PostVo {
-    #帖子
-    post: Post
-    #发帖者
-    publisher: User
+type PostVO {
+    #帖子ID
+    id:ID
+    #用户ID
+     userId: ID
+    #用户昵称
+    nickname: String
+    #帖子标题
+    title:String
+    #帖子内容
+    content:String
+    #评论数量
+    cmtNum:Int
+    #帖子类型 0-普通，1-加精
+    type:PostType
     #帖子的点赞数量
-    PostLikeNum: Int
+    likeNum :Int
     #帖子的点赞状态
-    postLikeStatus: Boolean
-    #帖子的评论
-    comments: CommentVoConnection
+    likeStatus:Boolean
+    #帖子创建时间
+    createTime:String
+    #帖子修改时间
+    modifiedTime:String
 }

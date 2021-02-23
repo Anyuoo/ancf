@@ -3,22 +3,28 @@ package com.anyu.postservice.service.impl;
 
 import com.anyu.cacheservice.service.CacheService;
 import com.anyu.common.model.entity.Post;
+import com.anyu.common.model.entity.User;
 import com.anyu.common.model.enums.PostType;
 import com.anyu.common.util.SensitiveFilter;
 import com.anyu.postservice.entity.condition.PostPageCondition;
 import com.anyu.postservice.entity.input.PostInput;
+import com.anyu.postservice.entity.vo.PostVO;
 import com.anyu.postservice.mapper.PostMapper;
+import com.anyu.postservice.service.LikeService;
 import com.anyu.postservice.service.PostService;
+import com.anyu.userservice.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.HtmlUtils;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * (Post)表服务实现类
@@ -28,10 +34,14 @@ import java.util.Optional;
  */
 @Service
 public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements PostService {
-    @Autowired
+    @Resource
     private CacheService cacheService;
-    @Autowired
+    @Resource
     private SensitiveFilter sensitiveFilter;
+    @Resource
+    private UserService userService;
+    @Resource
+    private LikeService likeService;
 
     @Override
     public Optional<Post> getPostById(Long id) {
@@ -70,6 +80,27 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         return this.save(post);
     }
 
+    /**
+    *帖子转化vo对象
+    * @author Anyu
+    * @since 2021/2/5 下午2:22
+    */
+    @Override
+    public PostVO convertPostToVO(@NotNull Post post) {
+        final var publisher = userService.getUserById(post.getUserId()).orElse(new User());
+        return  PostVO.getInstance()
+                .setUserId(publisher.getId())
+                .setNickname(publisher.getNickname())
+                .setId(post.getId())
+                .setTitle(post.getTitle())
+                .setContent(post.getContent())
+                .setType(post.getType())
+                .setCmtNum(post.getCmtNum())
+                .setLikeNum((int) likeService.countPostLikeNum(post.getId()))
+                .setCreateTime(post.getCreateTime())
+                .setModifiedTime(post.getModifiedTime());
+    }
+
     @Override
     public List<Post> listPostAfter(int first, Long postId, PostPageCondition condition) {
         final var chainWrapper = this.lambdaQuery();
@@ -87,4 +118,10 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
                 .list();
     }
 
+    @Override
+    public List<PostVO> listPostVOAfter(int first, Long postId, PostPageCondition condition) {
+        return listPostAfter(first, postId, condition).stream()
+                .map(this::convertPostToVO)
+                .collect(Collectors.toUnmodifiableList());
+    }
 }

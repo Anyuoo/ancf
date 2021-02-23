@@ -1,5 +1,6 @@
 dependencies {
     implementation project(':ancf-common')
     implementation project(':ancf-service-user')
+    implementation project(':ancf-service-auth')
     implementation project(':ancf-service-cache')
 }

@@ -15,15 +15,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class UserQueryResolver implements GraphQLQueryResolver {
-    private static final Logger logger = LoggerFactory.getLogger(UserQueryResolver.class);
 
-    @Autowired
+    @Resource
     private UserService userService;
 
 
@@ -58,7 +58,7 @@ public class UserQueryResolver implements GraphQLQueryResolver {
         List<User> users = userService.listUserAfter(first, CommonPage.decodeCursorWith(after), condition);
         return CommonPage.<User>build()
                 .newConnection(first, after, () -> users.stream()
-                        .map(user -> new DefaultEdge<>(user, CommonPage.createCursorWith(user.getId())))
+                        .map(user -> CommonPage.getDefaultEdge(user,user.getId()))
                         .limit(first)
                         .collect(Collectors.toUnmodifiableList()));
     }
