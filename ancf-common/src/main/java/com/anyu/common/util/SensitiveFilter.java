@@ -48,7 +48,7 @@ public class SensitiveFilter {
     /**
      * 添加敏感字
      */
-    private boolean saveKeywordToRoot(String keyword) {
+    public boolean saveKeywordToRoot(String keyword) {
         if (keyword == null || keyword.length() < 1) {
             return false;
         }

@@ -13,13 +13,14 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
+import javax.annotation.Resource;
 import java.time.Duration;
 import java.util.List;
 
 @Component
 public class MsgSubscriptionResolver implements GraphQLSubscriptionResolver {
 
-    @Autowired
+    @Resource
     private MessageService messageService;
 
     public Publisher<Integer> test() {
