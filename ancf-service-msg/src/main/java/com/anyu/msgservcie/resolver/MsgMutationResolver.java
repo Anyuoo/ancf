@@ -9,9 +9,12 @@ import graphql.kickstart.tools.GraphQLMutationResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+
 @Component("msgMutationResolver")
 public class MsgMutationResolver implements GraphQLMutationResolver {
-    @Autowired
+
+    @Resource
     private MessageService messageService;
 
     public CommonResult sendMsg(MessageInput input) {

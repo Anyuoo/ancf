@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 
 @Aspect
-@Component
+//@Component
 public class LoginStatusAspect {
     @Resource
     private GlobalContext globalContext;

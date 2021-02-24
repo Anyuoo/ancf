@@ -12,6 +12,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.stream.Collectors;
 
 /**
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
  */
 @Component("msgQueryResolver")
 public class MsgQueryResolver implements GraphQLQueryResolver {
-    @Autowired
+    @Resource
     private MessageService messageService;
 
     public Message getMessage(@NonNull Long id) {
