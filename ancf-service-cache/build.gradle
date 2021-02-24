@@ -1,0 +1,6 @@
+dependencies {
+    def deps = rootProject.ext.dependencies
+    implementation project(':ancf-common')
+    implementation deps.redis
+}
+
