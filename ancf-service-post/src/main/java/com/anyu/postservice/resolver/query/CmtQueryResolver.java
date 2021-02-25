@@ -29,7 +29,7 @@ public class CmtQueryResolver implements GraphQLQueryResolver {
      *
      * @param postId 帖子id
      */
-    public Connection<CommentVO> getComments(int first, String after, Long postId) {
+    public Connection<CommentVO> getComments(int first, String after, Integer postId) {
         final var comments = commentService.listCommentVOsByPostId(first, CommonPage.decodeCursorWith(after), postId);
         return CommonPage.<CommentVO>build()
                 .newConnection(first, after, () -> comments.stream()
@@ -37,7 +37,7 @@ public class CmtQueryResolver implements GraphQLQueryResolver {
                         .collect(Collectors.toUnmodifiableList()));
     }
 
-    public Connection<ReplyVO> getReplies(int first, String after, long targetId) {
+    public Connection<ReplyVO> getReplies(int first, String after, int targetId) {
         final var replies = commentService.listReplyVOsByTargetId(first, CommonPage.decodeCursorWith(after), targetId);
         return CommonPage.<ReplyVO>build()
                 .newConnection(first, after, () -> replies.stream()

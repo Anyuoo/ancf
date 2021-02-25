@@ -31,7 +31,7 @@ public class UserQueryResolver implements GraphQLQueryResolver {
      * @param id user id
      * @return user
      */
-    public Optional<User> getUser(@Nullable Long id, @Nullable String email,
+    public Optional<User> getUser(@Nullable Integer id, @Nullable String email,
                                   @Nullable String mobile, @Nullable String account) {
         if (id != null) {
             return userService.getUserById(id);

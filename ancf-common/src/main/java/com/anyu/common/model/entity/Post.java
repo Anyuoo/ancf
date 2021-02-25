@@ -21,7 +21,7 @@ public class Post implements Serializable {
      * 帖子ID
      */
     @TableId(type = IdType.AUTO)
-    private Long id;
+    private Integer id;
     /**
      * 帖子类型 0-普通，1-加精
      */
@@ -29,7 +29,7 @@ public class Post implements Serializable {
     /**
      * 用户ID
      */
-    private Long userId;
+    private Integer userId;
     /**
      * 帖子标题
      */
@@ -68,11 +68,11 @@ public class Post implements Serializable {
         return new Post();
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public Post setId(Long id) {
+    public Post setId(Integer id) {
         this.id = id;
         return this;
     }
@@ -86,11 +86,11 @@ public class Post implements Serializable {
         return this;
     }
 
-    public Long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public Post setUserId(Long userId) {
+    public Post setUserId(Integer userId) {
         this.userId = userId;
         return this;
     }

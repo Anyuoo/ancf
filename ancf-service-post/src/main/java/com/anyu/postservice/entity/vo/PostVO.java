@@ -8,11 +8,11 @@ import java.time.LocalDateTime;
 
 public class PostVO {
     //用户ID
-    private Long userId;
+    private Integer userId;
     //用户昵称
     private String nickname;
     //帖子ID
-    private Long id;
+    private Integer id;
     //帖子标题
     private String title;
     //帖子内容
@@ -33,11 +33,11 @@ public class PostVO {
      public static PostVO getInstance() {
         return new PostVO();
     }
-    public Long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public PostVO setUserId(Long userId) {
+    public PostVO setUserId(Integer userId) {
         this.userId = userId;
         return this;
     }
@@ -51,11 +51,11 @@ public class PostVO {
         return this;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public PostVO setId(Long id) {
+    public PostVO setId(Integer id) {
         this.id = id;
         return this;
     }

@@ -2,11 +2,11 @@ package com.anyu.postservice.entity.vo;
 
 
 public class ReplyVO {
-    private Long id;
-    private Long userId;
+    private Integer id;
+    private Integer userId;
     private String nickname;
     private String content;
-    private Long targetId;
+    private Integer targetId;
     private String targetNickname;
     private long replyLikeNum;
     private boolean replyLikeStatus;
@@ -14,20 +14,20 @@ public class ReplyVO {
     public static ReplyVO getInstance() {
         return new ReplyVO();
     }
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public ReplyVO setId(Long id) {
+    public ReplyVO setId(Integer id) {
         this.id = id;
         return this;
     }
 
-    public Long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public ReplyVO setUserId(Long userId) {
+    public ReplyVO setUserId(Integer userId) {
         this.userId = userId;
         return this;
     }
@@ -50,11 +50,11 @@ public class ReplyVO {
         return this;
     }
 
-    public Long getTargetId() {
+    public Integer getTargetId() {
         return targetId;
     }
 
-    public ReplyVO setTargetId(Long targetId) {
+    public ReplyVO setTargetId(Integer targetId) {
         this.targetId = targetId;
         return this;
     }

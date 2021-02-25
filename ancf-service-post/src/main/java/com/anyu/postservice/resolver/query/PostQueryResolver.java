@@ -31,7 +31,7 @@ public class PostQueryResolver implements GraphQLQueryResolver {
 
 
 
-    public Optional<Post> getPost(@NonNull Long id) {
+    public Optional<Post> getPost(@NonNull Integer id) {
         return postService.getPostById(id);
     }
 

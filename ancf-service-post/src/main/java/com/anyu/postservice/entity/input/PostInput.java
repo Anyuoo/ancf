@@ -8,7 +8,6 @@ public class PostInput {
     private String title;
     private String content;
     private PostType type;
-    private Long userId;
 
     public PostInput() {
     }
@@ -41,15 +40,6 @@ public class PostInput {
 
     public PostInput setType(PostType type) {
         this.type = type;
-        return this;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public PostInput setUserId(Long userId) {
-        this.userId = userId;
         return this;
     }
 }

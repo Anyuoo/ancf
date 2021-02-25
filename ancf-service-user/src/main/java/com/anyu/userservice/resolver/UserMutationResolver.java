@@ -2,7 +2,9 @@ package com.anyu.userservice.resolver;
 
 
 import com.anyu.ancf.service.OssService;
+import com.anyu.authservice.entity.AuthSubject;
 import com.anyu.authservice.gql.AncfGqlHttpContext;
+import com.anyu.authservice.service.AuthService;
 import com.anyu.common.result.CommonResult;
 import com.anyu.common.result.type.FileResultType;
 import com.anyu.common.result.type.UserResultType;
@@ -32,6 +34,8 @@ public class UserMutationResolver implements GraphQLMutationResolver {
     @Resource
     private OssService ossService;
 
+    @Resource
+    private AuthService authService;
 
     /**
      * 用户注册接口
@@ -61,7 +65,7 @@ public class UserMutationResolver implements GraphQLMutationResolver {
         return CommonResult.with(UserResultType.ACTIVE_ERROR);
     }
 
-    public CommonResult removeUser(@NonNull Long id) {
+    public CommonResult removeUser(@NonNull Integer id) {
         if (userService.removeUserById(id)) {
             return CommonResult.with(UserResultType.REMOVE_SUCCESS);
         }
@@ -69,7 +73,8 @@ public class UserMutationResolver implements GraphQLMutationResolver {
 
     }
 
-    public CommonResult updateUserInfo(@NotNull Long id, @NotNull UserInput input) {
+    public CommonResult updateUserInfo(@NotNull Integer id, @NotNull UserInput input,DataFetchingEnvironment environment) {
+
         if (userService.updateUserById(id, input)) {
             return CommonResult.with(UserResultType.UPDATE_INFO_SUCCESS);
         }
@@ -78,13 +83,25 @@ public class UserMutationResolver implements GraphQLMutationResolver {
 
     public CommonResult uploadAvatar(DataFetchingEnvironment environment) {
         AncfGqlHttpContext context = environment.getContext();
-        Part avatar = context.getFilePart("avatar");
+        if (authService.getCurrentSubject() == null) {
+            return CommonResult.with(UserResultType.NOT_LOGIN);
+        }
+       var authSubject = authService.getCurrentSubject();
+//        final var authSubject = contex return CommonResult.with(UserResultType.NOT_LOGIN);t.getAuthSubject();
+//        //
+//        if (authSubject.isEmpty()) {
+//            return CommonResult.with(UserResultType.NOT_LOGIN);
+//        }
+        final var avatar = context.getFilePart("avatar");
         if (avatar == null) {
             return CommonResult.with(FileResultType.UPLOAD_ERROR);
         }
-        String url = ossService.uploadAvatar(avatar);
-        logger.debug("filename: {}, size: {},url length {}", avatar.getName(), avatar.getSize(), url.length());
-        return CommonResult.with(FileResultType.UPLOAD_SUCCESS, url);
+        final var url = ossService.uploadAvatar(avatar);
+        if (userService.updateAvatar(authSubject.getUserId(),url)) {
+            logger.debug("filename: {}, size: {},url length {}", avatar.getName(), avatar.getSize(), url.length());
+            return CommonResult.with(FileResultType.UPLOAD_SUCCESS, url);
+        }
+        return CommonResult.with(FileResultType.UPLOAD_ERROR);
     }
 
 }

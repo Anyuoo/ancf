@@ -19,7 +19,7 @@ public class Comment implements Serializable {
     private static final long serialVersionUID = -80540297733715849L;
 
     @TableId(type = IdType.AUTO)
-    private Long id;
+    private Integer id;
     /**
      * 评论内容
      */
@@ -28,12 +28,12 @@ public class Comment implements Serializable {
     /**
      * 用户ID
      */
-    private Long userId;
+    private Integer userId;
 
     /**
      * 实体id
      */
-    private Long entityId;
+    private Integer entityId;
     /**
      * 0-帖子，1-评论
      */
@@ -41,7 +41,7 @@ public class Comment implements Serializable {
     /**
      * 目标ID
      */
-    private Long targetId;
+    private Integer targetId;
     /**
      * 0-正常，1-已删除
      */
@@ -63,11 +63,11 @@ public class Comment implements Serializable {
     }
 
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public Comment setId(Long id) {
+    public Comment setId(Integer id) {
         this.id = id;
         return this;
     }
@@ -81,20 +81,20 @@ public class Comment implements Serializable {
         return this;
     }
 
-    public Long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public Comment setUserId(Long userId) {
+    public Comment setUserId(Integer userId) {
         this.userId = userId;
         return this;
     }
 
-    public Long getEntityId() {
+    public Integer getEntityId() {
         return entityId;
     }
 
-    public Comment setEntityId(Long entityId) {
+    public Comment setEntityId(Integer entityId) {
         this.entityId = entityId;
         return this;
     }
@@ -108,11 +108,11 @@ public class Comment implements Serializable {
         return this;
     }
 
-    public Long getTargetId() {
+    public Integer getTargetId() {
         return targetId;
     }
 
-    public Comment setTargetId(Long targetId) {
+    public Comment setTargetId(Integer targetId) {
         this.targetId = targetId;
         return this;
     }

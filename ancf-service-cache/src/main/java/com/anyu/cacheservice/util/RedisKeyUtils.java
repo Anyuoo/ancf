@@ -44,7 +44,6 @@ public class RedisKeyUtils {
      * 获取帖子点赞key 储存用户ID
      * "like:user:1222
      */
-
     public static String getLikeKeyByEntityType(EntityType entityType, String entityId) {
         return LIKE + SPLIT + entityType.name() + SPLIT + entityId;
     }

@@ -9,19 +9,19 @@ public interface LikeService {
     /**
      *
      */
-    void doPostLike(Long userId,Long postId,Long postOwnerId);
+    void doPostLike(Integer userId,Integer postId,Integer postOwnerId);
 
-    void doCommentLike(Long userId, Long cmtId,Long cmtOwnerId);
+    void doCommentLike(Integer userId, Integer cmtId,Integer cmtOwnerId);
 
-    long countPostLikeNum(Long postId);
+    long countPostLikeNum(Integer postId);
 
-    long countCommentLikeNum(Long cmtId);
+    long countCommentLikeNum(Integer cmtId);
 
-    long countUserLikeNum(Long userId);
+    long countUserLikeNum(Integer userId);
 
-    boolean getPostLikeStatus(Long userId,Long postId);
+    boolean getPostLikeStatus(Integer userId,Integer postId);
 
-    boolean getCmtLikeStatus(Long userId, Long cmtId);
+    boolean getCmtLikeStatus(Integer userId, Integer cmtId);
 
 
 }

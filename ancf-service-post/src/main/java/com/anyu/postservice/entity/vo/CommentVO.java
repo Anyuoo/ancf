@@ -8,8 +8,8 @@ import java.util.List;
 
 
 public class CommentVO {
-    private Long id;
-    private Long userId;
+    private Integer id;
+    private Integer userId;
     private String nickname;
     private String content;
     //评论点赞数
@@ -21,20 +21,20 @@ public class CommentVO {
         return new CommentVO();
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public CommentVO setId(Long id) {
+    public CommentVO setId(Integer id) {
         this.id = id;
         return this;
     }
 
-    public Long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public CommentVO setUserId(Long userId) {
+    public CommentVO setUserId(Integer userId) {
         this.userId = userId;
         return this;
     }

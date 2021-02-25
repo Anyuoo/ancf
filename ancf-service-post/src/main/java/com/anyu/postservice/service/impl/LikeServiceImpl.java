@@ -6,46 +6,48 @@ import com.anyu.postservice.service.LikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
 @Service
 public class LikeServiceImpl implements LikeService {
-    @Autowired
+    @Resource
     private CacheService cacheService;
 
 
     @Override
-    public void doPostLike(Long userId, Long postId, Long postOwnerId) {
+    public void doPostLike(Integer userId, Integer postId, Integer postOwnerId) {
         cacheService.like(String.valueOf(userId),EntityType.POST,String.valueOf(postId),String.valueOf(postOwnerId));
     }
 
     @Override
-    public void doCommentLike(Long userId, Long cmtId, Long cmtOwnerId) {
+    public void doCommentLike(Integer userId, Integer cmtId, Integer cmtOwnerId) {
         cacheService.like(String.valueOf(userId), EntityType.COMMENT, String.valueOf(cmtId), String.valueOf(cmtOwnerId));
     }
 
     @Override
-    public long countPostLikeNum(Long postId) {
+    public long countPostLikeNum(Integer postId) {
         return cacheService.countEntityLikeNum(EntityType.POST,String.valueOf(postId));
     }
 
     @Override
-    public long countCommentLikeNum(Long cmtId) {
+    public long countCommentLikeNum(Integer cmtId) {
         return cacheService.countEntityLikeNum(EntityType.COMMENT,String.valueOf(cmtId));
     }
 
 
 
     @Override
-    public long countUserLikeNum(Long userId) {
+    public long countUserLikeNum(Integer userId) {
         return cacheService.countUserLikeNum(String.valueOf(userId));
     }
 
     @Override
-    public boolean getPostLikeStatus(Long userId, Long postId) {
+    public boolean getPostLikeStatus(Integer userId, Integer postId) {
         return cacheService.getEntityLikeStatus(String.valueOf(userId),EntityType.POST,String.valueOf(postId));
     }
 
     @Override
-    public boolean getCmtLikeStatus(Long userId, Long cmtId) {
+    public boolean getCmtLikeStatus(Integer userId, Integer cmtId) {
         return cacheService.getEntityLikeStatus(String.valueOf(userId), EntityType.COMMENT, String.valueOf(cmtId));
     }
 }

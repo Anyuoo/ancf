@@ -11,11 +11,5 @@ public class GqlConfig {
     private static final Logger logger = LoggerFactory.getLogger(AncfGqlContextBuilder.class);
 
 
-    @Bean("ancfGqlContextBuilder")
-    public AncfGqlContextBuilder initAncfGqlContextBuilder() {
-        AncfGqlContextBuilder gqlContextBuilder = new AncfGqlContextBuilder();
-        logger.info("AncfGqlContextBuilder 初始化完成");
-        return gqlContextBuilder;
-    }
 
 }

@@ -4,11 +4,11 @@ package com.anyu.postservice.entity.input;
 import com.anyu.common.model.enums.EntityType;
 
 public class CommentInput {
-    private Long userId;
+    private Integer userId;
     private String content;
     private EntityType entityType;
-    private Long entityId;
-    private Long targetId;
+    private Integer entityId;
+    private Integer targetId;
 
     public CommentInput() {
     }
@@ -18,11 +18,11 @@ public class CommentInput {
         return new CommentInput();
     }
 
-    public Long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public CommentInput setUserId(Long userId) {
+    public CommentInput setUserId(Integer userId) {
         this.userId = userId;
         return this;
     }
@@ -45,20 +45,20 @@ public class CommentInput {
         return this;
     }
 
-    public Long getEntityId() {
+    public Integer getEntityId() {
         return entityId;
     }
 
-    public CommentInput setEntityId(Long entityId) {
+    public CommentInput setEntityId(Integer entityId) {
         this.entityId = entityId;
         return this;
     }
 
-    public Long getTargetId() {
+    public Integer getTargetId() {
         return targetId;
     }
 
-    public CommentInput setTargetId(Long targetId) {
+    public CommentInput setTargetId(Integer targetId) {
         this.targetId = targetId;
         return this;
     }

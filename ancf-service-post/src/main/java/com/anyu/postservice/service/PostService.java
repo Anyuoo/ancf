@@ -21,13 +21,13 @@ import java.util.Optional;
  */
 public interface PostService extends IService<Post>, GlobalConstant {
 
-    Optional<Post> getPostById(Long id);
+    Optional<Post> getPostById(Integer id);
 
-    boolean publishPost(@NonNull PostInput input);
+    boolean publishPost(@NonNull PostInput input,int publisherId);
 
-    List<Post> listPostAfter(int first, Long postId, PostPageCondition condition);
+    List<Post> listPostAfter(int first, Integer postId, PostPageCondition condition);
 
-    List<PostVO> listPostVOAfter(int first, Long postId, PostPageCondition condition);
+    List<PostVO> listPostVOAfter(int first, Integer postId, PostPageCondition condition);
 
     PostVO convertPostToVO(@NotNull Post post);
 }

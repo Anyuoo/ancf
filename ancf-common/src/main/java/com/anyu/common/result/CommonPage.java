@@ -18,7 +18,7 @@ public class CommonPage<T> {
      * @param originalId 实体ID
      * @return 游标ID
      */
-    public static ConnectionCursor createCursorWith(@NotNull Long originalId) {
+    public static ConnectionCursor createCursorWith(@NotNull Integer originalId) {
         String encode = CommonUtils.base64EncodeWith(String.valueOf(originalId));
         return new DefaultConnectionCursor(encode);
     }
@@ -29,11 +29,11 @@ public class CommonPage<T> {
      * @param base64Id 游标id
      * @return 原id
      */
-    public static Long decodeCursorWith(String base64Id) {
-        return StringUtils.isBlank(base64Id) ? null : Long.parseLong(CommonUtils.base64DecodeWith(base64Id));
+    public static Integer decodeCursorWith(String base64Id) {
+        return StringUtils.isBlank(base64Id) ? null : Integer.parseInt(CommonUtils.base64DecodeWith(base64Id));
     }
 
-    public static <T> DefaultEdge<T> getDefaultEdge(T vo,Long voId) {
+    public static <T> DefaultEdge<T> getDefaultEdge(T vo,Integer voId) {
         return new DefaultEdge<>(vo, CommonPage.createCursorWith(voId));
     }
 

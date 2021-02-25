@@ -20,7 +20,7 @@ public class User implements Serializable {
      * 用户ID
      */
     @TableId(type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     /**
      * 用户账户
@@ -97,11 +97,11 @@ public class User implements Serializable {
     }
 
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public User setId(Long id) {
+    public User setId(Integer id) {
         this.id = id;
         return this;
     }
