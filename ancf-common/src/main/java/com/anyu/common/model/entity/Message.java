@@ -18,15 +18,15 @@ public class Message implements Serializable {
      * 评论ID
      */
     @TableId(type = IdType.AUTO)
-    private Long id;
+    private Integer id;
     /**
      * 创建者
      */
-    private Long fromId;
+    private Integer fromId;
     /**
      * 接收者
      */
-    private Long toId;
+    private Integer toId;
     /**
      * 私聊的对话ID
      */
@@ -59,29 +59,29 @@ public class Message implements Serializable {
         return new Message();
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public Message setId(Long id) {
+    public Message setId(Integer id) {
         this.id = id;
         return this;
     }
 
-    public Long getFromId() {
+    public Integer getFromId() {
         return fromId;
     }
 
-    public Message setFromId(Long fromId) {
+    public Message setFromId(Integer fromId) {
         this.fromId = fromId;
         return this;
     }
 
-    public Long getToId() {
+    public Integer getToId() {
         return toId;
     }
 
-    public Message setToId(Long toId) {
+    public Message setToId(Integer toId) {
         this.toId = toId;
         return this;
     }

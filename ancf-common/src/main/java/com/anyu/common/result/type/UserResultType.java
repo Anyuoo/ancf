@@ -28,6 +28,7 @@ public enum UserResultType implements IResultType {
     REMOVE_ERROR(false, 20115, "用户注销失败"),
     UPDATE_INFO_SUCCESS(true,20116,"用户信息更新成功"),
     UPDATE_INFO_ERROR(false,20117,"用户信息更新失败"),
+    NOT_LOGIN(false,20118,"用户未登录"),
     ;
 
     private final Boolean success;

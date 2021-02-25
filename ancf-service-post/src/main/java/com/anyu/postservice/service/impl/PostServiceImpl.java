@@ -35,8 +35,6 @@ import java.util.stream.Collectors;
 @Service
 public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements PostService {
     @Resource
-    private CacheService cacheService;
-    @Resource
     private SensitiveFilter sensitiveFilter;
     @Resource
     private UserService userService;
@@ -44,17 +42,16 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     private LikeService likeService;
 
     @Override
-    public Optional<Post> getPostById(Long id) {
+    public Optional<Post> getPostById(Integer id) {
         if (id == null) return Optional.empty();
-        Post post = this.lambdaQuery().eq(Post::getId, id).one();
-        Optional.ofNullable(post)
-                .ifPresent(one -> {
-                    var title = HtmlUtils.htmlUnescape(one.getTitle());
-                    post.setTitle(title);
-                    var content = HtmlUtils.htmlUnescape(one.getContent());
-                    post.setContent(content);
-                });
-        return Optional.ofNullable(post);
+        var post = lambdaQuery().eq(Post::getId, id).one();
+        if (post == null)
+            return Optional.empty();
+        var title = HtmlUtils.htmlUnescape(post.getTitle());
+        post.setTitle(title);
+        var content = HtmlUtils.htmlUnescape(post.getContent());
+        post.setContent(content);
+        return Optional.of(post);
     }
 
     /**
@@ -65,7 +62,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
      */
     @Override
     @Transactional
-    public boolean publishPost(@NonNull PostInput input) {
+    public boolean publishPost(@NonNull PostInput input,int publisherId) {
         //输入处理
         final var title = sensitiveFilter.filter(input.getTitle());
         input.setTitle(HtmlUtils.htmlEscape(title));
@@ -73,11 +70,12 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         input.setContent(HtmlUtils.htmlEscape(content));
         final var post = Post.build();
         BeanUtils.copyProperties(input, post);
-        post.setCmtNum(0)
+        post.setUserId(publisherId)
+                .setCmtNum(0)
                 .setScore(0f)
                 .setType(PostType.NORMAL);
 
-        return this.save(post);
+        return save(post);
     }
 
     /**
@@ -102,8 +100,8 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     }
 
     @Override
-    public List<Post> listPostAfter(int first, Long postId, PostPageCondition condition) {
-        final var chainWrapper = this.lambdaQuery();
+    public List<Post> listPostAfter(int first, Integer postId, PostPageCondition condition) {
+        final var chainWrapper = lambdaQuery();
         if (condition != null) {
             chainWrapper.eq(Post::getType, condition.getType())
                     .eq(Post::getUserId, condition.getUserId())
@@ -119,7 +117,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     }
 
     @Override
-    public List<PostVO> listPostVOAfter(int first, Long postId, PostPageCondition condition) {
+    public List<PostVO> listPostVOAfter(int first, Integer postId, PostPageCondition condition) {
         return listPostAfter(first, postId, condition).stream()
                 .map(this::convertPostToVO)
                 .collect(Collectors.toUnmodifiableList());

@@ -1,6 +1,7 @@
 package com.anyu.postservice.service.impl;
 
 
+import com.anyu.authservice.service.AuthService;
 import com.anyu.common.model.entity.Comment;
 import com.anyu.common.model.entity.User;
 import com.anyu.common.model.enums.EntityType;
@@ -39,7 +40,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Resource
     private LikeService likeService;
     @Resource
-    private GlobalContext globalContext;
+    private AuthService authService;
 
     @Override
     public boolean createComment(CommentInput input) {
@@ -52,7 +53,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public List<Comment> listCommentsByEntity(int first, Long id, @NotNull EntityType entityType, @NotNull Long entityId) {
+    public List<Comment> listCommentsByEntity(int first, Integer id, @NotNull EntityType entityType, @NotNull Integer entityId) {
         final var chainWrapper = this.lambdaQuery().eq(Comment::getEntityType, entityType)
                 .eq(Comment::getEntityId, entityId);
         if (id != null) {
@@ -65,14 +66,14 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public List<CommentVO> listCommentVOsByPostId(int first, Long id, @NotNull Long entityId) {
+    public List<CommentVO> listCommentVOsByPostId(int first, Integer id, @NotNull Integer entityId) {
         return listCommentsByEntity(first, id, EntityType.POST, entityId).stream()
                 .map(this::convertCmtToCmtVo)
                 .collect(Collectors.toUnmodifiableList());
     }
 
     @Override
-    public List<ReplyVO> listReplyVOsByTargetId(int first, @NotNull Long id, @NotNull Long targetId) {
+    public List<ReplyVO> listReplyVOsByTargetId(int first, @NotNull Integer id, @NotNull Integer targetId) {
         return listCommentsByEntity(first, id, EntityType.COMMENT, targetId)
                 .stream()
                 .map(this::convertCmtToReplyVO)
@@ -90,7 +91,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 .setNickname(user.getNickname())
                 .setContent(comment.getContent())
                 .setCmtLikeNum((int) likeService.countCommentLikeNum(comment.getId()))
-                .setCmtLikeStatus(likeService.getCmtLikeStatus(globalContext.getCurrentUserId(),comment.getId()));
+                .setCmtLikeStatus(likeService.getCmtLikeStatus(authService.getCurrentUserId(),comment.getId()));
     }
 
     private ReplyVO convertCmtToReplyVO(@NotNull Comment comment) {
@@ -101,7 +102,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 .setNickname(replier.getNickname())
                 .setContent(comment.getContent())
                 .setReplyLikeNum(likeService.countCommentLikeNum(comment.getId()))
-                .setReplyLikeStatus(likeService.getCmtLikeStatus(globalContext.getCurrentUserId(),comment.getId()))
+                .setReplyLikeStatus(likeService.getCmtLikeStatus(authService.getCurrentUserId(),comment.getId()))
                 .setTargetId(comment.getTargetId())
                 .setTargetNickname(replier.getNickname());
     }

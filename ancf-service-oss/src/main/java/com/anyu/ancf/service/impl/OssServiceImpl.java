@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.servlet.http.Part;
 import javax.validation.constraints.NotBlank;
 import java.io.ByteArrayInputStream;
@@ -20,8 +21,13 @@ import java.io.InputStream;
 @Service
 public class OssServiceImpl implements OssService {
     private static final Logger logger = LoggerFactory.getLogger(OssServiceImpl.class);
-    @Autowired
-    private OSSProperties ossProperties;
+
+    private final OSSProperties ossProperties;
+
+    public OssServiceImpl(OSSProperties ossProperties) {
+        this.ossProperties = ossProperties;
+        logger.info("OssService init successfully");
+    }
 
     @Override
     public String uploadAvatar(Part file) {

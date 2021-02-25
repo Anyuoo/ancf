@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
@@ -44,17 +45,17 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
     private final static Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
-    @Autowired
+    @Resource
     private MailClient mailClient;
-    @Autowired
+    @Resource
     private TemplateEngine templateEngine;
-    @Autowired
+    @Resource
     private AuthService authService;
-    @Autowired
+    @Resource
     private CacheService cacheService;
 
     @Override
-    public Optional<User> getUserById(Long id) {
+    public Optional<User> getUserById(int id) {
         var user = this.lambdaQuery().eq(User::getId, id).one();
         return Optional.ofNullable(user);
     }
@@ -100,7 +101,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
 
     @Override
-    public boolean updateUserById(@NonNull Long id, UserInput input) {
+    public boolean updateUserById(@NonNull Integer id, UserInput input) {
         verifyUserInput(input);
         final var original = this.getById(id);
         if (original == null) {
@@ -121,7 +122,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return 分页列表
      */
     @Override
-    public List<User> listUserAfter(int first, Long id, UserPageCondition condition) {
+    public List<User> listUserAfter(int first, Integer id, UserPageCondition condition) {
         final var chainWrapper = this.lambdaQuery();
         if (id != null) chainWrapper.ge(User::getId, id);
         UserPageCondition.initWrapperByCondition(chainWrapper, condition);
@@ -149,7 +150,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public boolean removeUserById(@NonNull Long id) {
+    public boolean removeUserById(@NonNull Integer id) {
         return this.removeById(id);
     }
 
@@ -197,6 +198,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public boolean doActivate(User user) {
         user.setActivation(ActiveStatus.ACTIVED);
         return this.updateById(user);
+    }
+
+    @Override
+    public boolean updateAvatar(int userId, String url) {
+        final var original = getUserById(userId);
+        if (original.isEmpty()) {
+            return false;
+        }
+        final var user = original.get();
+        user.setAvatar(url);
+        return updateById(user);
     }
 
     /**
@@ -305,7 +317,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         Optional<String> code = cacheService.getActivationCode(isEmail, emailOrMobile);
         //缓存为空，先将激活码失效的邮箱或手机号账户注销
         if (code.isEmpty()) {
-            var chainWrapper = this.lambdaQuery();
+            var chainWrapper = lambdaQuery();
             if (isEmail) {
                 chainWrapper.eq(User::getEmail, emailOrMobile);
             } else {

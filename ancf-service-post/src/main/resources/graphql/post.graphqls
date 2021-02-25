@@ -27,8 +27,6 @@ input PostQueryCondition {
 input PostInput {
     #帖子类型
     type: PostType!
-    #发布帖子用户ID
-    userId: ID!
     #帖子标题
     title: String!
     #内容

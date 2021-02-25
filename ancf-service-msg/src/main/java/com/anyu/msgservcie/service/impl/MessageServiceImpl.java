@@ -3,6 +3,7 @@ package com.anyu.msgservcie.service.impl;
 
 import com.anyu.common.model.entity.Message;
 import com.anyu.common.util.CommonUtils;
+import com.anyu.common.util.GlobalConstant;
 import com.anyu.common.util.SensitiveFilter;
 import com.anyu.msgservcie.entity.MessageInput;
 import com.anyu.msgservcie.mapper.MessageMapper;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
+import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -24,7 +26,7 @@ import java.util.List;
  */
 @Service("messageService")
 public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> implements MessageService {
-    @Autowired
+    @Resource
     private SensitiveFilter sensitiveFilter;
 
     @Override
@@ -36,18 +38,18 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
         final var message = new Message();
         BeanUtils.copyProperties(input, message);
         message.setChartId(chartId);
-        return this.save(message);
+        return save(message);
     }
 
     @Override
-    public List<Message> listMsgAfter(Long id, int first, @NotNull String chartId) {
-        final var chainWrapper = this.lambdaQuery()
+    public List<Message> listMsgAfter(Integer id, int first, @NotNull String chartId) {
+        final var chainWrapper = lambdaQuery()
                 .eq(Message::getChartId, chartId)
                 .orderByAsc(Message::getCreateTime);
         if (id == null) {
             chainWrapper.ge(Message::getId, id);
         }
-        return chainWrapper.last("limit " + first).list();
+        return chainWrapper.last(GlobalConstant.PAGE_SQL_LIMIT + first).list();
     }
 
 }

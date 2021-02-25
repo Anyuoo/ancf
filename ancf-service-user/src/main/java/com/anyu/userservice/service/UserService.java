@@ -13,16 +13,16 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * (Subject)表服务接口
+ * (User)表服务接口
  *
  * @author Anyu
  * @since 2020-10-07 09:56:09
  */
 public interface UserService extends IService<User>, GlobalConstant {
 
-    List<User> listUserAfter(int first, Long id, UserPageCondition condition);
+    List<User> listUserAfter(int first, Integer id, UserPageCondition condition);
 
-    Optional<User> getUserById(Long userId);
+    Optional<User> getUserById(int userId);
 
     Optional<User> getUserByAccount(@NotBlank String account);
 
@@ -32,12 +32,13 @@ public interface UserService extends IService<User>, GlobalConstant {
 
     boolean register(UserInput input);
 
-    boolean updateUserById(@NonNull Long id, UserInput input);
+    boolean updateUserById(@NonNull Integer id, UserInput input);
 
-    boolean removeUserById(@NonNull Long id);
+    boolean removeUserById(@NonNull Integer id);
 
     boolean activateUser(@NotBlank String activationKey, @NotBlank String activationCode, boolean isEmail);
 
     Optional<String> login(String principal, String password);
 
+    boolean updateAvatar(int userId, String url);
 }

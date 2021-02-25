@@ -24,7 +24,7 @@ public class LoginStatusAspect {
     public Object checkLoginStatus(ProceedingJoinPoint joinPoint) throws Throwable {
 //        globalContext.saveCurrentUser();
         joinPoint.proceed();
-        globalContext.removeCurrentUser();
+//        globalContext.removeCurrentUser();
         return null;
     }
 }

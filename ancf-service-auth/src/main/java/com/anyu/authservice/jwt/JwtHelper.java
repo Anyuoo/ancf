@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.HandshakeRequest;
 import java.util.Date;
@@ -23,7 +24,7 @@ import java.util.Optional;
 public class JwtHelper {
     private static final Logger logger = LoggerFactory.getLogger(JwtHelper.class);
 
-    @Autowired
+    @Resource
     private JwtProperties jwtProperties;
 
 

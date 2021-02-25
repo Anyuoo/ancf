@@ -4,6 +4,8 @@ import com.anyu.cacheservice.service.CacheService;
 import com.anyu.cacheservice.util.RedisKeyUtils;
 import com.anyu.common.model.enums.EntityType;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.core.RedisOperations;
@@ -17,8 +19,13 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class CacheServiceImpl implements CacheService {
-    @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private final static Logger logger = LoggerFactory.getLogger(CacheServiceImpl.class);
+    private final RedisTemplate<String, Object> redisTemplate;
+
+    public CacheServiceImpl(RedisTemplate<String, Object> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+        logger.info("CacheService init successfully");
+    }
 
     @Override
     public Optional<String> getActivationCode(boolean isEmail, String key) {

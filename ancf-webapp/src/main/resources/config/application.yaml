@@ -79,4 +79,4 @@ app:
 
 logging:
   level:
-    com.anyu: info
+    com.anyu: debug

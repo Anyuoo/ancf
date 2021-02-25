@@ -2,8 +2,8 @@ package com.anyu.authservice.entity;
 
 public class AuthSubject {
     private Integer userId;
-
-    private String username;
+    private String account;
+    private String nickname;
 
     public Integer getUserId() {
         return userId;
@@ -13,12 +13,21 @@ public class AuthSubject {
         this.userId = userId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getNickname() {
+        return nickname;
     }
 
-    public AuthSubject setUsername(String username) {
-        this.username = username;
+    public AuthSubject setNickname(String nickname) {
+        this.nickname = nickname;
+        return this;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public AuthSubject setAccount(String account) {
+        this.account = account;
         return this;
     }
 }

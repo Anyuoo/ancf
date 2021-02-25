@@ -21,11 +21,11 @@ import java.util.List;
  */
 public interface CommentService extends IService<Comment>, GlobalConstant {
 
-    List<Comment> listCommentsByEntity(int first, @Nullable Long id, @NotNull EntityType entityType, @NotNull Long entityId);
+    List<Comment> listCommentsByEntity(int first, @Nullable Integer id, @NotNull EntityType entityType, @NotNull Integer entityId);
 
-    List<CommentVO> listCommentVOsByPostId(int first, @Nullable Long id, @NotNull Long entityId);
+    List<CommentVO> listCommentVOsByPostId(int first, @Nullable Integer id, @NotNull Integer entityId);
 
-    List<ReplyVO> listReplyVOsByTargetId(int first,@NotNull Long id,@NotNull Long targetId);
+    List<ReplyVO> listReplyVOsByTargetId(int first,@NotNull Integer id,@NotNull Integer targetId);
 
     boolean createComment(CommentInput input);
 }
