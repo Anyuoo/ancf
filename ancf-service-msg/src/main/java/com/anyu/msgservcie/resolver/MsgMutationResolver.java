@@ -2,6 +2,7 @@ package com.anyu.msgservcie.resolver;
 
 
 import com.anyu.common.result.CommonResult;
+import com.anyu.common.result.annotation.QueryResolver;
 import com.anyu.common.result.type.MsgResultType;
 import com.anyu.msgservcie.entity.MessageInput;
 import com.anyu.msgservcie.service.MessageService;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
-@Component("msgMutationResolver")
+@QueryResolver("msgMutationResolver")
 public class MsgMutationResolver implements GraphQLMutationResolver {
 
     @Resource

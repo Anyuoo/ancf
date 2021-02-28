@@ -4,6 +4,7 @@ dependencies {
     implementation deps.mybatis_plus
     //邮件
     implementation "org.springframework.boot:spring-boot-starter-mail"
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation deps.graphql
     implementation deps.graphql_extended_scalars
 

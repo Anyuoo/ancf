@@ -4,7 +4,6 @@ package com.anyu.postservice.entity.input;
 import com.anyu.common.model.enums.EntityType;
 
 public class CommentInput {
-    private Integer userId;
     private String content;
     private EntityType entityType;
     private Integer entityId;
@@ -18,14 +17,6 @@ public class CommentInput {
         return new CommentInput();
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public CommentInput setUserId(Integer userId) {
-        this.userId = userId;
-        return this;
-    }
 
     public String getContent() {
         return content;

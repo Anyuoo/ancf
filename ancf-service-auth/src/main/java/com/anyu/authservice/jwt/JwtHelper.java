@@ -1,9 +1,11 @@
 package com.anyu.authservice.jwt;
 
 
+import com.anyu.authservice.entity.enums.Role;
 import com.anyu.common.exception.GlobalException;
 import com.anyu.common.result.type.AuthResultType;
 import com.anyu.common.result.type.SystemResultType;
+import com.anyu.common.util.GlobalConstant;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -28,7 +30,7 @@ public class JwtHelper {
     private JwtProperties jwtProperties;
 
 
-    public Optional<String> createJwt(String userId, String username, String role) {
+    public Optional<String> createJwt(String userId, String username, Role role) {
         try {
             final var nowMillis = System.currentTimeMillis();
             final var now = new Date(nowMillis);
@@ -39,7 +41,7 @@ public class JwtHelper {
                     // 可以将基本不重要的对象信息放到claims
                     .setHeaderParam("typ", "JWT")
                     .setHeaderParam("alg", "HS256")
-                    .claim("role", role)
+                    .claim("role", role.name())
                     .claim("userId", userId)
                     .setSubject(username)           // 代表这个JWT的主体，即它的所有人
                     .setIssuer(jwtProperties.getIss())              // 代表这个JWT的签发主体；
@@ -136,5 +138,14 @@ public class JwtHelper {
         }
         var userId = (String) claims.get("userId");
         return Optional.of(userId);
+    }
+
+    public Optional<Role> getRole(String token) {
+        var claims = parseJwt(token).orElse(null);
+        if (claims == null) {
+            return Optional.empty();
+        }
+        var role = (String) claims.get("role");
+        return Optional.of(Role.valueOf(role));
     }
 }

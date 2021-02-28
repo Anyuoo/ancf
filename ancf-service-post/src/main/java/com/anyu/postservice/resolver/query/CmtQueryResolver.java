@@ -3,6 +3,7 @@ package com.anyu.postservice.resolver.query;
 
 import com.anyu.common.model.entity.Comment;
 import com.anyu.common.result.CommonPage;
+import com.anyu.common.result.annotation.QueryResolver;
 import com.anyu.postservice.entity.vo.CommentVO;
 import com.anyu.postservice.entity.vo.ReplyVO;
 import com.anyu.postservice.service.CommentService;
@@ -15,7 +16,7 @@ import javax.annotation.Resource;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Service
+@QueryResolver
 public class CmtQueryResolver implements GraphQLQueryResolver {
     @Resource
     private CommentService commentService;

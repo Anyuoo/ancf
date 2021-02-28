@@ -1,6 +1,7 @@
 package com.anyu.test.user;
 
-import com.anyu.common.model.enums.Gender;
+
+
 import com.anyu.test.BaseTest;
 import com.anyu.userservice.entity.input.UserInput;
 import com.anyu.userservice.service.UserService;
@@ -39,7 +40,7 @@ public class UserServiceTest extends BaseTest {
                 .setMobile("18502861998")
                 .setPassword("123456")
                 .setBirthday(LocalDateTime.now())
-                .setGender(Gender.MALE)
+//                .setGender(Gender.MALE)
                 .setRealName("anyu");
         boolean register = userService.register(input);
         System.out.println(register);

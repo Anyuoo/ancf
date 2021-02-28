@@ -14,7 +14,7 @@ extend type Mutation {
     #用户激活(activationKey: 邮箱或手机号，activationCode： 激活码)
     activateUser(activationKey: String!, activationCode: String!, isEmail: Boolean!): CommonResult
     #更新用户信息
-    updateUserInfo(id: ID!, userInput: UserInput!): CommonResult
+    updateUserInfo(userInput: UserInput!): CommonResult
     #上传用户头像
     uploadAvatar: CommonResult
     #删除用户
@@ -46,6 +46,7 @@ enum UserOrderType {
     ASC_MODIFIED_TIME
     ASC_AGE
 }
+
 #创建用户的参数
 input UserInput {
     #用户账号

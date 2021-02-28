@@ -3,6 +3,7 @@ package com.anyu.msgservcie.resolver;
 
 import com.anyu.common.model.entity.Message;
 import com.anyu.common.result.CommonPage;
+import com.anyu.common.result.annotation.QueryResolver;
 import com.anyu.msgservcie.service.MessageService;
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import graphql.relay.Connection;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
  * @author Anyu
  * @since 2020/10/10
  */
-@Component("msgQueryResolver")
+@QueryResolver("msgQueryResolver")
 public class MsgQueryResolver implements GraphQLQueryResolver {
     @Resource
     private MessageService messageService;
