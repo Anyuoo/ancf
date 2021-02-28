@@ -43,12 +43,13 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     private AuthService authService;
 
     @Override
-    public boolean createComment(CommentInput input) {
+    public boolean createComment(CommentInput input,int cmtUserId) {
         //將评论类容进行编码处理
         final var content = sensitiveFilter.filter(input.getContent());
         input.setContent(HtmlUtils.htmlEscape(content));
         final var comment = Comment.build();
         BeanUtils.copyProperties(input, comment);
+        comment.setUserId(cmtUserId);
         return this.save(comment);
     }
 

@@ -1,6 +1,7 @@
 package com.anyu.userservice.service.impl;
 
 
+import com.anyu.authservice.entity.enums.Role;
 import com.anyu.authservice.service.AuthService;
 import com.anyu.cacheservice.service.CacheService;
 import com.anyu.common.exception.GlobalException;
@@ -227,7 +228,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             Optional<User> userByEmail = getUserByEmail(principal);
             if (checkLogin(userByEmail, password)) {
                 final var user = userByEmail.get();
-                return authService.createJwt(user.getId().toString(), user.getNickname(), "user");
+                return authService.createJwt(user.getId().toString(), user.getNickname(), Role.USER_ROLE);
             }
         }
         //mobil
@@ -237,14 +238,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             //verify login
             if (checkLogin(userByMobile, password)) {
                 final var user = userByMobile.get();
-                return authService.createJwt(user.getId().toString(), user.getNickname(), "user");
+                return authService.createJwt(user.getId().toString(), user.getNickname(), Role.USER_ROLE);
             }
         }
         //account
         Optional<User> userByAccount = getUserByAccount(principal);
         if (checkLogin(userByAccount, password)) {
             final var user = userByAccount.get();
-            return authService.createJwt(user.getId().toString(), user.getNickname(), "user");
+            return authService.createJwt(user.getId().toString(), user.getNickname(), Role.USER_ROLE);
         }
         return Optional.empty();
     }

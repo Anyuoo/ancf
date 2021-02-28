@@ -14,8 +14,6 @@ extend type Mutation {
 
 #评论创建
 input CommentInput {
-    #评论者
-    userId: ID!
     #帖子内容
     content: String!
     #实体类型

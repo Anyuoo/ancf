@@ -12,8 +12,9 @@ public enum AuthResultType implements IResultType {
     SUCCESS(true, 20400, "认证成功"),
     ERROR(false,20401, "认证失败"),
     TOKEN_SIGNATURE_ERROR(false,20402, "Token签名错误"),
-    TOKEN_PARSE_ERROR(false,20403, "Token解析错误");
-
+    TOKEN_PARSE_ERROR(false,20403, "Token解析错误"),
+    NOT_PERMISSION(false, 20404, "没有权限"),
+    ;
     private final Boolean success;
     private final int code;
     private final String message;
@@ -26,16 +27,16 @@ public enum AuthResultType implements IResultType {
 
     @Override
     public Boolean isSuccess() {
-        return null;
+        return success;
     }
 
     @Override
     public int getCode() {
-        return 0;
+        return code;
     }
 
     @Override
     public String getMessage() {
-        return null;
+        return message;
     }
 }

@@ -14,6 +14,7 @@ public enum SystemResultType implements IResultType {
     PARAM_ERROR(false,2005, "参数错误");
 
 
+
     private final Boolean success;
     private final int code;
     private final String message;

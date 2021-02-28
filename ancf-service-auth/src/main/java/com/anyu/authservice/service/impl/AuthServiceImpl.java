@@ -1,12 +1,12 @@
 package com.anyu.authservice.service.impl;
 
 import com.anyu.authservice.entity.AuthSubject;
+import com.anyu.authservice.entity.enums.Role;
 import com.anyu.authservice.jwt.JwtHelper;
 import com.anyu.authservice.service.AuthService;
 import com.anyu.common.memory.ILocalMemory;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Nullable;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.HandshakeRequest;
@@ -23,21 +23,21 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Optional<AuthSubject> getAuthSubjectWith(HttpServletRequest httpServletRequest) {
-        var token = jwtHelper.getTokenWith(httpServletRequest).orElse(null);
-        if (token == null) {
+        var token = jwtHelper.getTokenWith(httpServletRequest);
+        if (token.isEmpty()) {
             return Optional.empty();
         }
-        var userId = jwtHelper.getUserId(token).orElse(null);
-        if (userId == null) {
-            return Optional.empty();
-        }
-        var username = jwtHelper.getUsername(token).orElse(null);
-        if (username == null) {
+        var userId = jwtHelper.getUserId(token.get());
+        var username = jwtHelper.getUsername(token.get());
+        var role = jwtHelper.getRole(token.get());
+
+        if (userId.isEmpty() || username.isEmpty() || role.isEmpty()) {
             return Optional.empty();
         }
         AuthSubject authSubject = new AuthSubject();
-        authSubject.setUserId(Integer.parseInt(userId));
-        authSubject.setNickname(username);
+        authSubject.setUserId(Integer.parseInt(userId.get()));
+        authSubject.setNickname(username.get());
+        authSubject.setRole(role.get());
         return  Optional.of(authSubject);
     }
 
@@ -47,7 +47,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Optional<String> createJwt(String id, String nickname, String role) {
+    public Optional<String> createJwt(String id, String nickname, Role role) {
         return jwtHelper.createJwt(id, nickname, role);
     }
 
@@ -76,7 +76,13 @@ public class AuthServiceImpl implements AuthService {
         return getCurrentSubject() != null ;
     }
 
-
+    @Override
+    public Role getCurrentUserRole() {
+        if (getCurrentSubject() == null) {
+            return Role.VISITOR_ROLE;
+        }
+        return getCurrentSubject().getRole();
+    }
 
     /**
     *存储认证的信息的内存

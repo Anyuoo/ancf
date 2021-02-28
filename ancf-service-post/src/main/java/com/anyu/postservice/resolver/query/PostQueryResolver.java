@@ -4,6 +4,7 @@ package com.anyu.postservice.resolver.query;
 import com.anyu.authservice.gql.AncfGqlHttpContext;
 import com.anyu.common.model.entity.Post;
 import com.anyu.common.result.CommonPage;
+import com.anyu.common.result.annotation.QueryResolver;
 import com.anyu.postservice.entity.condition.PostPageCondition;
 import com.anyu.postservice.entity.vo.PostVO;
 import com.anyu.postservice.service.PostService;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
  * @author Anyu
  * @since 2020/10/10
  */
-@Service
+@QueryResolver
 public class PostQueryResolver implements GraphQLQueryResolver {
 
     @Resource
@@ -37,7 +38,6 @@ public class PostQueryResolver implements GraphQLQueryResolver {
 
     public PostVO postDetails(Long id) {
         return postService.convertPostToVO(postService.getById(id));
-
     }
 
     /**

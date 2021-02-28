@@ -27,5 +27,5 @@ public interface CommentService extends IService<Comment>, GlobalConstant {
 
     List<ReplyVO> listReplyVOsByTargetId(int first,@NotNull Integer id,@NotNull Integer targetId);
 
-    boolean createComment(CommentInput input);
+    boolean createComment(CommentInput input,int cmtUserId);
 }

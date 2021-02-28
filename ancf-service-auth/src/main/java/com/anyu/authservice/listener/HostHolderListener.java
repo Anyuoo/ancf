@@ -25,6 +25,7 @@ public class HostHolderListener implements GraphQLServletListener {
 
     @Override
     public RequestCallback onRequest(HttpServletRequest request, HttpServletResponse response) {
+
         return new RequestCallback() {
             @Override
             public void onFinally(HttpServletRequest request, HttpServletResponse response) {
