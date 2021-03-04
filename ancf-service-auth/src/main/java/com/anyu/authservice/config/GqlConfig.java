@@ -10,6 +10,4 @@ import org.springframework.context.annotation.Configuration;
 public class GqlConfig {
     private static final Logger logger = LoggerFactory.getLogger(AncfGqlContextBuilder.class);
 
-
-
 }
