@@ -58,7 +58,7 @@ subprojects {
         annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
         compileOnly deps.lombok
         annotationProcessor deps.lombok
-        //j解决未知常量
+        //解决未知常量
         implementation 'com.google.code.findbugs:jsr305:3.0.2'
 
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
