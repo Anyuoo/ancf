@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="delegatedBuild" value="true" />
+        <option name="testRunner" value="GRADLE" />
+        <option name="distributionType" value="LOCAL" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="D:/Develop/Tool/gradle-6.6.1" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/ancf-common" />
+            <option value="$PROJECT_DIR$/ancf-service-auth" />
+            <option value="$PROJECT_DIR$/ancf-service-msg" />
+            <option value="$PROJECT_DIR$/ancf-service-oss" />
+            <option value="$PROJECT_DIR$/ancf-service-post" />
+            <option value="$PROJECT_DIR$/ancf-service-user" />
+            <option value="$PROJECT_DIR$/ancf-webapp" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
