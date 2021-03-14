@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.anyu.common.model.IEnumsCode</OriginalElement>
+  <nodes>
+    <node x="512.0" y="184.0">com.anyu.common.model.enums.Gender</node>
+    <node x="752.0" y="140.0">com.anyu.common.model.enums.UserOrderType</node>
+    <node x="224.0" y="195.0">com.anyu.common.model.enums.ActiveStatus</node>
+    <node x="1048.0" y="184.0">com.anyu.common.model.enums.EntityType</node>
+    <node x="1320.0" y="195.0">com.anyu.common.model.enums.PostType</node>
+    <node x="670.0" y="0.0">com.anyu.common.model.IEnumsCode</node>
+    <node x="0.0" y="184.0">com.anyu.authservice.entity.enums.Role</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.anyu.common.model.enums.PostType" target="com.anyu.common.model.IEnumsCode">
+      <point x="0.0" y="-106.5" />
+      <point x="1438.0" y="100.0" />
+      <point x="827.6666666666667" y="100.0" />
+      <point x="71.66666666666674" y="40.0" />
+    </edge>
+    <edge source="com.anyu.common.model.enums.ActiveStatus" target="com.anyu.common.model.IEnumsCode">
+      <point x="0.0" y="-106.5" />
+      <point x="358.0" y="110.0" />
+      <point x="713.0" y="110.0" />
+      <point x="-43.0" y="40.0" />
+    </edge>
+    <edge source="com.anyu.common.model.enums.Gender" target="com.anyu.common.model.IEnumsCode">
+      <point x="0.0" y="-117.5" />
+      <point x="622.0" y="120.0" />
+      <point x="741.6666666666667" y="120.0" />
+      <point x="-14.333333333333371" y="40.0" />
+    </edge>
+    <edge source="com.anyu.authservice.entity.enums.Role" target="com.anyu.common.model.IEnumsCode">
+      <point x="0.0" y="-117.5" />
+      <point x="102.0" y="100.0" />
+      <point x="684.3333333333335" y="100.0" />
+      <point x="-71.66666666666663" y="40.0" />
+    </edge>
+    <edge source="com.anyu.common.model.enums.UserOrderType" target="com.anyu.common.model.IEnumsCode">
+      <point x="0.0" y="-161.5" />
+      <point x="890.0" y="120.0" />
+      <point x="770.3333333333335" y="120.0" />
+      <point x="14.333333333333371" y="40.0" />
+    </edge>
+    <edge source="com.anyu.common.model.enums.EntityType" target="com.anyu.common.model.IEnumsCode">
+      <point x="0.0" y="-117.5" />
+      <point x="1174.0" y="110.0" />
+      <point x="799.0" y="110.0" />
+      <point x="43.0" y="40.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.9695431472081218" x="778.0" y="221.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>Project Files</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

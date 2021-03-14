@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.anyu.userservice.resolver.UserQueryResolver</OriginalElement>
+  <nodes>
+    <node x="0.0" y="245.0">com.anyu.userservice.resolver.UserQueryResolver</node>
+    <node x="412.5" y="0.0">graphql.kickstart.tools.GraphQLResolver</node>
+    <node x="622.5" y="84.0">graphql.kickstart.tools.GraphQLMutationResolver</node>
+    <node x="520.0" y="168.0">com.anyu.userservice.resolver.UserMutationResolver</node>
+    <node x="144.0" y="84.0">graphql.kickstart.tools.GraphQLQueryResolver</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="graphql.kickstart.tools.GraphQLQueryResolver" target="graphql.kickstart.tools.GraphQLResolver">
+      <point x="0.0" y="-17.0" />
+      <point x="250.0" y="59.0" />
+      <point x="454.25" y="59.0" />
+      <point x="-41.75" y="17.0" />
+    </edge>
+    <edge source="com.anyu.userservice.resolver.UserMutationResolver" target="graphql.kickstart.tools.GraphQLMutationResolver">
+      <point x="0.0" y="-128.5" />
+      <point x="0.0" y="17.0" />
+    </edge>
+    <edge source="com.anyu.userservice.resolver.UserQueryResolver" target="graphql.kickstart.tools.GraphQLQueryResolver">
+      <point x="0.0" y="-51.5" />
+      <point x="0.0" y="17.0" />
+    </edge>
+    <edge source="graphql.kickstart.tools.GraphQLMutationResolver" target="graphql.kickstart.tools.GraphQLResolver">
+      <point x="0.0" y="-17.0" />
+      <point x="742.0" y="59.0" />
+      <point x="537.75" y="59.0" />
+      <point x="41.75" y="17.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="482.0" y="212.5" />
+  <SelectedNodes>
+    <node>graphql.kickstart.tools.GraphQLMutationResolver</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

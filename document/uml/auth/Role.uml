@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.anyu.authservice.entity.enums.Role</OriginalElement>
+  <nodes>
+    <node x="0.0" y="0.0">com.anyu.common.model.IEnumsCode</node>
+    <node x="11.0" y="130.0">com.anyu.authservice.entity.enums.Role</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.anyu.authservice.entity.enums.Role" target="com.anyu.common.model.IEnumsCode">
+      <point x="0.0" y="-73.5" />
+      <point x="0.0" y="40.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="69.0" y="138.5" />
+  <SelectedNodes>
+    <node>com.anyu.authservice.entity.enums.Role</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Properties</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>Project Files</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+

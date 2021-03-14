@@ -3,8 +3,8 @@
   <ID>JAVA</ID>
   <OriginalElement>com.anyu.cacheservice.service.CacheService</OriginalElement>
   <nodes>
-    <node x="0.0" y="0.0">com.anyu.cacheservice.service.CacheService</node>
     <node x="0.0" y="218.0">com.anyu.cacheservice.service.impl.CacheServiceImpl</node>
+    <node x="0.0" y="0.0">com.anyu.cacheservice.service.CacheService</node>
   </nodes>
   <notes />
   <edges>

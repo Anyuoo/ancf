@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.anyu.common.exception.handler.CustomGraphqlErrorHandler</OriginalElement>
+  <nodes>
+    <node x="0.0" y="0.0">com.anyu.common.exception.handler.CustomGraphqlErrorHandler</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="1.0" x="230.0" y="29.0" />
+  <SelectedNodes>
+    <node>com.anyu.common.exception.handler.CustomGraphqlErrorHandler</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>Project Files</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+

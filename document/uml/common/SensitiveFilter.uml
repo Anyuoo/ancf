@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.anyu.common.util.SensitiveFilter</OriginalElement>
+  <nodes>
+    <node x="0.0" y="241.0">com.anyu.common.util.SensitiveFilter.TrieNode</node>
+    <node x="16.0" y="0.0">com.anyu.common.util.SensitiveFilter</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.anyu.common.util.SensitiveFilter.TrieNode" target="com.anyu.common.util.SensitiveFilter">
+      <point x="0.0" y="-63.0" />
+      <point x="0.0" y="95.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="170.0" y="183.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>Project Files</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

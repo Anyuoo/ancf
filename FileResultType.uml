@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.anyu.common.result.type.FileResultType</OriginalElement>
+  <nodes>
+    <node x="0.0" y="153.0">com.anyu.common.result.type.FileResultType</node>
+    <node x="72.0" y="0.0">com.anyu.common.result.IResultType</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.anyu.common.result.type.FileResultType" target="com.anyu.common.result.IResultType">
+      <point x="0.0" y="-140.5" />
+      <point x="0.0" y="51.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="449.0" y="214.0" />
+  <SelectedNodes>
+    <node>com.anyu.common.result.IResultType</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>Project Files</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

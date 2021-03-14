@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.anyu.common.result.annotation.QueryResolver</OriginalElement>
+  <nodes>
+    <node x="65.66590909090908" y="252.0">org.springframework.stereotype.Component</node>
+    <node x="0.0" y="336.0">com.anyu.common.result.annotation.QueryResolver</node>
+    <node x="100.66874999999999" y="0.0">java.lang.annotation.Annotation</node>
+    <node x="185.0" y="336.0">com.anyu.common.result.annotation.MutationResolver</node>
+    <node x="170.72840909090908" y="168.0">java.lang.annotation.Target</node>
+    <node x="125.7125" y="84.0">java.lang.annotation.Retention</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.springframework.stereotype.Component" target="java.lang.annotation.Annotation">
+      <point x="-43.0" y="-17.0" />
+      <point x="87.16590909090908" y="227.0" />
+      <point x="92.66590909090908" y="227.0" />
+      <point x="92.66590909090908" y="64.0" />
+      <point x="142.06875" y="64.0" />
+      <point x="-27.599999999999994" y="17.0" />
+    </edge>
+    <edge source="com.anyu.common.result.annotation.MutationResolver" target="java.lang.annotation.Target">
+      <point x="-24.0" y="-17.0" />
+      <point x="257.0" y="316.0" />
+      <point x="261.29090909090905" y="316.0" />
+      <point x="261.29090909090905" y="227.0" />
+      <point x="255.72840909090908" y="227.0" />
+      <point x="34.0" y="17.0" />
+    </edge>
+    <edge source="com.anyu.common.result.annotation.QueryResolver" target="org.springframework.stereotype.Component">
+      <point x="20.625" y="-17.0" />
+      <point x="103.125" y="316.0" />
+      <point x="97.91590909090908" y="316.0" />
+      <point x="-32.25" y="17.0" />
+    </edge>
+    <edge source="java.lang.annotation.Target" target="java.lang.annotation.Retention">
+      <point x="-34.0" y="-17.0" />
+      <point x="187.72840909090908" y="148.0" />
+      <point x="190.2125" y="148.0" />
+      <point x="0.0" y="17.0" />
+    </edge>
+    <edge source="org.springframework.stereotype.Component" target="java.lang.annotation.Retention">
+      <point x="0.0" y="-17.0" />
+      <point x="130.16590909090908" y="227.0" />
+      <point x="122.17272727272724" y="227.0" />
+      <point x="122.17272727272724" y="148.0" />
+      <point x="164.4125" y="148.0" />
+      <point x="-25.80000000000001" y="17.0" />
+    </edge>
+    <edge source="java.lang.annotation.Target" target="java.lang.annotation.Annotation">
+      <point x="34.0" y="-17.0" />
+      <point x="255.72840909090908" y="148.0" />
+      <point x="265.2125" y="148.0" />
+      <point x="265.2125" y="64.0" />
+      <point x="197.26874999999998" y="64.0" />
+      <point x="27.599999999999994" y="17.0" />
+    </edge>
+    <edge source="java.lang.annotation.Retention" target="java.lang.annotation.Annotation">
+      <point x="0.0" y="-17.0" />
+      <point x="190.2125" y="64.0" />
+      <point x="169.66875" y="64.0" />
+      <point x="0.0" y="17.0" />
+    </edge>
+    <edge source="com.anyu.common.result.annotation.QueryResolver" target="java.lang.annotation.Target">
+      <point x="61.875" y="-17.0" />
+      <point x="144.375" y="316.0" />
+      <point x="231.8125" y="316.0" />
+      <point x="231.8125" y="227.0" />
+      <point x="221.72840909090908" y="227.0" />
+      <point x="0.0" y="17.0" />
+    </edge>
+    <edge source="java.lang.annotation.Retention" target="java.lang.annotation.Target">
+      <point x="25.80000000000001" y="17.0" />
+      <point x="216.01250000000002" y="148.0" />
+      <point x="221.72840909090908" y="148.0" />
+      <point x="0.0" y="-17.0" />
+    </edge>
+    <edge source="com.anyu.common.result.annotation.QueryResolver" target="java.lang.annotation.Retention">
+      <point x="-20.625" y="-17.0" />
+      <point x="61.875" y="316.0" />
+      <point x="30.52215909090907" y="316.0" />
+      <point x="30.52215909090907" y="138.0" />
+      <point x="138.6125" y="138.0" />
+      <point x="-51.599999999999994" y="17.0" />
+    </edge>
+    <edge source="com.anyu.common.result.annotation.MutationResolver" target="java.lang.annotation.Retention">
+      <point x="24.0" y="-17.0" />
+      <point x="305.0" y="316.0" />
+      <point x="293.3125" y="316.0" />
+      <point x="293.3125" y="138.0" />
+      <point x="241.81249999999997" y="138.0" />
+      <point x="51.599999999999966" y="17.0" />
+    </edge>
+    <edge source="com.anyu.common.result.annotation.MutationResolver" target="java.lang.annotation.Annotation">
+      <point x="72.0" y="-17.0" />
+      <point x="353.0" y="316.0" />
+      <point x="313.9352272727273" y="316.0" />
+      <point x="313.9352272727273" y="54.0" />
+      <point x="224.86874999999998" y="54.0" />
+      <point x="55.19999999999999" y="17.0" />
+    </edge>
+    <edge source="org.springframework.stereotype.Component" target="java.lang.annotation.Target">
+      <point x="43.0" y="-17.0" />
+      <point x="173.16590909090908" y="227.0" />
+      <point x="187.72840909090908" y="227.0" />
+      <point x="-34.0" y="17.0" />
+    </edge>
+    <edge source="com.anyu.common.result.annotation.MutationResolver" target="org.springframework.stereotype.Component">
+      <point x="-72.0" y="-17.0" />
+      <point x="209.0" y="306.0" />
+      <point x="162.41590909090908" y="306.0" />
+      <point x="32.25" y="17.0" />
+    </edge>
+    <edge source="com.anyu.common.result.annotation.QueryResolver" target="java.lang.annotation.Annotation">
+      <point x="-61.875" y="-17.0" />
+      <point x="20.625" y="316.0" />
+      <point x="19.52215909090907" y="316.0" />
+      <point x="19.52215909090907" y="54.0" />
+      <point x="114.46875" y="54.0" />
+      <point x="-55.19999999999999" y="17.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="188.5" y="185.0" />
+  <SelectedNodes>
+    <node>com.anyu.common.result.annotation.QueryResolver</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Properties</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+

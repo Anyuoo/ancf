@@ -79,7 +79,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public Role getCurrentUserRole() {
         if (getCurrentSubject() == null) {
-            return Role.VISITOR_ROLE;
+            return Role.VISITOR;
         }
         return getCurrentSubject().getRole();
     }

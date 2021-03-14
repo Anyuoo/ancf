@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.anyu.cacheservice.util.RedisKeyUtils</OriginalElement>
+  <nodes>
+    <node x="0.0" y="0.0">com.anyu.cacheservice.util.RedisKeyUtils</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="1.0" x="218.0" y="117.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Methods</Category>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>Project Files</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

@@ -20,7 +20,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -228,7 +227,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             Optional<User> userByEmail = getUserByEmail(principal);
             if (checkLogin(userByEmail, password)) {
                 final var user = userByEmail.get();
-                return authService.createJwt(user.getId().toString(), user.getNickname(), Role.USER_ROLE);
+                return authService.createJwt(user.getId().toString(), user.getNickname(), Role.ROLE);
             }
         }
         //mobil
@@ -238,14 +237,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             //verify login
             if (checkLogin(userByMobile, password)) {
                 final var user = userByMobile.get();
-                return authService.createJwt(user.getId().toString(), user.getNickname(), Role.USER_ROLE);
+                return authService.createJwt(user.getId().toString(), user.getNickname(), Role.ROLE);
             }
         }
         //account
         Optional<User> userByAccount = getUserByAccount(principal);
         if (checkLogin(userByAccount, password)) {
             final var user = userByAccount.get();
-            return authService.createJwt(user.getId().toString(), user.getNickname(), Role.USER_ROLE);
+            return authService.createJwt(user.getId().toString(), user.getNickname(), Role.ROLE);
         }
         return Optional.empty();
     }
