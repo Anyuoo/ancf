@@ -13,7 +13,7 @@
       <point x="0.0" y="51.5" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="449.0" y="214.0" />
+  <settings layout="Hierarchic Group" zoom="1.0" x="170.0" y="217.0" />
   <SelectedNodes>
     <node>com.anyu.common.result.IResultType</node>
   </SelectedNodes>
