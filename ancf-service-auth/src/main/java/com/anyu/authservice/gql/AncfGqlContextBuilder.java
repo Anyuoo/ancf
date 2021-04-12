@@ -50,7 +50,7 @@ public class AncfGqlContextBuilder implements GraphQLServletContextBuilder {
     public GraphQLContext build(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         //不存在就为null
         final var authSubject = getAuthSubject(httpServletRequest).orElse(null);
-        if (authSubject!= null) {
+        if (authSubject != null) {
             authService.saveCurrentSubject(authSubject);
             logger.debug("保存当前用户信息 ，userId:{},username{}", authSubject.getUserId(), authSubject.getNickname());
         }
@@ -66,7 +66,7 @@ public class AncfGqlContextBuilder implements GraphQLServletContextBuilder {
     public GraphQLContext build(Session session, HandshakeRequest handshakeRequest) {
         //不存在就为null
         final var authSubject = getAuthSubject(handshakeRequest).orElse(null);
-        if (authSubject!= null) {
+        if (authSubject != null) {
             authService.saveCurrentSubject(authSubject);
             logger.debug("保存当前用户信息 ，userId:{},username{}", authSubject.getUserId(), authSubject.getNickname());
         }

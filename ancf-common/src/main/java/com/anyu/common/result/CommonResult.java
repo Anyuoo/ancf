@@ -1,7 +1,5 @@
 package com.anyu.common.result;
 
-import com.anyu.common.result.type.SystemResultType;
-
 public class CommonResult {
     private Boolean success;
     private Integer code;
@@ -21,14 +19,13 @@ public class CommonResult {
     /**
      * 根据枚举结果得到同意返回对象
      */
-    public static CommonResult with(IResultType resultType,Object data) {
+    public static CommonResult with(IResultType resultType, Object data) {
         return new CommonResult(resultType.isSuccess(), resultType.getCode(), resultType.getMessage(), data);
     }
 
     public static CommonResult with(IResultType resultType) {
         return with(resultType, null);
     }
-
 
 
     public Boolean getSuccess() {

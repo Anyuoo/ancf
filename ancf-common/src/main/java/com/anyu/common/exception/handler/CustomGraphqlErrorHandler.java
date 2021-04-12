@@ -1,6 +1,5 @@
 package com.anyu.common.exception.handler;
 
-import com.anyu.common.exception.AnCFGraphQLError;
 import graphql.GraphQLError;
 import graphql.kickstart.execution.error.GenericGraphQLError;
 import graphql.kickstart.execution.error.GraphQLErrorHandler;

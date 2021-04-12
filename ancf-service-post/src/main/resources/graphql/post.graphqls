@@ -68,7 +68,7 @@ type PostVO {
     #帖子ID
     id:ID
     #用户ID
-     userId: ID
+    userId: ID
     #用户昵称
     nickname: String
     #帖子标题

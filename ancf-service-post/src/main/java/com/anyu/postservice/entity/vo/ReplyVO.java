@@ -14,6 +14,7 @@ public class ReplyVO {
     public static ReplyVO getInstance() {
         return new ReplyVO();
     }
+
     public Integer getId() {
         return id;
     }

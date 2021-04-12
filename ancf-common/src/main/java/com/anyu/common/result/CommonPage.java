@@ -7,7 +7,6 @@ import graphql.relay.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class CommonPage<T> {
@@ -33,10 +32,9 @@ public class CommonPage<T> {
         return StringUtils.isBlank(base64Id) ? null : Integer.parseInt(CommonUtils.base64DecodeWith(base64Id));
     }
 
-    public static <T> DefaultEdge<T> getDefaultEdge(T vo,Integer voId) {
+    public static <T> DefaultEdge<T> getDefaultEdge(T vo, Integer voId) {
         return new DefaultEdge<>(vo, CommonPage.createCursorWith(voId));
     }
-
 
 
     public static <T> CommonPage<T> build() {
@@ -60,7 +58,6 @@ public class CommonPage<T> {
                 edges.size() >= first);
         return new DefaultConnection<>(edges, pageInfo);
     }
-
 
 
     /**

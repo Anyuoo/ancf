@@ -1,7 +1,6 @@
 package com.anyu.postservice.resolver.query;
 
 
-import com.anyu.authservice.gql.AncfGqlHttpContext;
 import com.anyu.common.model.entity.Post;
 import com.anyu.common.result.CommonPage;
 import com.anyu.common.result.annotation.QueryResolver;
@@ -10,9 +9,7 @@ import com.anyu.postservice.entity.vo.PostVO;
 import com.anyu.postservice.service.PostService;
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import graphql.relay.Connection;
-import graphql.schema.DataFetchingEnvironment;
 import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Optional;
@@ -29,7 +26,6 @@ public class PostQueryResolver implements GraphQLQueryResolver {
 
     @Resource
     private PostService postService;
-
 
 
     public Optional<Post> getPost(@NonNull Integer id) {
@@ -53,7 +49,7 @@ public class PostQueryResolver implements GraphQLQueryResolver {
         var posts = postService.listPostVOAfter(first, CommonPage.decodeCursorWith(after), condition);
         return CommonPage.<PostVO>build()
                 .newConnection(first, after, () -> posts.stream()
-                        .map(postVo -> CommonPage.getDefaultEdge(postVo,postVo.getId()))
+                        .map(postVo -> CommonPage.getDefaultEdge(postVo, postVo.getId()))
                         .collect(Collectors.toUnmodifiableList()));
     }
 

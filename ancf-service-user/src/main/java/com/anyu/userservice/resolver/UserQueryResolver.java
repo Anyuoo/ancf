@@ -8,13 +8,8 @@ import com.anyu.userservice.entity.condition.UserPageCondition;
 import com.anyu.userservice.service.UserService;
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import graphql.relay.Connection;
-import graphql.relay.DefaultEdge;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -59,7 +54,7 @@ public class UserQueryResolver implements GraphQLQueryResolver {
         List<User> users = userService.listUserAfter(first, CommonPage.decodeCursorWith(after), condition);
         return CommonPage.<User>build()
                 .newConnection(first, after, () -> users.stream()
-                        .map(user -> CommonPage.getDefaultEdge(user,user.getId()))
+                        .map(user -> CommonPage.getDefaultEdge(user, user.getId()))
                         .limit(first)
                         .collect(Collectors.toUnmodifiableList()));
     }

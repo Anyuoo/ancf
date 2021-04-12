@@ -4,8 +4,6 @@ package com.anyu.authservice.jwt;
 import com.anyu.authservice.entity.enums.Role;
 import com.anyu.common.exception.GlobalException;
 import com.anyu.common.result.type.AuthResultType;
-import com.anyu.common.result.type.SystemResultType;
-import com.anyu.common.util.GlobalConstant;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -13,7 +11,6 @@ import io.jsonwebtoken.security.Keys;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;

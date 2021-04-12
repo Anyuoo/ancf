@@ -7,12 +7,11 @@ import com.anyu.common.result.IResultType;
  * code: 起始为 20000 终止为 20099
  */
 public enum SystemResultType implements IResultType {
-    SUCCESS(true,2000, "操作成功"),
-    FAILED(false,2001, "操作失败"),
-    SYS_ERROR(false,2003, "系统错误"),
-    UNKNOWN_ERROR(false,2004, "未知错误"),
-    PARAM_ERROR(false,2005, "参数错误");
-
+    SUCCESS(true, 2000, "操作成功"),
+    FAILED(false, 2001, "操作失败"),
+    SYS_ERROR(false, 2003, "系统错误"),
+    UNKNOWN_ERROR(false, 2004, "未知错误"),
+    PARAM_ERROR(false, 2005, "参数错误");
 
 
     private final Boolean success;

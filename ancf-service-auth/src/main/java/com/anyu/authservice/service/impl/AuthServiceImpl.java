@@ -15,11 +15,9 @@ import java.util.Optional;
 @Service
 public class AuthServiceImpl implements AuthService {
 
+    private final AuthInfoMemory authInfoMemory = new AuthInfoMemory();
     @Resource
     private JwtHelper jwtHelper;
-
-    private final AuthInfoMemory authInfoMemory = new AuthInfoMemory();
-    
 
     @Override
     public Optional<AuthSubject> getAuthSubjectWith(HttpServletRequest httpServletRequest) {
@@ -38,7 +36,7 @@ public class AuthServiceImpl implements AuthService {
         authSubject.setUserId(Integer.parseInt(userId.get()));
         authSubject.setNickname(username.get());
         authSubject.setRole(role.get());
-        return  Optional.of(authSubject);
+        return Optional.of(authSubject);
     }
 
     @Override
@@ -73,7 +71,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean hasCurrentUserPermission() {
-        return getCurrentSubject() != null ;
+        return getCurrentSubject() != null;
     }
 
     @Override
@@ -85,10 +83,11 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /**
-    *存储认证的信息的内存
-    * @author Anyu
-    * @since 2021/2/25 下午9:22
-    */
+     * 存储认证的信息的内存
+     *
+     * @author Anyu
+     * @since 2021/2/25 下午9:22
+     */
     static class AuthInfoMemory implements ILocalMemory {
         private static final ThreadLocal<AuthSubject> currentUser = new ThreadLocal<>();
 

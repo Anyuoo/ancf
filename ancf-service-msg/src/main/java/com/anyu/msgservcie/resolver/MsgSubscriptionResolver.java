@@ -7,7 +7,6 @@ import com.anyu.msgservcie.service.MessageService;
 import graphql.kickstart.tools.GraphQLSubscriptionResolver;
 import graphql.relay.Connection;
 import org.reactivestreams.Publisher;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;

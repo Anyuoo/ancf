@@ -1,7 +1,6 @@
 package com.anyu.postservice.service.impl;
 
 
-import com.anyu.cacheservice.service.CacheService;
 import com.anyu.common.model.entity.Post;
 import com.anyu.common.model.entity.User;
 import com.anyu.common.model.enums.PostType;
@@ -62,7 +61,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
      */
     @Override
     @Transactional
-    public boolean publishPost(@NonNull PostInput input,int publisherId) {
+    public boolean publishPost(@NonNull PostInput input, int publisherId) {
         //输入处理
         final var title = sensitiveFilter.filter(input.getTitle());
         input.setTitle(HtmlUtils.htmlEscape(title));
@@ -79,14 +78,15 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     }
 
     /**
-    *帖子转化vo对象
-    * @author Anyu
-    * @since 2021/2/5 下午2:22
-    */
+     * 帖子转化vo对象
+     *
+     * @author Anyu
+     * @since 2021/2/5 下午2:22
+     */
     @Override
     public PostVO convertPostToVO(@NotNull Post post) {
         final var publisher = userService.getUserById(post.getUserId()).orElse(new User());
-        return  PostVO.getInstance()
+        return PostVO.getInstance()
                 .setUserId(publisher.getId())
                 .setNickname(publisher.getNickname())
                 .setId(post.getId())

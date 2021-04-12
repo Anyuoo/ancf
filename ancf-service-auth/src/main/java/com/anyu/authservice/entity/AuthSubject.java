@@ -1,9 +1,8 @@
 package com.anyu.authservice.entity;
 
 import com.anyu.authservice.entity.enums.Role;
-import com.anyu.common.util.GlobalConstant;
 
-public class AuthSubject{
+public class AuthSubject {
     private Integer userId;
     private String account;
     private Role role;

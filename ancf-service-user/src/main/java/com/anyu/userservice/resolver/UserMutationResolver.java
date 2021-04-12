@@ -6,7 +6,6 @@ import com.anyu.authservice.annotation.UserRole;
 import com.anyu.authservice.gql.AncfGqlHttpContext;
 import com.anyu.authservice.service.AuthService;
 import com.anyu.common.result.CommonResult;
-import com.anyu.common.result.IResultType;
 import com.anyu.common.result.annotation.MutationResolver;
 import com.anyu.common.result.type.FileResultType;
 import com.anyu.common.result.type.UserResultType;
@@ -17,7 +16,6 @@ import graphql.schema.DataFetchingEnvironment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
@@ -98,7 +96,7 @@ public class UserMutationResolver implements GraphQLMutationResolver {
             return CommonResult.with(FileResultType.UPLOAD_ERROR);
         }
         final var url = ossService.uploadAvatar(avatar);
-        if (userService.updateAvatar(authService.getCurrentUserId(),url)) {
+        if (userService.updateAvatar(authService.getCurrentUserId(), url)) {
             logger.debug("filename: {}, size: {},url length {}", avatar.getName(), avatar.getSize(), url.length());
             return CommonResult.with(FileResultType.UPLOAD_SUCCESS, url);
         }

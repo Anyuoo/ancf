@@ -1,7 +1,5 @@
 package com.anyu.common.util;
 
-import com.anyu.common.model.IEnumsCode;
-
 /**
  * @author Anyu
  * @since 2021/1/28 下午3:04

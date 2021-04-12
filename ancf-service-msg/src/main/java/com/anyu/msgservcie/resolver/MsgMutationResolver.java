@@ -7,8 +7,6 @@ import com.anyu.common.result.type.MsgResultType;
 import com.anyu.msgservcie.entity.MessageInput;
 import com.anyu.msgservcie.service.MessageService;
 import graphql.kickstart.tools.GraphQLMutationResolver;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 

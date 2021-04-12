@@ -5,7 +5,6 @@ import com.anyu.authservice.service.AuthService;
 import com.anyu.common.model.entity.Comment;
 import com.anyu.common.model.entity.User;
 import com.anyu.common.model.enums.EntityType;
-import com.anyu.common.util.GlobalContext;
 import com.anyu.common.util.SensitiveFilter;
 import com.anyu.postservice.entity.input.CommentInput;
 import com.anyu.postservice.entity.vo.CommentVO;
@@ -43,7 +42,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     private AuthService authService;
 
     @Override
-    public boolean createComment(CommentInput input,int cmtUserId) {
+    public boolean createComment(CommentInput input, int cmtUserId) {
         //將评论类容进行编码处理
         final var content = sensitiveFilter.filter(input.getContent());
         input.setContent(HtmlUtils.htmlEscape(content));
@@ -56,10 +55,9 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Override
     public List<Comment> listCommentsByEntity(int first, Integer id, @NotNull EntityType entityType, @NotNull Integer entityId) {
         final var chainWrapper = this.lambdaQuery().eq(Comment::getEntityType, entityType)
-                .eq(Comment::getEntityId, entityId);
-        if (id != null) {
-            chainWrapper.ge(Comment::getId, id);
-        }
+                .eq(Comment::getEntityId, entityId)
+                .ge(id != null, Comment::getId, id);
+
         if (first < 1) first = PAGE_FIRST;
         return chainWrapper.orderByDesc(Comment::getCreateTime)
                 .last(PAGE_SQL_LIMIT + first)
@@ -82,17 +80,16 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
 
-
     private CommentVO convertCmtToCmtVo(@NotNull Comment comment) {
 
-       var user = userService.getUserById(comment.getUserId()).orElse(new User());
+        var user = userService.getUserById(comment.getUserId()).orElse(new User());
         return CommentVO.getInstance()
                 .setId(comment.getId())
                 .setUserId(user.getId())
                 .setNickname(user.getNickname())
                 .setContent(comment.getContent())
                 .setCmtLikeNum((int) likeService.countCommentLikeNum(comment.getId()))
-                .setCmtLikeStatus(likeService.getCmtLikeStatus(authService.getCurrentUserId(),comment.getId()));
+                .setCmtLikeStatus(likeService.getCmtLikeStatus(authService.getCurrentUserId(), comment.getId()));
     }
 
     private ReplyVO convertCmtToReplyVO(@NotNull Comment comment) {
@@ -103,7 +100,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 .setNickname(replier.getNickname())
                 .setContent(comment.getContent())
                 .setReplyLikeNum(likeService.countCommentLikeNum(comment.getId()))
-                .setReplyLikeStatus(likeService.getCmtLikeStatus(authService.getCurrentUserId(),comment.getId()))
+                .setReplyLikeStatus(likeService.getCmtLikeStatus(authService.getCurrentUserId(), comment.getId()))
                 .setTargetId(comment.getTargetId())
                 .setTargetNickname(replier.getNickname());
     }

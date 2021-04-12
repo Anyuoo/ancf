@@ -1,12 +1,6 @@
 package com.anyu.postservice.entity.vo;
 
 
-import com.anyu.common.model.entity.Comment;
-import com.anyu.common.model.entity.User;
-
-import java.util.List;
-
-
 public class CommentVO {
     private Integer id;
     private Integer userId;

@@ -30,9 +30,10 @@ public class PostVO {
     //帖子修改时间
     private LocalDateTime modifiedTime;
 
-     public static PostVO getInstance() {
+    public static PostVO getInstance() {
         return new PostVO();
     }
+
     public Integer getUserId() {
         return userId;
     }

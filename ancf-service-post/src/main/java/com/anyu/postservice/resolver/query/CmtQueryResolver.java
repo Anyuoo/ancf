@@ -7,10 +7,8 @@ import com.anyu.common.result.annotation.QueryResolver;
 import com.anyu.postservice.entity.vo.CommentVO;
 import com.anyu.postservice.entity.vo.ReplyVO;
 import com.anyu.postservice.service.CommentService;
-import graphql.GraphQLContext;
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import graphql.relay.Connection;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Optional;
@@ -34,7 +32,7 @@ public class CmtQueryResolver implements GraphQLQueryResolver {
         final var comments = commentService.listCommentVOsByPostId(first, CommonPage.decodeCursorWith(after), postId);
         return CommonPage.<CommentVO>build()
                 .newConnection(first, after, () -> comments.stream()
-                        .map(commentVO -> CommonPage.getDefaultEdge(commentVO,commentVO.getId()))
+                        .map(commentVO -> CommonPage.getDefaultEdge(commentVO, commentVO.getId()))
                         .collect(Collectors.toUnmodifiableList()));
     }
 
@@ -42,7 +40,7 @@ public class CmtQueryResolver implements GraphQLQueryResolver {
         final var replies = commentService.listReplyVOsByTargetId(first, CommonPage.decodeCursorWith(after), targetId);
         return CommonPage.<ReplyVO>build()
                 .newConnection(first, after, () -> replies.stream()
-                        .map(replyVO -> CommonPage.getDefaultEdge(replyVO,replyVO.getId()))
+                        .map(replyVO -> CommonPage.getDefaultEdge(replyVO, replyVO.getId()))
                         .collect(Collectors.toUnmodifiableList()));
     }
 

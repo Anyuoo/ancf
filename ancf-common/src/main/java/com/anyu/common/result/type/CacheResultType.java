@@ -1,12 +1,13 @@
 package com.anyu.common.result.type;
 
 /**
-*和缓存相关操作的结果
+ * 和缓存相关操作的结果
  * code: 起始为 20200 终止为 20299
  *
-* @author Anyu
-* @since 2021/1/29 上午11:20
-*/
+ * @author Anyu
+ * @since 2021/1/29 上午11:20
+ */
+
 import com.anyu.common.result.IResultType;
 
 /**

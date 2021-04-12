@@ -2,15 +2,13 @@ package com.anyu.common.result.aspect;
 
 import com.anyu.common.result.CommonResult;
 import com.anyu.common.result.IResultType;
-import com.anyu.common.result.annotation.MutationResolver;
 import com.anyu.common.result.type.SystemResultType;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -21,12 +19,13 @@ public class MutationResolverAdvise {
     private final static Logger logger = LoggerFactory.getLogger(MutationResolverAdvise.class);
 
     @Pointcut("@within(com.anyu.common.result.annotation.MutationResolver)")
-    public void required() {}
+    public void required() {
+    }
 
 
-    @AfterReturning(pointcut = "required()",returning = "result")
+    @AfterReturning(pointcut = "required()", returning = "result")
     public Object handle(JoinPoint joinPoint, Object result) {
-        logger.debug("ResultAdvisor classname: {},methodName: {}",joinPoint.getTarget().getClass().getName(),joinPoint.getSignature().getName());
+        logger.debug("ResultAdvisor classname: {},methodName: {}", joinPoint.getTarget().getClass().getName(), joinPoint.getSignature().getName());
         if (result instanceof IResultType) {
             return CommonResult.with((IResultType) result);
         }

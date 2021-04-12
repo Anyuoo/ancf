@@ -8,10 +8,8 @@ import com.anyu.msgservcie.service.MessageService;
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import graphql.relay.Connection;
 import graphql.relay.DefaultEdge;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.stream.Collectors;

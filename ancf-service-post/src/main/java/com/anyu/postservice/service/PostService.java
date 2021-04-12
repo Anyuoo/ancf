@@ -23,7 +23,7 @@ public interface PostService extends IService<Post>, GlobalConstant {
 
     Optional<Post> getPostById(Integer id);
 
-    boolean publishPost(@NonNull PostInput input,int publisherId);
+    boolean publishPost(@NonNull PostInput input, int publisherId);
 
     List<Post> listPostAfter(int first, Integer postId, PostPageCondition condition);
 

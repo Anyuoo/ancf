@@ -3,15 +3,15 @@ package com.anyu.common.result.type;
 import com.anyu.common.result.IResultType;
 
 /**
-*
  * 和消息相关操作的结果
  * code: 起始为 20500 终止为 20599
-* @author Anyu
-* @since 2021/1/29 上午11:38
-*/
+ *
+ * @author Anyu
+ * @since 2021/1/29 上午11:38
+ */
 public enum MsgResultType implements IResultType {
-    SEND_SUCCESS(true,20500,"消息发送成功"),
-    SEND_ERROR(false,20501,"消息发送失败"),
+    SEND_SUCCESS(true, 20500, "消息发送成功"),
+    SEND_ERROR(false, 20501, "消息发送失败"),
 
     ;
 

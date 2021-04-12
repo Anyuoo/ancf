@@ -3,7 +3,6 @@ package com.anyu.postservice.service.impl;
 import com.anyu.cacheservice.service.CacheService;
 import com.anyu.common.model.enums.EntityType;
 import com.anyu.postservice.service.LikeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -16,7 +15,7 @@ public class LikeServiceImpl implements LikeService {
 
     @Override
     public void doPostLike(Integer userId, Integer postId, Integer postOwnerId) {
-        cacheService.like(String.valueOf(userId),EntityType.POST,String.valueOf(postId),String.valueOf(postOwnerId));
+        cacheService.like(String.valueOf(userId), EntityType.POST, String.valueOf(postId), String.valueOf(postOwnerId));
     }
 
     @Override
@@ -26,14 +25,13 @@ public class LikeServiceImpl implements LikeService {
 
     @Override
     public long countPostLikeNum(Integer postId) {
-        return cacheService.countEntityLikeNum(EntityType.POST,String.valueOf(postId));
+        return cacheService.countEntityLikeNum(EntityType.POST, String.valueOf(postId));
     }
 
     @Override
     public long countCommentLikeNum(Integer cmtId) {
-        return cacheService.countEntityLikeNum(EntityType.COMMENT,String.valueOf(cmtId));
+        return cacheService.countEntityLikeNum(EntityType.COMMENT, String.valueOf(cmtId));
     }
-
 
 
     @Override
@@ -43,7 +41,7 @@ public class LikeServiceImpl implements LikeService {
 
     @Override
     public boolean getPostLikeStatus(Integer userId, Integer postId) {
-        return cacheService.getEntityLikeStatus(String.valueOf(userId),EntityType.POST,String.valueOf(postId));
+        return cacheService.getEntityLikeStatus(String.valueOf(userId), EntityType.POST, String.valueOf(postId));
     }
 
     @Override

@@ -9,8 +9,6 @@ import com.anyu.common.result.type.UserResultType;
 import com.anyu.postservice.entity.input.CommentInput;
 import com.anyu.postservice.service.CommentService;
 import graphql.kickstart.tools.GraphQLMutationResolver;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
@@ -21,11 +19,11 @@ public class CmtMutationResolver implements GraphQLMutationResolver {
     @Resource
     private AuthService authService;
 
-   public CommonResult createComment(CommentInput input) {
-       if (!authService.hasCurrentUserPermission()) {
-           return CommonResult.with(UserResultType.NOT_LOGIN);
-       }
-        if (commentService.createComment(input,authService.getCurrentUserId())) {
+    public CommonResult createComment(CommentInput input) {
+        if (!authService.hasCurrentUserPermission()) {
+            return CommonResult.with(UserResultType.NOT_LOGIN);
+        }
+        if (commentService.createComment(input, authService.getCurrentUserId())) {
             return CommonResult.with(PostResultType.COMMENT_SUCCESS);
         }
         return CommonResult.with(PostResultType.COMMENT_ERROR);
