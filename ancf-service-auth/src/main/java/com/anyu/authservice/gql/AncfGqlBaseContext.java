@@ -3,6 +3,7 @@ package com.anyu.authservice.gql;
 
 import com.anyu.authservice.entity.AuthSubject;
 import org.dataloader.DataLoaderRegistry;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -22,9 +23,10 @@ public class AncfGqlBaseContext implements AncfGqlContext {
         this.dataLoaderRegistry = dataLoaderRegistry;
     }
 
+    @NotNull
     @Override
-    public Optional<DataLoaderRegistry> getDataLoaderRegistry() {
-        return Optional.of(dataLoaderRegistry);
+    public DataLoaderRegistry getDataLoaderRegistry() {
+        return dataLoaderRegistry;
     }
 
     @Override

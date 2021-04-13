@@ -1,6 +1,8 @@
 package com.anyu.postservice.entity.condition;
 
+import com.anyu.common.model.entity.Post;
 import com.anyu.common.model.enums.PostType;
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 
 /**
  * 帖子查询条件
@@ -10,11 +12,17 @@ import com.anyu.common.model.enums.PostType;
  */
 public class PostPageCondition {
     private PostType type;
-    private int userId;
+    private Integer userId;
     private String title;
 
     public PostType getType() {
         return type;
+    }
+
+    public  LambdaQueryChainWrapper<Post> initWapper( LambdaQueryChainWrapper<Post> wrapper) {
+       return wrapper.eq(title != null, Post::getType, type)
+                .eq(userId != null, Post::getUserId, userId)
+                .eq(title != null, Post::getTitle, title);
     }
 
     public PostPageCondition setType(PostType type) {

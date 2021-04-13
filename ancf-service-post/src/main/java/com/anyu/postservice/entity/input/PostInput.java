@@ -1,6 +1,7 @@
 package com.anyu.postservice.entity.input;
 
 
+import com.anyu.common.model.entity.Post;
 import com.anyu.common.model.enums.PostType;
 
 public class PostInput {
@@ -12,8 +13,11 @@ public class PostInput {
     public PostInput() {
     }
 
-    public static PostInput build() {
-        return new PostInput();
+    public Post toEntity() {
+        return new Post()
+                .setTitle(title)
+                .setContent(content)
+                .setType(type);
     }
 
     public String getTitle() {

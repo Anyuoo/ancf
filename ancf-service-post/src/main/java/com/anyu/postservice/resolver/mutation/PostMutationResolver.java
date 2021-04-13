@@ -28,7 +28,7 @@ public class PostMutationResolver implements GraphQLMutationResolver {
 
     @UserRole
     public CommonResult publishPost(PostInput input) {
-        if (postService.publishPost(input, authService.getCurrentUserId())) {
+        if (postService.publishPost(input.toEntity(), authService.getCurrentUserId())) {
             return CommonResult.with(PostResultType.PULISH_SUCCESS);
         }
         return CommonResult.with(PostResultType.PUBLISH_ERROR);

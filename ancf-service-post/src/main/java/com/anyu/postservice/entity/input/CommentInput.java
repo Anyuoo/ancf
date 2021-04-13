@@ -1,7 +1,9 @@
 package com.anyu.postservice.entity.input;
 
 
+import com.anyu.common.model.entity.Comment;
 import com.anyu.common.model.enums.EntityType;
+import org.springframework.web.util.HtmlUtils;
 
 public class CommentInput {
     private String content;
@@ -13,8 +15,12 @@ public class CommentInput {
     }
 
 
-    public static CommentInput build() {
-        return new CommentInput();
+    public Comment toEntity() {
+        return new Comment()
+                .setContent(HtmlUtils.htmlEscape(content))
+                .setEntityId(entityId)
+                .setEntityType(entityType)
+                .setTargetId(targetId);
     }
 
 

@@ -42,24 +42,22 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     private AuthService authService;
 
     @Override
-    public boolean createComment(CommentInput input, int cmtUserId) {
+    public boolean createComment(Comment comment, int cmtUserId) {
         //將评论类容进行编码处理
-        final var content = sensitiveFilter.filter(input.getContent());
-        input.setContent(HtmlUtils.htmlEscape(content));
-        final var comment = Comment.build();
-        BeanUtils.copyProperties(input, comment);
-        comment.setUserId(cmtUserId);
-        return this.save(comment);
+        final var content = sensitiveFilter.filter(comment.getContent());
+        comment.setUserId(cmtUserId)
+                .setContent(content);
+        return save(comment);
     }
 
     @Override
     public List<Comment> listCommentsByEntity(int first, Integer id, @NotNull EntityType entityType, @NotNull Integer entityId) {
-        final var chainWrapper = this.lambdaQuery().eq(Comment::getEntityType, entityType)
+        if (first < 1)
+            first = PAGE_FIRST;
+        return lambdaQuery().eq(Comment::getEntityType, entityType)
                 .eq(Comment::getEntityId, entityId)
-                .ge(id != null, Comment::getId, id);
-
-        if (first < 1) first = PAGE_FIRST;
-        return chainWrapper.orderByDesc(Comment::getCreateTime)
+                .ge(id != null, Comment::getId, id)
+                .orderByDesc(Comment::getCreateTime)
                 .last(PAGE_SQL_LIMIT + first)
                 .list();
     }

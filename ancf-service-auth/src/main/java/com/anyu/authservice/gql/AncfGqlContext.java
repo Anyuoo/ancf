@@ -4,6 +4,7 @@ package com.anyu.authservice.gql;
 import com.anyu.authservice.entity.AuthSubject;
 import graphql.kickstart.execution.context.GraphQLContext;
 import org.dataloader.DataLoaderRegistry;
+import org.jetbrains.annotations.NotNull;
 
 import javax.security.auth.Subject;
 import java.util.Optional;
@@ -24,8 +25,9 @@ public interface AncfGqlContext extends GraphQLContext {
         return Optional.empty();
     }
 
+    @NotNull
     @Override
-    Optional<DataLoaderRegistry> getDataLoaderRegistry();
+    DataLoaderRegistry getDataLoaderRegistry();
 
     /**
      * @return 认证主体

@@ -23,7 +23,7 @@ public class CmtMutationResolver implements GraphQLMutationResolver {
         if (!authService.hasCurrentUserPermission()) {
             return CommonResult.with(UserResultType.NOT_LOGIN);
         }
-        if (commentService.createComment(input, authService.getCurrentUserId())) {
+        if (commentService.createComment(input.toEntity(), authService.getCurrentUserId())) {
             return CommonResult.with(PostResultType.COMMENT_SUCCESS);
         }
         return CommonResult.with(PostResultType.COMMENT_ERROR);

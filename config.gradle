@@ -5,14 +5,14 @@ ext {
             //mybatis-plus
             "mybatis_plus"            : 'com.baomidou:mybatis-plus-boot-starter:3.4.0',
             //graphql 相关依赖
-            "graphql"                 : 'com.graphql-java-kickstart:graphql-spring-boot-starter:8.0.0',
-            "graphql_webflux"         : "com.graphql-java-kickstart:graphql-kickstart-spring-boot-starter-webflux:8.0.0",
+            "graphql"                 : 'com.graphql-java-kickstart:graphql-spring-boot-starter:11.0.0',
+            "graphql_webflux"         : "com.graphql-java-kickstart:graphql-kickstart-spring-boot-starter-webflux:11.0.0",
             //  Altair tool
-            "graphql_altair"          : 'com.graphql-java-kickstart:altair-spring-boot-starter:8.0.0',
+            "graphql_altair"          : 'com.graphql-java-kickstart:altair-spring-boot-starter:11.0.0',
             // GraphiQL tool
-            "graphiql"                : 'com.graphql-java-kickstart:graphiql-spring-boot-starter:8.0.0',
+            "graphiql"                : 'com.graphql-java-kickstart:graphiql-spring-boot-starter:11.0.0',
             // Voyager tool
-            "graphql_voyager"         : 'com.graphql-java-kickstart:voyager-spring-boot-starter:8.0.0',
+            "graphql_voyager"         : 'com.graphql-java-kickstart:voyager-spring-boot-starter:11.0.0',
 
             "graphql_extended_scalars": 'com.graphql-java:graphql-java-extended-scalars:1.0',
 
