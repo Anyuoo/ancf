@@ -1,6 +1,6 @@
 package com.anyu.postservice.resolver;
 
-import com.anyu.postservice.entity.vo.PostVO;
+import com.anyu.postservice.model.vo.PostVO;
 import com.anyu.userservice.service.UserService;
 import graphql.kickstart.tools.GraphQLResolver;
 

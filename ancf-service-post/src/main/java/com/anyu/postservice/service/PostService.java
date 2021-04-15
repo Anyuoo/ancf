@@ -3,9 +3,8 @@ package com.anyu.postservice.service;
 
 import com.anyu.common.model.entity.Post;
 import com.anyu.common.util.GlobalConstant;
-import com.anyu.postservice.entity.condition.PostPageCondition;
-import com.anyu.postservice.entity.input.PostInput;
-import com.anyu.postservice.entity.vo.PostVO;
+import com.anyu.postservice.model.condition.PostPageCondition;
+import com.anyu.postservice.model.vo.PostVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;

@@ -1,7 +1,7 @@
 package com.anyu.authservice.gql;
 
 
-import com.anyu.authservice.entity.AuthSubject;
+import com.anyu.authservice.model.AuthSubject;
 import com.anyu.authservice.service.AuthService;
 import graphql.kickstart.execution.context.GraphQLContext;
 import graphql.kickstart.servlet.context.GraphQLServletContextBuilder;

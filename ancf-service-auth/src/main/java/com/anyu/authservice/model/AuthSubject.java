@@ -1,6 +1,6 @@
-package com.anyu.authservice.entity;
+package com.anyu.authservice.model;
 
-import com.anyu.authservice.entity.enums.Role;
+import com.anyu.authservice.model.enums.Role;
 
 public class AuthSubject {
     private Integer userId;

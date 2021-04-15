@@ -6,7 +6,7 @@ import com.anyu.authservice.service.AuthService;
 import com.anyu.common.result.CommonResult;
 import com.anyu.common.result.annotation.MutationResolver;
 import com.anyu.common.result.type.PostResultType;
-import com.anyu.postservice.entity.input.PostInput;
+import com.anyu.postservice.model.input.PostInput;
 import com.anyu.postservice.service.PostService;
 import graphql.kickstart.tools.GraphQLMutationResolver;
 

@@ -1,4 +1,4 @@
-package com.anyu.authservice.entity.enums;
+package com.anyu.authservice.model.enums;
 
 
 import com.anyu.common.model.IEnumsCode;

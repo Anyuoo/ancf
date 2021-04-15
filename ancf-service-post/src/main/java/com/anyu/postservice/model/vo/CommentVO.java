@@ -1,4 +1,4 @@
-package com.anyu.postservice.entity.vo;
+package com.anyu.postservice.model.vo;
 
 
 public class CommentVO {

@@ -1,4 +1,4 @@
-package com.anyu.postservice.entity.vo;
+package com.anyu.postservice.model.vo;
 
 
 import com.anyu.common.model.enums.PostType;

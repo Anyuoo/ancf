@@ -1,4 +1,4 @@
-package com.anyu.userservice.entity.condition;
+package com.anyu.userservice.model.condition;
 
 
 import com.anyu.common.model.entity.User;

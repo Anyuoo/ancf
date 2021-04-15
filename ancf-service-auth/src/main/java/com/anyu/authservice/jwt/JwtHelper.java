@@ -1,7 +1,7 @@
 package com.anyu.authservice.jwt;
 
 
-import com.anyu.authservice.entity.enums.Role;
+import com.anyu.authservice.model.enums.Role;
 import com.anyu.common.exception.GlobalException;
 import com.anyu.common.result.type.AuthResultType;
 import io.jsonwebtoken.Claims;

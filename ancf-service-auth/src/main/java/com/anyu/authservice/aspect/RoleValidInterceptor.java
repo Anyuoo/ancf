@@ -2,7 +2,7 @@ package com.anyu.authservice.aspect;
 
 import com.anyu.authservice.annotation.AdminRole;
 import com.anyu.authservice.annotation.UserRole;
-import com.anyu.authservice.entity.enums.Role;
+import com.anyu.authservice.model.enums.Role;
 import com.anyu.authservice.service.AuthService;
 import com.anyu.common.result.CommonResult;
 import com.anyu.common.result.type.AuthResultType;

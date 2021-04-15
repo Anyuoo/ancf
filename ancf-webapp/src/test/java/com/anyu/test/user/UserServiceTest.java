@@ -2,7 +2,7 @@ package com.anyu.test.user;
 
 
 import com.anyu.test.BaseTest;
-import com.anyu.userservice.entity.input.UserInput;
+import com.anyu.userservice.model.input.UserInput;
 import com.anyu.userservice.service.UserService;
 import org.junit.After;
 import org.junit.Before;

@@ -1,7 +1,7 @@
 package com.anyu.authservice.service;
 
-import com.anyu.authservice.entity.AuthSubject;
-import com.anyu.authservice.entity.enums.Role;
+import com.anyu.authservice.model.AuthSubject;
+import com.anyu.authservice.model.enums.Role;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.HandshakeRequest;

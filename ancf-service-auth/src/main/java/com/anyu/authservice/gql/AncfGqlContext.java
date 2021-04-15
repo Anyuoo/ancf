@@ -1,7 +1,7 @@
 package com.anyu.authservice.gql;
 
 
-import com.anyu.authservice.entity.AuthSubject;
+import com.anyu.authservice.model.AuthSubject;
 import graphql.kickstart.execution.context.GraphQLContext;
 import org.dataloader.DataLoaderRegistry;
 import org.jetbrains.annotations.NotNull;

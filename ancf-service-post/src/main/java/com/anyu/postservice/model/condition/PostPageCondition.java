@@ -1,4 +1,4 @@
-package com.anyu.postservice.entity.condition;
+package com.anyu.postservice.model.condition;
 
 import com.anyu.common.model.entity.Post;
 import com.anyu.common.model.enums.PostType;

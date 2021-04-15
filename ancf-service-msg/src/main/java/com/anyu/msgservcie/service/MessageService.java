@@ -2,7 +2,7 @@ package com.anyu.msgservcie.service;
 
 
 import com.anyu.common.model.entity.Message;
-import com.anyu.msgservcie.entity.MessageInput;
+import com.anyu.msgservcie.model.MessageInput;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.lang.Nullable;
 

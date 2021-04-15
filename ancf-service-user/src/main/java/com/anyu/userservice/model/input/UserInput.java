@@ -1,4 +1,4 @@
-package com.anyu.userservice.entity.input;
+package com.anyu.userservice.model.input;
 
 
 import com.anyu.common.model.enums.Gender;

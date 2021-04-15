@@ -1,7 +1,7 @@
 package com.anyu.userservice.service.impl;
 
 
-import com.anyu.authservice.entity.enums.Role;
+import com.anyu.authservice.model.enums.Role;
 import com.anyu.authservice.service.AuthService;
 import com.anyu.cacheservice.service.CacheService;
 import com.anyu.common.exception.GlobalException;
@@ -10,8 +10,8 @@ import com.anyu.common.model.enums.ActiveStatus;
 import com.anyu.common.result.type.UserResultType;
 import com.anyu.common.util.CommonUtils;
 import com.anyu.common.util.MailClient;
-import com.anyu.userservice.entity.condition.UserPageCondition;
-import com.anyu.userservice.entity.input.UserInput;
+import com.anyu.userservice.model.condition.UserPageCondition;
+import com.anyu.userservice.model.input.UserInput;
 import com.anyu.userservice.mapper.UserMapper;
 import com.anyu.userservice.service.UserService;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;

@@ -1,4 +1,4 @@
-package com.anyu.msgservcie.entity;
+package com.anyu.msgservcie.model;
 
 public class MessageInput {
     /**

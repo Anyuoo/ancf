@@ -1,4 +1,4 @@
-package com.anyu.postservice.entity.input;
+package com.anyu.postservice.model.input;
 
 
 import com.anyu.common.model.entity.Post;

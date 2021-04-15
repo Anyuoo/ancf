@@ -1,6 +1,6 @@
 package com.anyu.authservice.gql;
 
-import com.anyu.authservice.entity.AuthSubject;
+import com.anyu.authservice.model.AuthSubject;
 import graphql.kickstart.servlet.context.GraphQLWebSocketContext;
 import org.dataloader.DataLoaderRegistry;
 import org.slf4j.Logger;

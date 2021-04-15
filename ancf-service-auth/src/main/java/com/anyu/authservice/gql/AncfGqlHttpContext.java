@@ -1,6 +1,6 @@
 package com.anyu.authservice.gql;
 
-import com.anyu.authservice.entity.AuthSubject;
+import com.anyu.authservice.model.AuthSubject;
 import com.anyu.common.exception.GlobalException;
 import com.anyu.common.result.type.FileResultType;
 import graphql.kickstart.servlet.context.GraphQLServletContext;

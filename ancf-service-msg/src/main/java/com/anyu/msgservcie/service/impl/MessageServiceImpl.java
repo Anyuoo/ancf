@@ -5,7 +5,7 @@ import com.anyu.common.model.entity.Message;
 import com.anyu.common.util.CommonUtils;
 import com.anyu.common.util.GlobalConstant;
 import com.anyu.common.util.SensitiveFilter;
-import com.anyu.msgservcie.entity.MessageInput;
+import com.anyu.msgservcie.model.MessageInput;
 import com.anyu.msgservcie.mapper.MessageMapper;
 import com.anyu.msgservcie.service.MessageService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

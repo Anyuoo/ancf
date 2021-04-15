@@ -9,7 +9,7 @@ import com.anyu.common.result.CommonResult;
 import com.anyu.common.result.annotation.MutationResolver;
 import com.anyu.common.result.type.FileResultType;
 import com.anyu.common.result.type.UserResultType;
-import com.anyu.userservice.entity.input.UserInput;
+import com.anyu.userservice.model.input.UserInput;
 import com.anyu.userservice.service.UserService;
 import graphql.kickstart.tools.GraphQLMutationResolver;
 import graphql.schema.DataFetchingEnvironment;

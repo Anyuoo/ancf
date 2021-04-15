@@ -4,9 +4,8 @@ package com.anyu.postservice.service;
 import com.anyu.common.model.entity.Comment;
 import com.anyu.common.model.enums.EntityType;
 import com.anyu.common.util.GlobalConstant;
-import com.anyu.postservice.entity.input.CommentInput;
-import com.anyu.postservice.entity.vo.CommentVO;
-import com.anyu.postservice.entity.vo.ReplyVO;
+import com.anyu.postservice.model.vo.CommentVO;
+import com.anyu.postservice.model.vo.ReplyVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.lang.Nullable;
 
