@@ -191,16 +191,18 @@ public class User implements Serializable {
         return password;
     }
 
-    public void setPassword(String password) {
+    public User setPassword(String password) {
         this.password = password;
+        return this;
     }
 
     public String getSalt() {
         return salt;
     }
 
-    public void setSalt(String salt) {
+    public User setSalt(String salt) {
         this.salt = salt;
+        return this;
     }
 
     public ActiveStatus getActivation() {

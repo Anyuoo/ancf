@@ -14,7 +14,6 @@ import com.anyu.userservice.model.condition.UserPageCondition;
 import com.anyu.userservice.model.input.UserInput;
 import com.anyu.userservice.mapper.UserMapper;
 import com.anyu.userservice.service.UserService;
-import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -35,6 +34,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * (User)表服务实现类
@@ -56,35 +56,31 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public Optional<User> getUserById(int id) {
-        var user = this.lambdaQuery().eq(User::getId, id).one();
-        return Optional.ofNullable(user);
+        return lambdaQuery().eq(User::getId, id).oneOpt();
     }
 
     /**
      * 用户注册 邮箱或手机号
      * {@link #sendActivationEmail(String)} 邮箱发送激活信息
-     * {@link #verifyUserInput(UserInput)} 验证用户输入，清理过期用户
+     * {@link #verifyUserInput(User)} 验证用户输入，清理过期用户
      *
-     * @param input 注册参数
+     * @param user 注册参数
      * @return 结果
      */
     @Override
-    @Transactional(isolation = Isolation.READ_UNCOMMITTED, propagation = Propagation.REQUIRED)
-    public boolean register(UserInput input) {
-        verifyUserInput(input);
-        final var user = User.build();
-        BeanUtils.copyProperties(input, user);
+    public boolean register(User user) {
+        verifyUserInput(user);
         //密码加密,加盐加密
         final var salt = CommonUtils.randomString().substring(0, 5);
         final var password = CommonUtils.md5(user.getPassword() + salt);
 
-        user.setSalt(salt);
-        user.setPassword(password);
-        user.setActivation(ActiveStatus.UNACTIVED);
+        user.setSalt(salt)
+                .setPassword(password)
+                .setActivation(ActiveStatus.UNACTIVED);
         if (user.getAge() == null) {
             user.setAge(0);
         }
-        if (!this.save(user)) {
+        if (!save(user)) {
             log.info("UserServiceImpl: register[saveUser:{},注册失败]", user.getEmail());
             //注册失败！
             throw GlobalException.causeBy(UserResultType.REGISTER_ERROR);
@@ -101,20 +97,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
 
     @Override
-    public boolean updateUserById(@NonNull Integer id, UserInput input) {
-        verifyUserInput(input);
+    public boolean updateUserById(@NonNull Integer id, User user) {
+        verifyUserInput(user);
         final var original = this.getById(id);
         if (original == null) {
             //该用户不存在
             throw GlobalException.causeBy(UserResultType.NOT_EXIST);
         }
-        BeanUtils.copyProperties(input, original);
+        BeanUtils.copyProperties(user, original);
         return this.updateById(original);
     }
 
     /**
      * 分页查询
-     * {@link UserPageCondition#initWrapperByCondition(LambdaQueryChainWrapper, UserPageCondition)} 初始化
+     * {@link UserPageCondition# initWrapperByCondition(LambdaQueryChainWrapper, UserPageCondition)} 初始化
      *
      * @param first     数量
      * @param id        起始id
@@ -123,30 +119,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public List<User> listUserAfter(int first, Integer id, UserPageCondition condition) {
-        final var chainWrapper = this.lambdaQuery();
-        if (id != null) chainWrapper.ge(User::getId, id);
-        UserPageCondition.initWrapperByCondition(chainWrapper, condition);
-        if (first == 0) first = PAGE_FIRST;
-        chainWrapper.last(PAGE_SQL_LIMIT + first);
-        return chainWrapper.list();
+        if (first == 0)
+            first = PAGE_FIRST;
+        return condition.initWrapperByCondition(lambdaQuery())
+                .ge(id != null,User::getId, id)
+                .last(PAGE_SQL_LIMIT + first)
+                .list();
     }
 
     @Override
     public Optional<User> getUserByAccount(@NotBlank String account) {
-        final var user = this.lambdaQuery().eq(User::getAccount, account).one();
-        return Optional.ofNullable(user);
+        return lambdaQuery().eq(User::getAccount, account).oneOpt();
     }
 
     @Override
     public Optional<User> getUserByEmail(@NotBlank String email) {
-        final var user = this.lambdaQuery().eq(User::getEmail, email).one();
-        return Optional.ofNullable(user);
+        return lambdaQuery().eq(User::getEmail, email).oneOpt();
     }
 
     @Override
     public Optional<User> getUserByMobile(@NotBlank String mobile) {
-        final var user = this.lambdaQuery().eq(User::getMobile, mobile).one();
-        return Optional.ofNullable(user);
+        return lambdaQuery().eq(User::getMobile, mobile).oneOpt();
     }
 
     @Override
@@ -165,27 +158,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public boolean activateUser(@NotBlank String activationKey, @NotBlank String activationCode, boolean isEmail) {
-        Optional<String> code = cacheService.getActivationCode(isEmail, activationKey);
         //缓存不存在
-        if (code.isEmpty()) return false;
-        //activationKey does not equal original activationKey
-        if (!StringUtils.equals(code.get(), activationCode.trim())) {
+        var code = cacheService.getActivationCode(isEmail, activationKey).orElseThrow();
+        if (!StringUtils.equals(code, activationCode.trim())) {
             return false;
         }
-        if (isEmail) {
-            Optional<User> userByEmail = getUserByEmail(activationKey);
-            if (userByEmail.isPresent() && doActivate(userByEmail.get())) {
-                log.info("activateUser[email:{}激活成功]", activationKey);
-                return true;
-            }
-        } else {
-            Optional<User> userByMobile = getUserByMobile(activationKey);
-            if (userByMobile.isPresent() && doActivate(userByMobile.get())) {
-                log.info("activateUser[mobile:{}激活成功]", activationKey);
-                return true;
-            }
-        }
-        return false;
+        return isEmail
+                ? getUserByEmail(activationKey).map(this::doActivate).orElse(false)
+                : getUserByMobile(activationKey).map(this::doActivate).orElse(false);
     }
 
     /**
@@ -194,7 +174,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @param user 用户
      * @return 结果
      */
-    @Transactional
     public boolean doActivate(User user) {
         user.setActivation(ActiveStatus.ACTIVED);
         return this.updateById(user);
@@ -202,13 +181,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public boolean updateAvatar(int userId, String url) {
-        final var original = getUserById(userId);
-        if (original.isEmpty()) {
-            return false;
-        }
-        final var user = original.get();
-        user.setAvatar(url);
-        return updateById(user);
+        var success = new AtomicReference<>(false);
+        getUserById(userId).ifPresent(user -> {
+            user.setAvatar(url);
+            success.set(updateById(user));
+        });
+        return success.get();
     }
 
     /**
@@ -220,33 +198,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public Optional<String> login(@NotBlank String principal, @NotBlank String password) {
-        principal = principal.trim();
-        password = password.trim();
         //邮箱
         if (StringUtils.containsAny(principal, "@")) {
-            Optional<User> userByEmail = getUserByEmail(principal);
-            if (checkLogin(userByEmail, password)) {
-                final var user = userByEmail.get();
-                return authService.createJwt(user.getId().toString(), user.getNickname(), Role.ROLE);
-            }
+            return getUserByEmail(principal).flatMap(user -> checkLogin(user, password)
+                    ? authService.createJwt(user.getId().toString(), user.getNickname(), Role.USER)
+                    : Optional.empty());
         }
         //mobil
         //TODO verify
         if (principal.length() == 11) {
-            Optional<User> userByMobile = getUserByMobile(principal);
-            //verify login
-            if (checkLogin(userByMobile, password)) {
-                final var user = userByMobile.get();
-                return authService.createJwt(user.getId().toString(), user.getNickname(), Role.ROLE);
-            }
+            return getUserByMobile(principal).flatMap(user -> checkLogin(user, password)
+                    ? authService.createJwt(user.getId().toString(), user.getNickname(), Role.USER)
+                    : Optional.empty());
         }
         //account
-        Optional<User> userByAccount = getUserByAccount(principal);
-        if (checkLogin(userByAccount, password)) {
-            final var user = userByAccount.get();
-            return authService.createJwt(user.getId().toString(), user.getNickname(), Role.ROLE);
-        }
-        return Optional.empty();
+        return getUserByAccount(principal).flatMap(user -> checkLogin(user, password)
+                ? authService.createJwt(user.getId().toString(), user.getNickname(), Role.USER)
+                : Optional.empty());
     }
 
     /**
@@ -254,21 +222,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @param password input password
      * @return login result
      */
-    private boolean checkLogin(Optional<User> user, String password) {
-        if (user.isPresent()) {
-            final var original = user.get();
-            if (original.getActivation() == ActiveStatus.UNACTIVED) {
-                throw GlobalException.causeBy(UserResultType.NOT_ACTIVE);
-            }
-            final var salt = original.getSalt();
-            password = CommonUtils.md5(password + salt);
-            if (StringUtils.equals(password, original.getPassword())) {
-                return true;
-            }
-            //密码错误
-            throw GlobalException.causeBy(UserResultType.PASSWORD_ERROR);
+    private boolean checkLogin(User user, String password) {
+        if (user ==null)
+            return false;
+        //not active
+        if (user.getActivation() == ActiveStatus.UNACTIVED) {
+            throw GlobalException.causeBy(UserResultType.NOT_ACTIVE);
         }
-        return false;
+        var hashPassword = CommonUtils.md5(password + user.getSalt());
+        if (StringUtils.equals(hashPassword, user.getPassword())) {
+            return true;
+        }
+        //密码错误
+        throw GlobalException.causeBy(UserResultType.PASSWORD_ERROR);
     }
 
 
@@ -277,30 +243,30 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * {@link #verifyAndCleanUserWith(String, boolean)} 验证并清理过期邮箱或手机号
      * {@link #verifyAndCleanUserWith(String)} 验证并清理过期账号
      *
-     * @param input 输入参数
+     * @param user 输入参数
      */
-    private void verifyUserInput(UserInput input) {
+    private void verifyUserInput(User user) {
         //验证邮箱
-        if (StringUtils.isNotBlank(input.getEmail())) {
-            input.setEmail(input.getEmail().trim());
-            if (verifyAndCleanUserWith(input.getEmail(), true)) {
-                log.debug("register[email:{} 已经存在]", input.getEmail());
+        if (StringUtils.isNotBlank(user.getEmail())) {
+            user.setEmail(user.getEmail().trim());
+            if (verifyAndCleanUserWith(user.getEmail(), true)) {
+                log.debug("register[email:{} 已经存在]", user.getEmail());
                 throw GlobalException.causeBy(UserResultType.EMAIL_EXISTED);
             }
         }
         //验证手机号
-        if (StringUtils.isNotBlank(input.getMobile())) {
-            input.setMobile(input.getMobile());
-            if (verifyAndCleanUserWith(input.getMobile(), false)) {
-                log.debug("register[mobile:{} 已经存在]", input.getMobile());
+        if (StringUtils.isNotBlank(user.getMobile())) {
+            user.setMobile(user.getMobile());
+            if (verifyAndCleanUserWith(user.getMobile(), false)) {
+                log.debug("register[mobile:{} 已经存在]", user.getMobile());
                 throw GlobalException.causeBy(UserResultType.MOBILE_EXISTED);
             }
         }
         //验证账号
-        if (StringUtils.isNotBlank(input.getAccount())) {
-            input.setAccount(input.getAccount().trim());
-            if (verifyAndCleanUserWith(input.getAccount())) {
-                log.debug("register[account:{} 已被注冊]", input.getAccount());
+        if (StringUtils.isNotBlank(user.getAccount())) {
+            user.setAccount(user.getAccount().trim());
+            if (verifyAndCleanUserWith(user.getAccount())) {
+                log.debug("register[account:{} 已被注冊]", user.getAccount());
                 throw GlobalException.causeBy(UserResultType.ACCOUNT_EXISTED);
             }
         }
@@ -315,29 +281,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private boolean verifyAndCleanUserWith(@NotBlank String emailOrMobile, boolean isEmail) {
         //获取缓存key
         Optional<String> code = cacheService.getActivationCode(isEmail, emailOrMobile);
-        //缓存为空，先将激活码失效的邮箱或手机号账户注销
-        if (code.isEmpty()) {
-            var chainWrapper = lambdaQuery();
-            if (isEmail) {
-                chainWrapper.eq(User::getEmail, emailOrMobile);
-            } else {
-                chainWrapper.eq(User::getMobile, emailOrMobile);
-            }
-            var users = chainWrapper.list();
-            users.forEach(user -> {
-                if (user.getActivation() == ActiveStatus.UNACTIVED) {
-                    this.removeById(user.getId());
-                }
-            });
-        }
         //缓存中有该手机号或邮箱
         if (code.isPresent()) return true;
+        //缓存为空，先将激活码失效的邮箱或手机号账户注销
+        lambdaQuery()
+                .eq(isEmail, User::getEmail, emailOrMobile)
+                .eq(!isEmail, User::getMobile, emailOrMobile)
+                .list()
+                .forEach(user -> {
+                    if (user.getActivation() == ActiveStatus.UNACTIVED) {
+                        this.removeById(user.getId());
+                    }
+                });
+
         //已注册并激活的用户
-        if (isEmail) {
-            return getUserByEmail(emailOrMobile).isPresent();
-        } else {
-            return getUserByMobile(emailOrMobile).isPresent();
-        }
+        return isEmail
+                ? getUserByEmail(emailOrMobile).isPresent()
+                : getUserByMobile(emailOrMobile).isPresent();
+
     }
 
     /**
@@ -347,18 +308,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return 是否存在
      */
     private boolean verifyAndCleanUserWith(@NotBlank String account) {
-        final var users = this.lambdaQuery().eq(User::getAccount, account).list();
-        users.forEach(user -> {
-            //未激活的账户
-            if (user.getActivation() == ActiveStatus.UNACTIVED) {
-                if (StringUtils.isNotBlank(user.getEmail())) {
-                    verifyAndCleanUserWith(user.getEmail(), true);
-                }
-                if (StringUtils.isNotBlank(user.getMobile())) {
-                    verifyAndCleanUserWith(user.getMobile(), false);
-                }
-            }
-        });
+        lambdaQuery()
+                .eq(User::getAccount, account)
+                .list()
+                .forEach(user -> {
+                    //未激活的账户
+                    if (user.getActivation() == ActiveStatus.UNACTIVED) {
+                        if (StringUtils.isNotBlank(user.getEmail())) {
+                            verifyAndCleanUserWith(user.getEmail(), true);
+                        }
+                        if (StringUtils.isNotBlank(user.getMobile())) {
+                            verifyAndCleanUserWith(user.getMobile(), false);
+                        }
+                    }
+                });
         return getUserByAccount(account).isPresent();
     }
 

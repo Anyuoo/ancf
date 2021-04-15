@@ -4,7 +4,7 @@ package com.anyu.authservice.model.enums;
 import com.anyu.common.model.IEnumsCode;
 
 public enum Role implements IEnumsCode {
-    ROLE(0, "用户角色"),
+    USER(0, "用户角色"),
     ADMIN(1, "管理员角色"),
     VISITOR(2, "游客角色"),
     ;

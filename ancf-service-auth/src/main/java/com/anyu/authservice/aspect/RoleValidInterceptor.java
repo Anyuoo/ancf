@@ -48,7 +48,7 @@ public class RoleValidInterceptor {
         var userRole = method.getAnnotation(UserRole.class);
         if (userRole != null) {
             //current user doesn't have user role or admin role, the target method isn't allowed to process
-            if (Role.ROLE != currentUserRole && Role.ADMIN != currentUserRole) {
+            if (Role.USER != currentUserRole && Role.ADMIN != currentUserRole) {
                 return CommonResult.with(AuthResultType.NOT_PERMISSION);
             }
         }

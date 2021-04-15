@@ -42,7 +42,7 @@ public class UserServiceTest extends BaseTest {
                 .setBirthday(LocalDateTime.now())
 //                .setGender(Gender.MALE)
                 .setRealName("anyu");
-        boolean register = userService.register(input);
+        boolean register = userService.register(input.toEntity());
         System.out.println(register);
     }
 }

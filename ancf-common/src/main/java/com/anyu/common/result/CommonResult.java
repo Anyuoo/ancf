@@ -1,5 +1,13 @@
 package com.anyu.common.result;
 
+import com.anyu.common.result.type.ResultType;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.function.Supplier;
+
+@Getter
+@Setter
 public class CommonResult {
     private Boolean success;
     private Integer code;
@@ -27,37 +35,10 @@ public class CommonResult {
         return with(resultType, null);
     }
 
-
-    public Boolean getSuccess() {
-        return success;
+    public static CommonResult supplyByBool(boolean success) {
+        return success
+                ? with(ResultType.SUCCESS)
+                : with(ResultType.FAILED);
     }
 
-    public void setSuccess(Boolean success) {
-        this.success = success;
-    }
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Object getData() {
-        return data;
-    }
-
-    public CommonResult setData(Object data) {
-        this.data = data;
-        return this;
-    }
 }

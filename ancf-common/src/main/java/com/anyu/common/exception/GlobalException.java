@@ -1,7 +1,7 @@
 package com.anyu.common.exception;
 
 import com.anyu.common.result.IResultType;
-import com.anyu.common.result.type.SystemResultType;
+import com.anyu.common.result.type.ResultType;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -22,7 +22,7 @@ public class GlobalException extends RuntimeException {
     }
 
     /**
-     * 通过{@link SystemResultType}构建异常
+     * 通过{@link ResultType}构建异常
      *
      * @param resultType 结果枚举类
      */

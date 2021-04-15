@@ -42,10 +42,7 @@ public class UserMutationResolver implements GraphQLMutationResolver {
      * @return 结果
      */
     public CommonResult register(@NotNull UserInput input) {
-        if (userService.register(input)) {
-            return CommonResult.with(UserResultType.REGISTER_SUCCESS);
-        }
-        return CommonResult.with(UserResultType.REGISTER_ERROR);
+        return CommonResult.supplyByBool(userService.register(input.toEntity()));
     }
 
 
@@ -58,18 +55,12 @@ public class UserMutationResolver implements GraphQLMutationResolver {
     @UserRole
     public CommonResult activateUser(@NotBlank String activationKey,
                                      @NotBlank String activationCode, boolean isEmail) {
-        if (userService.activateUser(activationKey, activationCode, isEmail)) {
-            return CommonResult.with(UserResultType.ACTIVE_SUCCESS);
-        }
-        return CommonResult.with(UserResultType.ACTIVE_ERROR);
+        return CommonResult.supplyByBool(userService.activateUser(activationKey, activationCode, isEmail));
     }
 
     @UserRole
     public CommonResult removeUser(@NonNull Integer id) {
-        if (userService.removeUserById(id)) {
-            return CommonResult.with(UserResultType.REMOVE_SUCCESS);
-        }
-        return CommonResult.with(UserResultType.REMOVE_ERROR);
+        return CommonResult.supplyByBool(userService.removeUserById(id));
 
     }
 
@@ -78,7 +69,7 @@ public class UserMutationResolver implements GraphQLMutationResolver {
         if (!authService.hasCurrentUserPermission()) {
             return CommonResult.with(UserResultType.NOT_LOGIN);
         }
-        if (userService.updateUserById(authService.getCurrentUserId(), input)) {
+        if (userService.updateUserById(authService.getCurrentUserId(), input.toEntity())) {
             return CommonResult.with(UserResultType.UPDATE_INFO_SUCCESS);
         }
         return CommonResult.with(UserResultType.UPDATE_INFO_ERROR);

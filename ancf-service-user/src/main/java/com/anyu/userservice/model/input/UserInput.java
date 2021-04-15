@@ -1,6 +1,7 @@
 package com.anyu.userservice.model.input;
 
 
+import com.anyu.common.model.entity.User;
 import com.anyu.common.model.enums.Gender;
 
 import java.time.LocalDateTime;
@@ -48,8 +49,19 @@ public class UserInput {
     public UserInput() {
     }
 
-    public static UserInput build() {
-        return new UserInput();
+    public User toEntity() {
+        return new User()
+                .setAccount(account)
+                .setNickname(nickname)
+                .setAge(age)
+                .setBirthday(birthday)
+                .setGender(gender)
+                .setRealName(realName)
+                .setAvatar(avatar)
+                .setEmail(email)
+                .setMobile(mobile)
+                .setPassword(password);
+
     }
 
     public String getAccount() {

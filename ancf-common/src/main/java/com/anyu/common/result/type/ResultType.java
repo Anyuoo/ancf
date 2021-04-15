@@ -6,7 +6,7 @@ import com.anyu.common.result.IResultType;
  * 方法处理得到的系统级结果
  * code: 起始为 20000 终止为 20099
  */
-public enum SystemResultType implements IResultType {
+public enum ResultType implements IResultType {
     SUCCESS(true, 2000, "操作成功"),
     FAILED(false, 2001, "操作失败"),
     SYS_ERROR(false, 2003, "系统错误"),
@@ -18,7 +18,7 @@ public enum SystemResultType implements IResultType {
     private final int code;
     private final String message;
 
-    SystemResultType(Boolean success, int code, String message) {
+    ResultType(Boolean success, int code, String message) {
         this.success = success;
         this.code = code;
         this.message = message;

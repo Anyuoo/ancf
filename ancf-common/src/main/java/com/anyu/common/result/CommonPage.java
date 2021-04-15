@@ -1,6 +1,7 @@
 package com.anyu.common.result;
 
 
+import com.anyu.common.model.entity.User;
 import com.anyu.common.util.CommonUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import graphql.relay.*;

@@ -2,7 +2,7 @@ package com.anyu.common.result.aspect;
 
 import com.anyu.common.result.CommonResult;
 import com.anyu.common.result.IResultType;
-import com.anyu.common.result.type.SystemResultType;
+import com.anyu.common.result.type.ResultType;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -33,7 +33,7 @@ public class MutationResolverAdvise {
         if (result instanceof CommonResult) {
             return result;
         }
-        return CommonResult.with(SystemResultType.SYS_ERROR);
+        return CommonResult.with(ResultType.SYS_ERROR);
     }
 
 }

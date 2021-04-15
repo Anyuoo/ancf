@@ -30,9 +30,9 @@ public interface UserService extends IService<User>, GlobalConstant {
 
     Optional<User> getUserByMobile(@NotBlank String mobile);
 
-    boolean register(UserInput input);
+    boolean register(User user);
 
-    boolean updateUserById(@NonNull Integer id, UserInput input);
+    boolean updateUserById(@NonNull Integer id, User user);
 
     boolean removeUserById(@NonNull Integer id);
 

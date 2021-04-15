@@ -42,47 +42,37 @@ public class UserPageCondition {
      * 使用lambda 根據条件构造chainWrapper
      *
      * @param chainWrapper 需要构造的wrapper
-     * @param condition    条件
      */
-    public static void initWrapperByCondition(LambdaQueryChainWrapper<User> chainWrapper, UserPageCondition condition) {
+    public  LambdaQueryChainWrapper<User> initWrapperByCondition(LambdaQueryChainWrapper<User> chainWrapper) {
+        chainWrapper.ge(minAge != null, User::getAge, minAge)
+                .le(maxAge != null, User::getAge, maxAge)
+                .eq(StringUtils.isNotBlank(nickname), User::getNickname, nickname)
+                .eq(StringUtils.isNotBlank(realName),User::getRealName, realName);
 
-        if (condition != null) {
-            if (condition.getMinAge() != null) {
-                chainWrapper.ge(User::getAge, condition.getMinAge());
-            }
-            if (condition.getMaxAge() != null) {
-                chainWrapper.le(User::getAge, condition.getMaxAge());
-            }
-            if (StringUtils.isNotBlank(condition.getNickname())) {
-                chainWrapper.eq(User::getNickname, condition.getNickname());
-            }
-            if (StringUtils.isNotBlank(condition.getRealName())) {
-                chainWrapper.eq(User::getRealName, condition.getRealName());
-            }
-            if (condition.getOrderType() != null) {
-                switch (condition.getOrderType()) {
-                    case ASC_AGE:
-                        chainWrapper.orderByAsc(User::getAge);
-                        break;
-                    case ASC_CREATE_TIME:
-                        chainWrapper.orderByAsc(User::getCreateTime);
-                        break;
-                    case ASC_MODIFIED_TIME:
-                        chainWrapper.orderByAsc(User::getModifiedTime);
-                        break;
-                    case DESC_AGE:
-                        chainWrapper.orderByDesc(User::getAge);
-                        break;
-                    case DESC_CREATE_TIME:
-                        chainWrapper.orderByDesc(User::getBirthday);
-                        break;
-                    case DESC_MODIFIED_TIME:
-                    case DEFAULT:
-                        chainWrapper.orderByDesc(User::getModifiedTime);
-                        break;
-                }
+        if (orderType != null) {
+            switch (orderType) {
+                case ASC_AGE:
+                    chainWrapper.orderByAsc(User::getAge);
+                    break;
+                case ASC_CREATE_TIME:
+                    chainWrapper.orderByAsc(User::getCreateTime);
+                    break;
+                case ASC_MODIFIED_TIME:
+                    chainWrapper.orderByAsc(User::getModifiedTime);
+                    break;
+                case DESC_AGE:
+                    chainWrapper.orderByDesc(User::getAge);
+                    break;
+                case DESC_CREATE_TIME:
+                    chainWrapper.orderByDesc(User::getBirthday);
+                    break;
+                case DESC_MODIFIED_TIME:
+                case DEFAULT:
+                    chainWrapper.orderByDesc(User::getModifiedTime);
+                    break;
             }
         }
+        return chainWrapper;
     }
 
     public String getNickname() {
