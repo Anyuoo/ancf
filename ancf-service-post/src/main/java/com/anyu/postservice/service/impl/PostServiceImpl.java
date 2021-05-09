@@ -1,9 +1,12 @@
 package com.anyu.postservice.service.impl;
 
 
+import com.anyu.authservice.service.AuthService;
+import com.anyu.cacheservice.service.CacheService;
 import com.anyu.common.model.entity.Post;
 import com.anyu.common.model.entity.User;
 import com.anyu.common.model.enums.PostType;
+import com.anyu.common.util.GlobalConstant;
 import com.anyu.common.util.SensitiveFilter;
 import com.anyu.postservice.model.condition.PostPageCondition;
 import com.anyu.postservice.model.vo.PostVO;
@@ -34,9 +37,11 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     @Resource
     private SensitiveFilter sensitiveFilter;
     @Resource
-    private UserService userService;
-    @Resource
     private LikeService likeService;
+    @Resource
+    private AuthService authService;
+    @Resource
+    private CacheService cacheService;
 
     @Override
     public Optional<Post> getPostById(Integer id) {
@@ -57,7 +62,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
      * @return 结果
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Throwable.class)
     public boolean publishPost(@NonNull Post post, int publisherId) {
         //输入处理
         final var title = sensitiveFilter.filter(post.getTitle());
@@ -81,29 +86,36 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
      */
     @Override
     public PostVO convertPostToVO(@NotNull Post post) {
-        final var publisher = userService.getUserById(post.getUserId()).orElse(new User());
-        return PostVO.getInstance()
-                .setUserId(publisher.getId())
-                .setNickname(publisher.getNickname())
+        int postLikeNum = likeService.countPostLikeNum(post.getId());
+        boolean postLikeStatus = likeService.getPostLikeStatus(authService.getCurrentUserId(), post.getId());
+        int postLookNum = cacheService.getPostLookNum(post.getId());
+        return new PostVO()
+                .setUserId(post.getUserId())
                 .setId(post.getId())
-                .setTitle(post.getTitle())
-                .setContent(post.getContent())
+                .setTitle(HtmlUtils.htmlUnescape(post.getTitle()))
+                .setContent(HtmlUtils.htmlUnescape(post.getContent()))
                 .setType(post.getType())
                 .setCmtNum(post.getCmtNum())
-                .setLikeNum((int) likeService.countPostLikeNum(post.getId()))
+                .setCmtStatus(false)
+                .setLikeNum(postLikeNum)
+                .setLikeStatus(postLikeStatus)
+                .setLookNum(postLookNum)
                 .setCreateTime(post.getCreateTime())
                 .setModifiedTime(post.getModifiedTime());
     }
 
     @Override
     public List<Post> listPostAfter(int first, Integer postId, PostPageCondition condition) {
+        System.out.println("fisrt"+first + "ssss"+"postid:"+postId);
         if (first < 1)
-            first = PAGE_FIRST;
+            first = GlobalConstant.PAGE_FIRST;
         final var chainWrapper = lambdaQuery();
-        return condition.initWapper(chainWrapper)
-                .gt(postId != null, Post::getId, postId)
+        if (condition != null)
+            condition.initWrapper(chainWrapper);
+        return chainWrapper
+                .lt(postId != null, Post::getId, postId)
                 .orderByDesc(Post::getCreateTime)
-                .last(PAGE_SQL_LIMIT + first)
+                .last(GlobalConstant.PAGE_SQL_LIMIT + first)
                 .list();
     }
 

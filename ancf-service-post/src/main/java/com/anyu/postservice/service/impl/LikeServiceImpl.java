@@ -24,18 +24,18 @@ public class LikeServiceImpl implements LikeService {
     }
 
     @Override
-    public long countPostLikeNum(Integer postId) {
+    public int countPostLikeNum(Integer postId) {
         return cacheService.countEntityLikeNum(EntityType.POST, String.valueOf(postId));
     }
 
     @Override
-    public long countCommentLikeNum(Integer cmtId) {
+    public int countCommentLikeNum(Integer cmtId) {
         return cacheService.countEntityLikeNum(EntityType.COMMENT, String.valueOf(cmtId));
     }
 
 
     @Override
-    public long countUserLikeNum(Integer userId) {
+    public int countUserLikeNum(Integer userId) {
         return cacheService.countUserLikeNum(String.valueOf(userId));
     }
 

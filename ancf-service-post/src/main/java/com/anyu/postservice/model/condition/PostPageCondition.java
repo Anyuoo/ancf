@@ -19,7 +19,7 @@ public class PostPageCondition {
         return type;
     }
 
-    public  LambdaQueryChainWrapper<Post> initWapper( LambdaQueryChainWrapper<Post> wrapper) {
+    public  LambdaQueryChainWrapper<Post> initWrapper(LambdaQueryChainWrapper<Post> wrapper) {
        return wrapper.eq(title != null, Post::getType, type)
                 .eq(userId != null, Post::getUserId, userId)
                 .eq(title != null, Post::getTitle, title);

@@ -27,7 +27,7 @@ public class JwtHelper {
     private JwtProperties jwtProperties;
 
 
-    public Optional<String> createJwt(String userId, String username, Role role) {
+    public Optional<String> createJwt(String userId, String account, Role role) {
         try {
             final var nowMillis = System.currentTimeMillis();
             final var now = new Date(nowMillis);
@@ -40,7 +40,7 @@ public class JwtHelper {
                     .setHeaderParam("alg", "HS256")
                     .claim("role", role.name())
                     .claim("userId", userId)
-                    .setSubject(username)           // 代表这个JWT的主体，即它的所有人
+                    .setSubject(account)           // 代表这个JWT的主体，即它的所有人
                     .setIssuer(jwtProperties.getIss())              // 代表这个JWT的签发主体；
                     .setIssuedAt(new Date())        // 是一个时间戳，代表这个JWT的签发时间；
                     .setAudience(jwtProperties.getAud())          // 代表这个JWT的接收对象；
@@ -119,13 +119,13 @@ public class JwtHelper {
         return Optional.empty();
     }
 
-    public Optional<String> getUsername(String token) {
+    public Optional<String> getAccount(String token) {
         var claims = parseJwt(token).orElse(null);
         if (claims == null) {
             return Optional.empty();
         }
-        var username = (String) claims.getSubject();
-        return Optional.of(username);
+        var account = (String) claims.getSubject();
+        return Optional.ofNullable(account);
     }
 
     public Optional<String> getUserId(String token) {
@@ -134,7 +134,7 @@ public class JwtHelper {
             return Optional.empty();
         }
         var userId = (String) claims.get("userId");
-        return Optional.of(userId);
+        return Optional.ofNullable(userId);
     }
 
     public Optional<Role> getRole(String token) {

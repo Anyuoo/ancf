@@ -1,5 +1,5 @@
 server:
-  port: 8000
+  port: 8050
 
 spring:
   application:
@@ -47,19 +47,23 @@ mybatis-plus:
     #枚举包
   type-enums-package: com.anyu.common.model.enums
 
+#
+#graphql:
+#  tools:
+#    use-default-objectmapper: true
+#    schema-location-pattern: "**/*.graphqls"
+#    servlet:
+#      enabled: true
+#      # Sets the path where GraphQL servlet will be exposed. If not specified defaults to "/graphql"
+#      mapping: /graphql
+#      cors-enabled: false
+#      cors:
+#        allowed-origins: http://localhost:8080
+#        allowed-methods: GET, HEAD, POST
+#      # if you want to @ExceptionHandler annotation for custom GraphQLErrors
+#      exception-handlers-enabled: false
+#      context-setting: PER_REQUEST_WITH_INSTRUMENTATION
 
-
-graphql:
-  tools:
-    use-default-objectmapper: true
-    schema-location-pattern: "**/*.graphqls"
-  servlet:
-    enabled: true
-    mapping: /graphql
-    corsEnabled: true
-    exception-handlers-enabled: false
-    maxQueryDepth: 100
-    async-mode-enabled: true
 graphiql:
   cdn:
     enabled: true
@@ -80,3 +84,21 @@ app:
 logging:
   level:
     com.anyu: debug
+
+graphql:
+  servlet:
+    enabled: true
+    mapping: /graphql
+    cors-enabled: true
+    cors:
+      allowed-origins: "*"
+      allowed-methods: GET, HEAD, POST
+      max-age: 12000
+      allow-credentials: true
+      allowed-headers: "*"
+
+
+
+#    subscriptions:
+#      websocket:
+#        path: /subscriptions

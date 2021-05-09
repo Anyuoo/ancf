@@ -5,6 +5,7 @@ import com.anyu.authservice.service.AuthService;
 import com.anyu.common.model.entity.Comment;
 import com.anyu.common.model.entity.User;
 import com.anyu.common.model.enums.EntityType;
+import com.anyu.common.util.GlobalConstant;
 import com.anyu.common.util.SensitiveFilter;
 import com.anyu.postservice.model.vo.CommentVO;
 import com.anyu.postservice.model.vo.ReplyVO;
@@ -50,12 +51,12 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Override
     public List<Comment> listCommentsByEntity(int first, Integer id, @NotNull EntityType entityType, @NotNull Integer entityId) {
         if (first < 1)
-            first = PAGE_FIRST;
+            first = GlobalConstant.PAGE_FIRST;
         return lambdaQuery().eq(Comment::getEntityType, entityType)
                 .eq(Comment::getEntityId, entityId)
                 .ge(id != null, Comment::getId, id)
                 .orderByDesc(Comment::getCreateTime)
-                .last(PAGE_SQL_LIMIT + first)
+                .last(GlobalConstant.PAGE_SQL_LIMIT + first)
                 .list();
     }
 
@@ -83,7 +84,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 .setUserId(user.getId())
                 .setNickname(user.getNickname())
                 .setContent(comment.getContent())
-                .setCmtLikeNum((int) likeService.countCommentLikeNum(comment.getId()))
+                .setCmtLikeNum(likeService.countCommentLikeNum(comment.getId()))
                 .setCmtLikeStatus(likeService.getCmtLikeStatus(authService.getCurrentUserId(), comment.getId()));
     }
 

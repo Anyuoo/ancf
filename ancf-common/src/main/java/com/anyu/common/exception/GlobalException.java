@@ -2,6 +2,7 @@ package com.anyu.common.exception;
 
 import com.anyu.common.result.IResultType;
 import com.anyu.common.result.type.ResultType;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -13,21 +14,25 @@ import org.jetbrains.annotations.NotNull;
 public class GlobalException extends RuntimeException {
 
     private final int code;
-    private final String message;
 
-    private GlobalException(@NotNull IResultType resultType) {
-        super(resultType.getMessage());
-        this.code = resultType.getCode();
-        this.message = resultType.getMessage();
+    private GlobalException(String message, int code) {
+        super(message);
+        this.code = code;
     }
 
     /**
-     * 通过{@link ResultType}构建异常
      *
      * @param resultType 结果枚举类
      */
     public static GlobalException causeBy(IResultType resultType) {
-        return new GlobalException(resultType);
+        return new GlobalException(resultType.getMessage(), resultType.getCode());
+    }
+    /**
+     *
+     * @param resultType 结果枚举类
+     */
+    public static GlobalException causeBy(IResultType resultType,String extMsg) {
+        return new GlobalException(extMsg, resultType.getCode());
     }
 
     public int getCode() {
@@ -35,7 +40,7 @@ public class GlobalException extends RuntimeException {
     }
 
     public String getMessage() {
-        return this.message;
+        return super.getMessage();
     }
 
 }

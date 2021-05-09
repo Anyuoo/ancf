@@ -33,16 +33,13 @@ public class UserServiceTest extends BaseTest {
 
     @Test
     public void register() {
-        UserInput input = new UserInput();
-        input.setAccount("anyuoo")
-                .setEmail("anyuzhaosx@gmail.com")
-                .setAge(12)
-                .setMobile("18502861998")
-                .setPassword("123456")
-                .setBirthday(LocalDateTime.now())
-//                .setGender(Gender.MALE)
-                .setRealName("anyu");
-        boolean register = userService.register(input.toEntity());
-        System.out.println(register);
+//        UserInput input = new UserInput();
+//        input.setAccount("anyuoo")
+//
+//
+////                .setGender(Gender.MALE)
+//                .setRealName("anyu");
+////        boolean register = userService.register(input.toEntity());
+        System.out.println(false);
     }
 }

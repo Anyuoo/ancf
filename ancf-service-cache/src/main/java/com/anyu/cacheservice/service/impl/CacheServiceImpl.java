@@ -3,6 +3,7 @@ package com.anyu.cacheservice.service.impl;
 import com.anyu.cacheservice.service.CacheService;
 import com.anyu.cacheservice.util.RedisKeyUtils;
 import com.anyu.common.model.enums.EntityType;
+import com.anyu.common.util.GlobalConstant;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +40,19 @@ public class CacheServiceImpl implements CacheService {
         final var activationKey = isEmail ? RedisKeyUtils.getActivationKeyByEmail(key)
                 : RedisKeyUtils.getActivationKeyByMobile(key);
         valueSet(activationKey, activeCode);
-        return setExpire(activationKey, CACHE_EXPIRED_SECOND);
+        return setExpire(activationKey, GlobalConstant.CACHE_EXPIRED_2H);
+    }
+
+    @Override
+    public boolean setVerifyCode(String email, String verifyCode) {
+        final String verifyCodeKey = RedisKeyUtils.getVerifyCode(email);
+        valueSet(verifyCodeKey,verifyCode);
+        return setExpire(verifyCodeKey, GlobalConstant.CACHE_EXPIRED_2H);
+    }
+
+    @Override
+    public Optional<String> getVerifyCode(String email) {
+        return valueGet(RedisKeyUtils.getVerifyCode(email));
     }
 
     @Override
@@ -79,17 +92,30 @@ public class CacheServiceImpl implements CacheService {
     }
 
     @Override
-    public long countUserLikeNum(String userId) {
+    public int countUserLikeNum(String userId) {
         final var userLikeKey = RedisKeyUtils.getLikeKeyByEntityType(EntityType.USER, userId);
-        Optional<Long> userLikeNum = valueGet(userLikeKey);
-        return userLikeNum.orElse(0L);
+        Optional<Integer> userLikeNum = valueGet(userLikeKey);
+        return userLikeNum.orElse(0);
     }
 
     @Override
-    public long countEntityLikeNum(EntityType entityType, String entityId) {
+    public int countEntityLikeNum(EntityType entityType, String entityId) {
         final var entityLikeKey = RedisKeyUtils.getLikeKeyByEntityType(entityType, entityId);
         final var entityLikeNum = redisTemplate.opsForSet().size(entityLikeKey);
-        return entityLikeNum != null ? entityLikeNum : 0;
+        return entityLikeNum != null ? entityLikeNum.intValue() : 0;
+    }
+
+    @Override
+    public void addPostLookNum(long id) {
+        String postLookKey = RedisKeyUtils.getPostLookKey(id);
+        redisTemplate.opsForValue().increment(postLookKey);
+    }
+
+    @Override
+    public int getPostLookNum(long id) {
+        String postLookKey = RedisKeyUtils.getPostLookKey(id);
+        Integer num = (Integer)redisTemplate.opsForValue().get(postLookKey);
+        return  num == null ? 0 : num;
     }
 
     /**

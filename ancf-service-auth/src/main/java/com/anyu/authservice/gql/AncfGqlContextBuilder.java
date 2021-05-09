@@ -52,7 +52,7 @@ public class AncfGqlContextBuilder implements GraphQLServletContextBuilder {
         final var authSubject = getAuthSubject(httpServletRequest).orElse(null);
         if (authSubject != null) {
             authService.saveCurrentSubject(authSubject);
-            logger.debug("保存当前用户信息 ，userId:{},username{}", authSubject.getUserId(), authSubject.getNickname());
+            logger.debug("当前用户信息==> userId:{}, account:{}", authSubject.getUserId(), authSubject.getAccount());
         }
         return AncfGqlHttpContext.builder()
                 .setHttpServletRequest(httpServletRequest)

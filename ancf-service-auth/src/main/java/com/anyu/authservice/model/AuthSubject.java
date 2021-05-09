@@ -1,45 +1,14 @@
 package com.anyu.authservice.model;
 
 import com.anyu.authservice.model.enums.Role;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
+@Data
+@Accessors(chain = true)
 public class AuthSubject {
     private Integer userId;
     private String account;
     private Role role;
     private String nickname;
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public AuthSubject setNickname(String nickname) {
-        this.nickname = nickname;
-        return this;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public AuthSubject setRole(Role role) {
-        this.role = role;
-        return this;
-    }
-
-    public String getAccount() {
-        return account;
-    }
-
-    public AuthSubject setAccount(String account) {
-        this.account = account;
-        return this;
-    }
 }

@@ -3,8 +3,11 @@ package com.anyu.common.model.entity;
 import com.anyu.common.model.enums.ActiveStatus;
 import com.anyu.common.model.enums.Gender;
 import com.baomidou.mybatisplus.annotation.*;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -14,6 +17,8 @@ import java.time.LocalDateTime;
  * @since 2020-10-07 09:56:07
  */
 @TableName(value = "user")
+@Data
+@Accessors(chain = true)
 public class User implements Serializable {
     private static final long serialVersionUID = 294426455105480535L;
     /**
@@ -31,14 +36,14 @@ public class User implements Serializable {
      * 用户性别
      */
     private Gender gender;
-    /*
+    /**
      *年龄
      */
     private Integer age;
-    /*
+    /**
      *生日
      */
-    private LocalDateTime birthday;
+    private LocalDate birthday;
     /**
      * 用户昵称
      */
@@ -69,10 +74,6 @@ public class User implements Serializable {
     private String salt;
 
     /**
-     * 0-未激活，1-已激活
-     */
-    private ActiveStatus activation;
-    /**
      * 0-正常，1-已删除
      */
     @TableLogic
@@ -89,151 +90,4 @@ public class User implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime modifiedTime;
 
-    public User() {
-    }
-
-    public static User build() {
-        return new User();
-    }
-
-
-    public Integer getId() {
-        return id;
-    }
-
-    public User setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getAccount() {
-        return account;
-    }
-
-    public User setAccount(String account) {
-        this.account = account;
-        return this;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public User setGender(Gender gender) {
-        this.gender = gender;
-        return this;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public User setAge(Integer age) {
-        this.age = age;
-        return this;
-    }
-
-    public LocalDateTime getBirthday() {
-        return birthday;
-    }
-
-    public User setBirthday(LocalDateTime birthday) {
-        this.birthday = birthday;
-        return this;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public User setNickname(String nickname) {
-        this.nickname = nickname;
-        return this;
-    }
-
-    public String getRealName() {
-        return realName;
-    }
-
-    public User setRealName(String realName) {
-        this.realName = realName;
-        return this;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public User setAvatar(String avatar) {
-        this.avatar = avatar;
-        return this;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public User setEmail(String email) {
-        this.email = email;
-        return this;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public User setMobile(String mobile) {
-        this.mobile = mobile;
-        return this;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public User setPassword(String password) {
-        this.password = password;
-        return this;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public User setSalt(String salt) {
-        this.salt = salt;
-        return this;
-    }
-
-    public ActiveStatus getActivation() {
-        return activation;
-    }
-
-    public void setActivation(ActiveStatus activation) {
-        this.activation = activation;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
-    }
-
-    public LocalDateTime getModifiedTime() {
-        return modifiedTime;
-    }
-
-    public void setModifiedTime(LocalDateTime modifiedTime) {
-        this.modifiedTime = modifiedTime;
-    }
 }

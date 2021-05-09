@@ -5,7 +5,7 @@ import com.anyu.common.util.GlobalConstant;
 
 import java.util.Optional;
 
-public interface CacheService extends GlobalConstant {
+public interface CacheService   {
     /**
      * 获取用户注册激活码
      *
@@ -22,6 +22,8 @@ public interface CacheService extends GlobalConstant {
      * @param activeCode 激活
      */
     boolean setActivationCode(boolean isEmail, String key, String activeCode);
+
+    boolean setVerifyCode(String email, String verifyCode);
 
     /**
      * 点赞
@@ -43,8 +45,16 @@ public interface CacheService extends GlobalConstant {
      */
     boolean getEntityLikeStatus(String userId, EntityType entityType, String entityId);
 
-    long countUserLikeNum(String userId);
+    int countUserLikeNum(String userId);
 
-    long countEntityLikeNum(EntityType entityType, String entityId);
+    int countEntityLikeNum(EntityType entityType, String entityId);
 
+    Optional<String>  getVerifyCode(String email);
+
+    /**
+     * 增加帖子浏览
+     */
+    void addPostLookNum(long id);
+
+    int getPostLookNum(long id);
 }

@@ -18,7 +18,7 @@ import java.util.List;
  * @author Anyu
  * @since 2020-10-10 12:51:46
  */
-public interface CommentService extends IService<Comment>, GlobalConstant {
+public interface CommentService extends IService<Comment> {
 
     List<Comment> listCommentsByEntity(int first, @Nullable Integer id, @NotNull EntityType entityType, @NotNull Integer entityId);
 

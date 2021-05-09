@@ -8,19 +8,24 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ScalarConfig {
-    @Bean("dateTimeScalarType")
-    public GraphQLScalarType getDateTimeScalarType() {
+    @Bean
+    public GraphQLScalarType dateTimeScalarType() {
         return ExtendedScalars.DateTime;
     }
 
-    @Bean("objectScalarType")
-    public GraphQLScalarType getObjectScalarType() {
+    @Bean
+    public GraphQLScalarType objectScalarType() {
         return ExtendedScalars.Object;
     }
 
     @Bean
-    GraphQLScalarType uploadScalarType() {
+    public GraphQLScalarType uploadScalarType() {
         return ApolloScalars.Upload;
+    }
+
+    @Bean
+    public GraphQLScalarType dateScalarType() {
+        return ExtendedScalars.Date;
     }
 
 }

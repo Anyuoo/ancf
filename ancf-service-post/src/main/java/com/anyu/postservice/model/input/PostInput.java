@@ -4,11 +4,14 @@ package com.anyu.postservice.model.input;
 import com.anyu.common.model.entity.Post;
 import com.anyu.common.model.enums.PostType;
 
+import javax.validation.constraints.NotBlank;
+
 public class PostInput {
 
+    @NotBlank(message = "标题不能为空")
     private String title;
+    @NotBlank(message = "帖子内容不能为空")
     private String content;
-    private PostType type;
 
     public PostInput() {
     }
@@ -16,8 +19,7 @@ public class PostInput {
     public Post toEntity() {
         return new Post()
                 .setTitle(title)
-                .setContent(content)
-                .setType(type);
+                .setContent(content);
     }
 
     public String getTitle() {
@@ -35,15 +37,6 @@ public class PostInput {
 
     public PostInput setContent(String content) {
         this.content = content;
-        return this;
-    }
-
-    public PostType getType() {
-        return type;
-    }
-
-    public PostInput setType(PostType type) {
-        this.type = type;
         return this;
     }
 }

@@ -1,6 +1,7 @@
 package com.anyu.postservice.resolver.query;
 
 
+import com.anyu.cacheservice.service.CacheService;
 import com.anyu.common.model.entity.Post;
 import com.anyu.common.result.CommonPage;
 import com.anyu.common.result.annotation.QueryResolver;
@@ -26,6 +27,8 @@ public class PostQueryResolver implements GraphQLQueryResolver {
 
     @Resource
     private PostService postService;
+    @Resource
+    private CacheService cacheService;
 
 
     public Optional<Post> getPost(@NonNull Integer id) {
@@ -33,6 +36,7 @@ public class PostQueryResolver implements GraphQLQueryResolver {
     }
 
     public PostVO postDetails(Long id) {
+        cacheService.addPostLookNum(id);
         return postService.convertPostToVO(postService.getById(id));
     }
 

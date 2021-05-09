@@ -11,7 +11,9 @@ extend type Query {
 
 extend type Mutation {
     #创建帖子
-    publishPost(postInput: PostInput!): CommonResult
+    publishPost(postInput: PostInput!): Boolean
+
+    postLike(postId: Int!): Boolean
 }
 input PostQueryCondition {
     #帖子类型
@@ -26,7 +28,7 @@ input PostQueryCondition {
 #帖子创建实体输入
 input PostInput {
     #帖子类型
-    type: PostType!
+#    type: PostType!
     #帖子标题
     title: String!
     #内容
@@ -67,22 +69,24 @@ enum PostType {
 type PostVO {
     #帖子ID
     id:ID
-    #用户ID
-    userId: ID
-    #用户昵称
-    nickname: String
+    #发布者
+    publisher: User
     #帖子标题
     title:String
     #帖子内容
     content:String
     #评论数量
     cmtNum:Int
+    #评论
+    cmtStatus: Boolean
     #帖子类型 0-普通，1-加精
     type:PostType
     #帖子的点赞数量
     likeNum :Int
     #帖子的点赞状态
     likeStatus:Boolean
+#    浏览数
+    lookNum: Int
     #帖子创建时间
     createTime:String
     #帖子修改时间

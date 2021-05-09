@@ -1,24 +1,32 @@
 extend type Query {
+    #获取当前用户
+    loginUser: User
     #查询单个用户
-    user(id: ID, email: String, mobile: String,account:String): User
+   # user(id: ID, email: String, mobile: String,account:String): User
     #用户信息分页
-    users(first: Int!, after: String,userPageCondition: UserPageCondition): UserConnection @connection(for: "User")
+  #  users(first: Int!, after: String,userPageCondition: UserPageCondition): UserConnection @connection(for: "User")
 
 }
 
 extend type Mutation {
+    #发送注册验证码
+    sendVerifyCode(email:String!):Boolean
+    #发送邮箱修改验证
+    sendEmailUpdateCode(email:String!):Boolean
     #用户注册
-    register(userInput: UserInput!):CommonResult
+    register(email:String!,password:String!,code:String!):Boolean
     #用户登录
-    login(principal: String!, password:String!):CommonResult
-    #用户激活(activationKey: 邮箱或手机号，activationCode： 激活码)
-    activateUser(activationKey: String!, activationCode: String!, isEmail: Boolean!): CommonResult
+    login(principal: String!, password:String!):String
     #更新用户信息
-    updateUserInfo(userInput: UserInput!): CommonResult
+    updateUserInfo(userInput: UserInput!): Boolean
+    #修改密码
+    updatePassword(password: String!):Boolean
+    #修改邮箱
+    updateEmail(email:String!,code:String!):Boolean
     #上传用户头像
-    uploadAvatar: CommonResult
+    uploadAvatar: String
     #删除用户
-    removeUser(id: ID!): CommonResult
+    #removeUser(id: ID!): CommonResult
 }
 #用户查询条件
 input UserPageCondition {
@@ -51,24 +59,14 @@ enum UserOrderType {
 input UserInput {
     #用户账号
     account: String
-    #邮箱
-    email: String
-    #密码
-    password: String
     #用户昵称
     nickname: String
     #性别
     gender: Gender
-    #年龄
-    age: Int
     #生日
-    birthday: DateTime
+    birthday: Date
     #用户真实名
     realName: String
-    #头像地址
-    avatar: String
-    #手机号
-    mobile: String
 }
 
 #性别枚举

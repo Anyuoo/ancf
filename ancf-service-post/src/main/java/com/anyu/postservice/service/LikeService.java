@@ -12,11 +12,11 @@ public interface LikeService {
 
     void doCommentLike(Integer userId, Integer cmtId, Integer cmtOwnerId);
 
-    long countPostLikeNum(Integer postId);
+    int countPostLikeNum(Integer postId);
 
-    long countCommentLikeNum(Integer cmtId);
+    int countCommentLikeNum(Integer cmtId);
 
-    long countUserLikeNum(Integer userId);
+    int countUserLikeNum(Integer userId);
 
     boolean getPostLikeStatus(Integer userId, Integer postId);
 

@@ -12,7 +12,7 @@ public interface AuthService {
 
     Optional<AuthSubject> getAuthSubjectWith(HandshakeRequest handshakeRequest);
 
-    Optional<String> createJwt(String id, String nickname, Role role);
+    Optional<String> createJwt(String id, String account, Role role);
 
     void saveCurrentSubject(AuthSubject subject);
 
@@ -30,6 +30,8 @@ public interface AuthService {
      * 得到当前用户id
      */
     int getCurrentUserId();
+
+    Optional<String> getLoginUserAccount();
 
     /**
      * 是否具有当前用户权限

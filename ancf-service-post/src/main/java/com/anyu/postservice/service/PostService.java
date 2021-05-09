@@ -18,7 +18,7 @@ import java.util.Optional;
  * @author Anyu
  * @since 2020-10-10 12:51:46
  */
-public interface PostService extends IService<Post>, GlobalConstant {
+public interface PostService extends IService<Post> {
 
     Optional<Post> getPostById(Integer id);
 

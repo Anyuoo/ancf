@@ -4,7 +4,9 @@ import com.anyu.authservice.model.AuthSubject;
 import com.anyu.authservice.model.enums.Role;
 import com.anyu.authservice.jwt.JwtHelper;
 import com.anyu.authservice.service.AuthService;
+import com.anyu.common.exception.GlobalException;
 import com.anyu.common.memory.ILocalMemory;
+import com.anyu.common.result.type.ResultType;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,17 +27,10 @@ public class AuthServiceImpl implements AuthService {
         if (token.isEmpty()) {
             return Optional.empty();
         }
-        var userId = jwtHelper.getUserId(token.get());
-        var username = jwtHelper.getUsername(token.get());
-        var role = jwtHelper.getRole(token.get());
-
-        if (userId.isEmpty() || username.isEmpty() || role.isEmpty()) {
-            return Optional.empty();
-        }
         AuthSubject authSubject = new AuthSubject();
-        authSubject.setUserId(Integer.parseInt(userId.get()));
-        authSubject.setNickname(username.get());
-        authSubject.setRole(role.get());
+        jwtHelper.getUserId(token.get()).ifPresent(id-> authSubject.setUserId(Integer.parseInt(id)));
+        jwtHelper.getAccount(token.get()).ifPresent(authSubject::setAccount);
+        jwtHelper.getRole(token.get()).ifPresent(authSubject::setRole);
         return Optional.of(authSubject);
     }
 
@@ -45,8 +40,8 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Optional<String> createJwt(String id, String nickname, Role role) {
-        return jwtHelper.createJwt(id, nickname, role);
+    public Optional<String> createJwt(String id, String account, Role role) {
+        return jwtHelper.createJwt(id, account, role);
     }
 
     @Override
@@ -66,7 +61,17 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public int getCurrentUserId() {
-        return authInfoMemory.saveCurrentUserId();
+        var subject = authInfoMemory.getCurrentAuthSubject();
+        if (subject == null) {
+            return -1;
+        }
+        return subject.getUserId();
+    }
+
+    @Override
+    public Optional<String> getLoginUserAccount() {
+        var authSubject = authInfoMemory.getCurrentAuthSubject();
+        return Optional.ofNullable(authSubject.getAccount());
     }
 
     @Override
@@ -76,7 +81,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Role getCurrentUserRole() {
-        if (getCurrentSubject() == null) {
+        if (getCurrentSubject() == null || getCurrentUserId() == -1) {
             return Role.VISITOR;
         }
         return getCurrentSubject().getRole();
@@ -103,8 +108,5 @@ public class AuthServiceImpl implements AuthService {
             currentUser.remove();
         }
 
-        public int saveCurrentUserId() {
-            return getCurrentAuthSubject() == null ? -1 : getCurrentAuthSubject().getUserId();
-        }
     }
 }

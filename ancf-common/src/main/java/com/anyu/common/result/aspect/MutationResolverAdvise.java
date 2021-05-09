@@ -12,18 +12,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-@Aspect
-@Component
-@Order
+//@Aspect
+//@Component
+//@Order
 public class MutationResolverAdvise {
     private final static Logger logger = LoggerFactory.getLogger(MutationResolverAdvise.class);
 
-    @Pointcut("@within(com.anyu.common.result.annotation.MutationResolver)")
+//    @Pointcut("@within(com.anyu.common.result.annotation.MutationResolver)")
     public void required() {
     }
 
-
-    @AfterReturning(pointcut = "required()", returning = "result")
+//
+//    @AfterReturning(pointcut = "required()", returning = "result")
     public Object handle(JoinPoint joinPoint, Object result) {
         logger.debug("ResultAdvisor classname: {},methodName: {}", joinPoint.getTarget().getClass().getName(), joinPoint.getSignature().getName());
         if (result instanceof IResultType) {
