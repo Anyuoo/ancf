@@ -54,14 +54,16 @@ public class RedisKeyUtils {
 
     /**
      * 获取验证码
+     *
      * @param email 邮箱
      */
     public static String getVerifyCode(String email) {
-        return VERIFY+SPLIT+EMAIL+email;
+        return VERIFY + SPLIT + EMAIL + email;
     }
 
     /**
      * 获取帖子浏览数
+     *
      * @param postId 帖子id
      */
     public static String getPostLookKey(long postId) {

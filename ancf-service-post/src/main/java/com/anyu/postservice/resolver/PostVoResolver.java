@@ -16,6 +16,6 @@ public class PostVoResolver implements GraphQLResolver<PostVO> {
     private UserService userService;
 
     public CompletableFuture<Optional<User>> getPublisher(PostVO postVO) {
-        return CompletableFuture.supplyAsync(()->userService.getUserById(postVO.getUserId()));
+        return CompletableFuture.supplyAsync(() -> userService.getUserById(postVO.getUserId()));
     }
 }

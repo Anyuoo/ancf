@@ -57,7 +57,7 @@ public class JwtHelper {
             //生成JWT
             return Optional.ofNullable(builder.compact());
         } catch (Exception e) {
-            logger.error("jwt 签名失败 ,message:{}", e.getMessage());
+            logger.debug("jwt 签名失败 ,message:{}", e.getMessage());
             throw GlobalException.causeBy(AuthResultType.TOKEN_SIGNATURE_ERROR);
         }
     }
@@ -71,7 +71,7 @@ public class JwtHelper {
                     .getBody();
             return Optional.ofNullable(claims);
         } catch (Exception e) {
-            logger.error("jwt 解析失败 ,message:{}", e.getMessage());
+            logger.debug("jwt 解析失败 ,message:{}", e.getMessage());
 //            throw GlobalException.causeBy(AuthResultType.TOKEN_PARSE_ERROR);
         }
         return Optional.empty();

@@ -7,4 +7,7 @@ include 'ancf-service-msg'
 include 'ancf-service-user'
 include 'ancf-service-oss'
 include 'ancf-service-cache'
+include 'ancf-service-video'
+include 'ancf-service-comment'
+include 'ancf-service-like'
 

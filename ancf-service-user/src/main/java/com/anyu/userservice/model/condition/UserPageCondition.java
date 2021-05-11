@@ -43,11 +43,11 @@ public class UserPageCondition {
      *
      * @param chainWrapper 需要构造的wrapper
      */
-    public  LambdaQueryChainWrapper<User> initWrapperByCondition(LambdaQueryChainWrapper<User> chainWrapper) {
+    public LambdaQueryChainWrapper<User> initWrapperByCondition(LambdaQueryChainWrapper<User> chainWrapper) {
         chainWrapper.ge(minAge != null, User::getAge, minAge)
                 .le(maxAge != null, User::getAge, maxAge)
                 .eq(StringUtils.isNotBlank(nickname), User::getNickname, nickname)
-                .eq(StringUtils.isNotBlank(realName),User::getRealName, realName);
+                .eq(StringUtils.isNotBlank(realName), User::getRealName, realName);
 
         if (orderType != null) {
             switch (orderType) {

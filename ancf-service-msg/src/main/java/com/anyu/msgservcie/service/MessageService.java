@@ -18,5 +18,5 @@ import java.util.List;
 public interface MessageService extends IService<Message> {
     boolean sendMsg(MessageInput input);
 
-    List<Message> listMsgAfter(@Nullable Integer id, int first, @NotNull String chartId);
+    List<Message> listMsgAfter(@Nullable Long id, int first, @NotNull String chartId);
 }

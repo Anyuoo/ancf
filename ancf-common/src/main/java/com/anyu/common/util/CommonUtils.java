@@ -74,4 +74,28 @@ public class CommonUtils {
     public static String randomNumberString() {
         return String.valueOf(System.currentTimeMillis());
     }
+
+    /**
+     * 对字节数组字符串进行Base64解码并生成
+     *
+     * @param base64Str 字符串
+     * @return 字节
+     */
+    public static byte[] base64ToBytes(String base64Str) {
+        if (base64Str == null || !base64Str.contains("data:")) // 数据为空
+            return null;
+
+        final var arr = base64Str.split(",");
+        if (arr.length != 2) {
+            return null;
+        }
+//        .replaceAll("\r|\n", "").trim()
+        byte[] bytes = Base64.getDecoder().decode(arr[1]);
+//        for (int i = 0; i < bytes.length; ++i) {
+//            if (bytes[i] < 0) {// 调整异常数据
+//                bytes[i] += 256;
+//            }
+//        }
+        return bytes;
+    }
 }

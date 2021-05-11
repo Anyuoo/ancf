@@ -16,9 +16,9 @@ import java.time.LocalDateTime;
 public class PostVO {
     private User publisher;
     //帖子ID
-    private Integer id;
+    private Long id;
 
-    private Integer userId;
+    private Long userId;
     //帖子标题
     private String title;
     //帖子内容

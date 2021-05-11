@@ -1,14 +1,15 @@
 package com.anyu.common.model.entity;
 
-import com.anyu.common.model.enums.ActiveStatus;
+import com.anyu.common.model.BaseEntity;
 import com.anyu.common.model.enums.Gender;
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * (User)实体类
@@ -16,16 +17,17 @@ import java.time.LocalDateTime;
  * @author Anyu
  * @since 2020-10-07 09:56:07
  */
+@EqualsAndHashCode(callSuper = true)
 @TableName(value = "user")
 @Data
 @Accessors(chain = true)
-public class User implements Serializable {
+public class User extends BaseEntity {
     private static final long serialVersionUID = 294426455105480535L;
     /**
      * 用户ID
      */
     @TableId(type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     /**
      * 用户账户
@@ -37,11 +39,11 @@ public class User implements Serializable {
      */
     private Gender gender;
     /**
-     *年龄
+     * 年龄
      */
     private Integer age;
     /**
-     *生日
+     * 生日
      */
     private LocalDate birthday;
     /**
@@ -73,21 +75,5 @@ public class User implements Serializable {
      */
     private String salt;
 
-    /**
-     * 0-正常，1-已删除
-     */
-    @TableLogic
-    @TableField(fill = FieldFill.INSERT)
-    private Integer status;
-    /**
-     * 用户信息创建时间
-     */
-    @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
-    /**
-     * 用户信息修改时间
-     */
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime modifiedTime;
 
 }

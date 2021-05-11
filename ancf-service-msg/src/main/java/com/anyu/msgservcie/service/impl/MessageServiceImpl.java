@@ -5,8 +5,8 @@ import com.anyu.common.model.entity.Message;
 import com.anyu.common.util.CommonUtils;
 import com.anyu.common.util.GlobalConstant;
 import com.anyu.common.util.SensitiveFilter;
-import com.anyu.msgservcie.model.MessageInput;
 import com.anyu.msgservcie.mapper.MessageMapper;
+import com.anyu.msgservcie.model.MessageInput;
 import com.anyu.msgservcie.service.MessageService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
@@ -41,7 +41,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
     }
 
     @Override
-    public List<Message> listMsgAfter(Integer id, int first, @NotNull String chartId) {
+    public List<Message> listMsgAfter(Long id, int first, @NotNull String chartId) {
         final var chainWrapper = lambdaQuery()
                 .eq(Message::getChartId, chartId)
                 .orderByAsc(Message::getCreateTime);

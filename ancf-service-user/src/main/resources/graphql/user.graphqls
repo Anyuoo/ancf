@@ -2,9 +2,9 @@ extend type Query {
     #获取当前用户
     loginUser: User
     #查询单个用户
-   # user(id: ID, email: String, mobile: String,account:String): User
+    # user(id: ID, email: String, mobile: String,account:String): User
     #用户信息分页
-  #  users(first: Int!, after: String,userPageCondition: UserPageCondition): UserConnection @connection(for: "User")
+    #  users(first: Int!, after: String,userPageCondition: UserPageCondition): UserConnection @connection(for: "User")
 
 }
 
@@ -23,8 +23,8 @@ extend type Mutation {
     updatePassword(password: String!):Boolean
     #修改邮箱
     updateEmail(email:String!,code:String!):Boolean
-    #上传用户头像
-    uploadAvatar: String
+    #上传BASE 64用户头像
+    uploadAvatar(avatar:Upload!): String
     #删除用户
     #removeUser(id: ID!): CommonResult
 }
@@ -87,7 +87,7 @@ type User {
     #年龄
     age: Int
     #生日
-    birthday: String
+    birthday: Date
     #用户账号
     account: String!
     #用户昵称
@@ -99,7 +99,7 @@ type User {
     #手机号
     mobile: String
     #用户信息创建时间
-    createTime: String
+    createTime: DateTime
     #用户信息修改时间
-    modifiedTime: String
+    modifiedTime: DateTime
 }

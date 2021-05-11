@@ -1,5 +1,6 @@
 package com.anyu.common.config;
 
+import com.anyu.common.config.scalar.DateTimeScalar;
 import graphql.kickstart.servlet.apollo.ApolloScalars;
 import graphql.scalars.ExtendedScalars;
 import graphql.schema.GraphQLScalarType;
@@ -10,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class ScalarConfig {
     @Bean
     public GraphQLScalarType dateTimeScalarType() {
-        return ExtendedScalars.DateTime;
+        return new DateTimeScalar();
     }
 
     @Bean

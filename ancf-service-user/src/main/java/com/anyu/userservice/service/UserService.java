@@ -10,6 +10,7 @@ import com.anyu.common.model.enums.Gender;
 import com.anyu.common.result.type.ResultType;
 import com.anyu.common.result.type.UserResultType;
 import com.anyu.common.util.CommonUtils;
+import com.anyu.common.util.GlobalConstant;
 import com.anyu.common.util.MailClient;
 import com.anyu.userservice.mapper.UserMapper;
 import com.anyu.userservice.model.input.UserInput;
@@ -49,22 +50,29 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
     private CacheService cacheService;
 
 
-    public Optional<User> getUserById(int id) {
+    public Optional<User> getUserById(long id) {
         return lambdaQuery().eq(User::getId, id).oneOpt();
     }
 
     /**
      * 修改用户基本信息
      */
-    public boolean updateUserInfoById(@NonNull Integer id, UserInput input) {
-
-        validAccountStr(input.getAccount());
+    public boolean updateUserInfoById(@NonNull long id, UserInput input) {
+        final var account = input.getAccount() + GlobalConstant.ACCOUNT_SUFFIX;
+        validAccountStr(account);
         final var original = getById(id);
         if (original == null) {
             //该用户不存在
             throw GlobalException.causeBy(UserResultType.NOT_EXIST);
         }
-        original.setAccount(input.getAccount())
+        //是否修改账号
+        if (!account.equals(original.getAccount())) {
+            Integer count = lambdaQuery().eq(User::getAccount, account).count();
+            if (count != null && count > 0) {
+                throw GlobalException.causeBy(ResultType.PARAM_ERROR, "账号已存在");
+            }
+        }
+        original.setAccount(account)
                 .setGender(input.getGender())
                 .setNickname(input.getNickname())
                 .setRealName(input.getRealName())
@@ -74,12 +82,13 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
 
     /**
      * 修改密码
-     * @param id 用户id
+     *
+     * @param id       用户id
      * @param password 新密码
      */
-    public boolean updatePassword(int id, String password) {
+    public boolean updatePassword(long id, String password) {
         final var user = getUserById(id).orElse(null);
-        if (StringUtils.isBlank(password) || user== null) {
+        if (StringUtils.isBlank(password) || user == null) {
             throw GlobalException.causeBy(ResultType.FAILED);
         }
         user.setPassword(password);
@@ -89,18 +98,19 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
 
     /**
      * 修改邮箱
-     * @param id 用户id
+     *
+     * @param id    用户id
      * @param email 邮箱
-     * @param code 验证码
+     * @param code  验证码
      */
-    public boolean updateEmail(int id, String email, String code) {
+    public boolean updateEmail(long id, String email, String code) {
         if (StringUtils.isBlank(email) || StringUtils.isBlank(code)) {
             return false;
         }
         final var user = getUserById(id)
                 .orElseThrow(() -> GlobalException.causeBy(ResultType.PARAM_ERROR));
         Optional<String> verifyCode = cacheService.getVerifyCode(email);
-        if (verifyCode.isPresent() &&  code.equals(verifyCode.get())) {
+        if (verifyCode.isPresent() && code.equals(verifyCode.get())) {
             user.setEmail(email);
             return updateById(user);
         }
@@ -109,10 +119,11 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
 
     /**
      * 邮箱修改验证
-     * @param id 用户id
+     *
+     * @param id    用户id
      * @param email 新邮箱
      */
-    public boolean sendEmailUpdateCode(int id, String email) {
+    public boolean sendEmailUpdateCode(long id, String email) {
         if (getUserByEmail(email).isPresent()) {
             throw GlobalException.causeBy(ResultType.FAILED, "邮箱已注册");
         }
@@ -135,7 +146,8 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
         //添加置缓存
         return cacheService.setVerifyCode(email, code);
     }
-//
+
+    //
 //    /**
 //     * 分页查询
 //     * {@link UserPageCondition# initWrapperByCondition(LambdaQueryChainWrapper, UserPageCondition)} 初始化
@@ -191,15 +203,16 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
 
     /**
      * 注册
-     * @param email 邮箱
+     *
+     * @param email    邮箱
      * @param password 密码
-     * @param code 验证码
+     * @param code     验证码
      */
-    public boolean register(String email, String password,String code) {
+    public boolean register(String email, String password, String code) {
         //验证验证码
         final var verifyCode = cacheService.getVerifyCode(email).orElse(null);
-        if (StringUtils.isBlank(verifyCode) || !verifyCode.equals(code)){
-            throw GlobalException.causeBy(ResultType.FAILED,"验证码错误");
+        if (StringUtils.isBlank(verifyCode) || !verifyCode.equals(code)) {
+            throw GlobalException.causeBy(ResultType.FAILED, "验证码错误");
         }
         //验证邮箱
         if (getUserByEmail(email).isPresent()) {
@@ -217,13 +230,14 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
         hashPassword(user);
         return save(user);
     }
-//    登录
+
+    //    登录
     public Optional<String> login(String principal, String password) {
         //账号
         User loginUser;
         if (StringUtils.endsWith(principal, "@ancf")) {
             loginUser = getUserByAccount(principal).orElse(null);
-        }else {
+        } else {
             loginUser = getUserByEmail(principal).orElse(null);
         }
         if (loginUser == null) {
@@ -235,12 +249,12 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
         }
         return authService.createJwt(loginUser.getId().toString(), loginUser.getAccount(), Role.USER);
     }
-//    更新头像
-    public boolean updateAvatar(int userId, String url) {
+
+    //    更新头像
+    public boolean updateAvatar(long userId, String url) {
         if (StringUtils.isBlank(url)) {
             return false;
         }
-
         var user = getUserById(userId).orElseThrow(() -> GlobalException.causeBy(ResultType.SYS_ERROR));
         user.setAvatar(url);
         return updateById(user);
@@ -267,7 +281,7 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
     private String getNewAccountStr(String key) {
         final var suffix = "@ancf";
         final var randStr = CommonUtils.randomString().substring(0, 4);
-        final var account = key + randStr+suffix;
+        final var account = key + randStr + suffix;
         final var count = lambdaQuery().eq(User::getAccount, account).count();
         if (count != null && count > 0) {
             return key + randStr + count + suffix;
@@ -278,16 +292,13 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
     /**
      * 验证账号格式
      */
-    private void validAccountStr(String account){
-        if (StringUtils.isBlank(account) || account.split("@ancf").length != 2) {
-            throw GlobalException.causeBy(ResultType.PARAM_ERROR,"账号格式错误");
-        }
-        Integer count = lambdaQuery().eq(User::getAccount, account).count();
-        if (count != null && count > 0) {
-            throw GlobalException.causeBy(ResultType.PARAM_ERROR, "账号已存在");
+    private void validAccountStr(String account) {
+        if (StringUtils.isBlank(account)
+                || !account.endsWith(GlobalConstant.ACCOUNT_SUFFIX)
+                || account.split(GlobalConstant.ACCOUNT_SUFFIX).length != 1) {
+            throw GlobalException.causeBy(ResultType.PARAM_ERROR, "账号格式错误");
         }
     }
-
 
 
 }

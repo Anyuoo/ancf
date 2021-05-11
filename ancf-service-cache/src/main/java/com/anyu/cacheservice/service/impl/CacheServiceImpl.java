@@ -40,14 +40,14 @@ public class CacheServiceImpl implements CacheService {
         final var activationKey = isEmail ? RedisKeyUtils.getActivationKeyByEmail(key)
                 : RedisKeyUtils.getActivationKeyByMobile(key);
         valueSet(activationKey, activeCode);
-        return setExpire(activationKey, GlobalConstant.CACHE_EXPIRED_2H);
+        return setExpire(activationKey, GlobalConstant.CACHE_EXPIRED_10M);
     }
 
     @Override
     public boolean setVerifyCode(String email, String verifyCode) {
         final String verifyCodeKey = RedisKeyUtils.getVerifyCode(email);
-        valueSet(verifyCodeKey,verifyCode);
-        return setExpire(verifyCodeKey, GlobalConstant.CACHE_EXPIRED_2H);
+        valueSet(verifyCodeKey, verifyCode);
+        return setExpire(verifyCodeKey, GlobalConstant.CACHE_EXPIRED_10M);
     }
 
     @Override
@@ -114,9 +114,11 @@ public class CacheServiceImpl implements CacheService {
     @Override
     public int getPostLookNum(long id) {
         String postLookKey = RedisKeyUtils.getPostLookKey(id);
-        Integer num = (Integer)redisTemplate.opsForValue().get(postLookKey);
-        return  num == null ? 0 : num;
+        Integer num = (Integer) redisTemplate.opsForValue().get(postLookKey);
+        return num == null ? 0 : num;
     }
+
+    /* ******内部方法******** */
 
     /**
      * string类型
@@ -125,6 +127,9 @@ public class CacheServiceImpl implements CacheService {
         redisTemplate.opsForValue().set(key, value);
     }
 
+    /**
+     * string类型
+     */
     @SuppressWarnings("unchecked")
     private <T> Optional<T> valueGet(String key) {
         final var hasKey = redisTemplate.hasKey(key);

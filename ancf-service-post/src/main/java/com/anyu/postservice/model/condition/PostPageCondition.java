@@ -19,15 +19,15 @@ public class PostPageCondition {
         return type;
     }
 
-    public  LambdaQueryChainWrapper<Post> initWrapper(LambdaQueryChainWrapper<Post> wrapper) {
-       return wrapper.eq(title != null, Post::getType, type)
-                .eq(userId != null, Post::getUserId, userId)
-                .eq(title != null, Post::getTitle, title);
-    }
-
     public PostPageCondition setType(PostType type) {
         this.type = type;
         return this;
+    }
+
+    public LambdaQueryChainWrapper<Post> initWrapper(LambdaQueryChainWrapper<Post> wrapper) {
+        return wrapper.eq(title != null, Post::getType, type)
+                .eq(userId != null, Post::getUserId, userId)
+                .eq(title != null, Post::getTitle, title);
     }
 
     public int getUserId() {

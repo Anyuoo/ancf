@@ -1,0 +1,16 @@
+extend type Mutation{
+    uploadVideoCover(cover:Upload!): String
+#    视屏上传
+    uploadVideo(input:VideoInput!):Boolean
+}
+#视频上传参数
+type VideoInput{
+#    标题
+    title:String!
+#    描述
+    desc:String!
+#    视频资源
+    video:Upload!
+#    封面
+    cover:Upload!
+}

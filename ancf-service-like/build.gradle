@@ -1,0 +1,7 @@
+dependencies {
+    def deps = rootProject.ext.dependencies
+    implementation 'org.junit.jupiter:junit-jupiter:5.4.2'
+    implementation project(':ancf-common')
+    implementation project(':ancf-service-cache')
+    implementation deps.redis
+}

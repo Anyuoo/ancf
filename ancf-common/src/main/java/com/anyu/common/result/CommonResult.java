@@ -4,9 +4,6 @@ import com.anyu.common.result.type.ResultType;
 import lombok.Getter;
 import lombok.Setter;
 
-
-import java.util.function.Supplier;
-
 @Getter
 @Setter
 public class CommonResult {

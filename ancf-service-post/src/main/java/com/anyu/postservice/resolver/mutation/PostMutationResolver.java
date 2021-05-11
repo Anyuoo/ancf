@@ -3,17 +3,14 @@ package com.anyu.postservice.resolver.mutation;
 
 import com.anyu.authservice.annotation.UserRole;
 import com.anyu.authservice.service.AuthService;
-import com.anyu.common.result.CommonResult;
 import com.anyu.common.result.annotation.MutationResolver;
-import com.anyu.common.result.type.PostResultType;
+import com.anyu.likeservice.service.LikeService;
 import com.anyu.postservice.model.input.PostInput;
-import com.anyu.postservice.service.LikeService;
 import com.anyu.postservice.service.PostService;
 import graphql.kickstart.tools.GraphQLMutationResolver;
 import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 帖子信息变更操作
@@ -33,20 +30,21 @@ public class PostMutationResolver implements GraphQLMutationResolver {
 
     @UserRole
     public Boolean publishPost(@Validated PostInput input) {
-        return postService.publishPost(input.toEntity(), authService.getCurrentUserId());
+        return postService.publishPost(input.toEntity(), authService.getValidCUId());
     }
 
     /**
      * 帖子点赞
+     *
      * @param postId 帖子id
      * @return 点赞状态
      */
-    public Boolean postLike(Integer postId) {
-        int currentUserId = authService.getCurrentUserId();
+    public Boolean postLike(Long postId) {
+
         postService.getPostById(postId).ifPresent(post -> {
-            likeService.doPostLike(currentUserId,postId,post.getUserId());
+            likeService.doPostLike(authService.getValidCUId(), postId, post.getUserId());
         });
-        return likeService.getPostLikeStatus(currentUserId, postId);
+        return likeService.getPostLikeStatus(authService.getValidCUId(), postId);
     }
 
 }

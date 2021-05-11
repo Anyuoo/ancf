@@ -11,7 +11,9 @@ public enum ResultType implements IResultType {
     FAILED(false, 2001, "操作失败"),
     SYS_ERROR(false, 2003, "系统错误"),
     UNKNOWN_ERROR(false, 2004, "未知错误"),
-    PARAM_ERROR(false, 2005, "参数错误");
+    PARAM_ERROR(false, 2005, "参数错误"),
+    FORBIDDEN(false, 2006, "没权限"),
+    ;
 
 
     private final Boolean success;

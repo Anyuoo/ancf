@@ -11,7 +11,8 @@ package com.anyu.common.result.type;
 import com.anyu.common.result.IResultType;
 
 /**
- *20400 - 20499
+ * 20400 - 20499
+ *
  * @author Anyu
  * @since 2021/1/27 上午11:08
  */

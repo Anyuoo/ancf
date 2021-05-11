@@ -14,7 +14,7 @@ ext {
             "graphiql"                : 'com.graphql-java-kickstart:graphiql-spring-boot-starter:11.0.0',
             // Voyager tool
             "graphql_voyager"         : 'com.graphql-java-kickstart:voyager-spring-boot-starter:11.0.0',
-            "graphql_annotations": "com.graphql-java-kickstart:graphql-kickstart-spring-boot-starter-graphql-annotations:11.0.0",
+            "graphql_annotations"     : "com.graphql-java-kickstart:graphql-kickstart-spring-boot-starter-graphql-annotations:11.0.0",
             "graphql_extended_scalars": 'com.graphql-java:graphql-java-extended-scalars:1.0',
 
             "lombok"                  : 'org.projectlombok:lombok',
@@ -23,8 +23,6 @@ ext {
             "jjwt_impl"               : 'io.jsonwebtoken:jjwt-impl:0.11.2',
             "jjwt_jackson"            : 'io.jsonwebtoken:jjwt-jackson:0.11.2',
 
-
-            "aliyun_oss"              : 'com.aliyun.oss:aliyun-sdk-oss:3.10.2',
             "redis"                   : 'org.springframework.boot:spring-boot-starter-data-redis'
 
 

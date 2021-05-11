@@ -2,7 +2,6 @@ package com.anyu.postservice.model.input;
 
 
 import com.anyu.common.model.entity.Post;
-import com.anyu.common.model.enums.PostType;
 
 import javax.validation.constraints.NotBlank;
 

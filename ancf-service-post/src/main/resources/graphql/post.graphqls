@@ -28,7 +28,7 @@ input PostQueryCondition {
 #帖子创建实体输入
 input PostInput {
     #帖子类型
-#    type: PostType!
+    #    type: PostType!
     #帖子标题
     title: String!
     #内容
@@ -52,9 +52,9 @@ type Post {
     #帖子得分
     score: Float
     #帖子创建时间
-    createTime: String
+    createTime: DateTime
     #帖子修改时间
-    modifiedTime: String
+    modifiedTime: DateTime
 }
 
 #帖子类型
@@ -85,10 +85,10 @@ type PostVO {
     likeNum :Int
     #帖子的点赞状态
     likeStatus:Boolean
-#    浏览数
+    #    浏览数
     lookNum: Int
     #帖子创建时间
-    createTime:String
+    createTime:DateTime
     #帖子修改时间
-    modifiedTime:String
+    modifiedTime:DateTime
 }

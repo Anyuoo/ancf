@@ -3,19 +3,12 @@ package com.anyu.userservice.resolver;
 
 import com.anyu.authservice.service.AuthService;
 import com.anyu.common.model.entity.User;
-import com.anyu.common.result.CommonPage;
 import com.anyu.common.result.annotation.QueryResolver;
-import com.anyu.userservice.model.condition.UserPageCondition;
 import com.anyu.userservice.service.UserService;
 import graphql.kickstart.tools.GraphQLQueryResolver;
-import graphql.relay.Connection;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.lang.Nullable;
 
 import javax.annotation.Resource;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @QueryResolver
 public class UserQueryResolver implements GraphQLQueryResolver {
@@ -30,7 +23,7 @@ public class UserQueryResolver implements GraphQLQueryResolver {
      * 获取登录用户
      */
     public Optional<User> getLoginUser() {
-        return userService.getUserById(authService.getCurrentUserId());
+        return userService.getUserById(authService.getCUId().orElse(-1L));
     }
 
 //

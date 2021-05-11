@@ -1,11 +1,10 @@
 package com.anyu.cacheservice.service;
 
 import com.anyu.common.model.enums.EntityType;
-import com.anyu.common.util.GlobalConstant;
 
 import java.util.Optional;
 
-public interface CacheService   {
+public interface CacheService {
     /**
      * 获取用户注册激活码
      *
@@ -23,7 +22,6 @@ public interface CacheService   {
      */
     boolean setActivationCode(boolean isEmail, String key, String activeCode);
 
-    boolean setVerifyCode(String email, String verifyCode);
 
     /**
      * 点赞
@@ -45,16 +43,40 @@ public interface CacheService   {
      */
     boolean getEntityLikeStatus(String userId, EntityType entityType, String entityId);
 
+    /**
+     * 计算用户点赞数
+     *
+     * @param userId 用户id
+     * @return 点赞数
+     */
     int countUserLikeNum(String userId);
 
     int countEntityLikeNum(EntityType entityType, String entityId);
 
-    Optional<String>  getVerifyCode(String email);
+    /**
+     * 获取邮箱验证码
+     *
+     * @param email 邮箱
+     */
+    Optional<String> getVerifyCode(String email);
+
+    /**
+     * 存储邮箱验证码
+     *
+     * @param email      邮箱
+     * @param verifyCode 验证码
+     */
+    boolean setVerifyCode(String email, String verifyCode);
 
     /**
      * 增加帖子浏览
      */
     void addPostLookNum(long id);
 
+    /**
+     * 获取帖子浏览数
+     *
+     * @param id 帖子id
+     */
     int getPostLookNum(long id);
 }
