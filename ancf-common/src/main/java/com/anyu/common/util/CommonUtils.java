@@ -71,8 +71,10 @@ public class CommonUtils {
      *
      * @return 随机数字字符串
      */
-    public static String randomNumberString() {
-        return String.valueOf(System.currentTimeMillis());
+    public static String randomNumberString(int length) {
+        var str = String.valueOf(System.currentTimeMillis());
+        int len = str.length();
+        return length< len ?  str.substring(len-length,len) : str;
     }
 
     /**

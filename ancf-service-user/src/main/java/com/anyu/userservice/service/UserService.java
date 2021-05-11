@@ -135,7 +135,7 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
         variables.put("oldEmail", oldEmail);
         variables.put("newEmail", email);
         //验证码
-        final var code = CommonUtils.randomNumberString().substring(0, 5);
+        final var code = CommonUtils.randomNumberString(4);
         variables.put("code", code);
         //注册时间
         final var createTime = LocalDateTime.now();
@@ -189,7 +189,7 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
         //邮箱
         variables.put("email", email);
         //验证码
-        final var verifyCode = CommonUtils.randomNumberString().substring(0, 5);
+        final var verifyCode = CommonUtils.randomNumberString(4);
         variables.put("verifyCode", verifyCode);
         //注册时间
         final var createTime = LocalDateTime.now();
@@ -225,7 +225,7 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
                 .setAccount(account)
                 .setPassword(password)
                 .setAge(0)
-                .setGender(Gender.NUKNOWN);
+                .setGender(Gender.UNKNOWN);
         //密码hash
         hashPassword(user);
         return save(user);

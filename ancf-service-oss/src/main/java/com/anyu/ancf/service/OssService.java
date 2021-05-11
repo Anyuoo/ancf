@@ -4,13 +4,17 @@ import com.aliyun.oss.OSSClientBuilder;
 import com.anyu.ancf.config.OSSProperties;
 import com.anyu.ancf.model.FileFolder;
 import com.anyu.ancf.model.OssFile;
+import com.anyu.ancf.model.annotation.FileUploadLogger;
 import com.anyu.ancf.util.OssUtils;
 import com.anyu.common.exception.GlobalException;
+import com.anyu.common.model.entity.UploadFile;
+import com.anyu.common.model.enums.FileType;
 import com.anyu.common.result.type.FileResultType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.servlet.http.Part;
 import javax.validation.constraints.NotBlank;
 import java.io.ByteArrayInputStream;
@@ -26,12 +30,11 @@ import java.util.Optional;
 public class OssService {
     private static final Logger logger = LoggerFactory.getLogger(OssService.class);
 
-    private final OSSProperties ossProperties;
+    @Resource
+    private  OSSProperties ossProperties;
+    @Resource
+    private UploadFileService uploadFileService;
 
-    public OssService(OSSProperties ossProperties) {
-        this.ossProperties = ossProperties;
-        logger.info("OssService 初始化完成");
-    }
 
     /**
      * 上传头像
@@ -39,9 +42,12 @@ public class OssService {
      * @param avatar   文件
      * @return OSS地址
      */
+    @FileUploadLogger(type = FileType.PICTURE)
     public Optional<String> uploadAvatar(Part avatar) {
-        return uploadFile(OssFile.build(avatar,FileFolder.FILE_AVATAR));
+       return uploadFile(OssFile.build(avatar, FileFolder.FILE_AVATAR));
     }
+
+    @FileUploadLogger(type = FileType.PICTURE)
     public Optional<String> uploadVideoCover(Part cover) {
         return uploadFile(OssFile.build(cover, FileFolder.FILE_VIDEO_COVER));
     }

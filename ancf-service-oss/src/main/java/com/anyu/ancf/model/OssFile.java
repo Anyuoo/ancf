@@ -56,8 +56,7 @@ public class OssFile {
                     .setData(inputStream.readAllBytes())
                     .setSize(file.getSize())
                     .setFileFolder(fileFolder)
-                    .setType(type)
-                    ;
+                    .setType(type);
         } catch ( IOException e) {
             throw GlobalException.causeBy(FileResultType.UPLOAD_ERROR);
         }

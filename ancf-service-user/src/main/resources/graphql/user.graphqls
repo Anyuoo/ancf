@@ -71,7 +71,7 @@ input UserInput {
 
 #性别枚举
 enum Gender {
-    NUKNOWN
+    UNKNOWN
     MALE
     FEMALE
 }
