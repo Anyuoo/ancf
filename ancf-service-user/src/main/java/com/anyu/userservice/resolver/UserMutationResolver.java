@@ -58,7 +58,7 @@ public class UserMutationResolver implements GraphQLMutationResolver {
         return userService.login(principal, password);
     }
 
-    //
+
     @UserRole
     public Boolean updateUserInfo(@NotNull UserInput input) {
         return userService.updateUserInfoById(authService.getValidCUId(), input);
@@ -72,10 +72,11 @@ public class UserMutationResolver implements GraphQLMutationResolver {
         return userService.updateEmail(authService.getValidCUId(), email, code);
     }
 
-    public Optional<String> uploadAvatar(@NotNull Part avatar) {
-        var avatarUrl = ossService.uploadAvatar(avatar);
-        return avatarUrl.isPresent() && userService.updateAvatar(authService.getValidCUId(), avatarUrl.get())
-                ? avatarUrl
-                : Optional.empty();
+    public String uploadAvatar(@NotNull Part avatar) {
+        var ossUrl = ossService.uploadAvatar(avatar).getUrl();
+        if (StringUtils.isNotBlank(ossUrl) && userService.updateAvatar(authService.getValidCUId(), ossUrl)) {
+            return ossUrl;
+        }
+        return null;
     }
 }

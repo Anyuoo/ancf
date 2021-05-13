@@ -43,6 +43,11 @@ public class OssFile {
     private FileFolder fileFolder;
 
     /**
+     * oss地址
+     */
+    private String url;
+
+    /**
      * 构建OssFile对象
      * @param file 文件
      * @param fileFolder 上传的文件夹

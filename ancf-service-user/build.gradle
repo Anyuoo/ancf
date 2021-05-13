@@ -1,12 +1,8 @@
 dependencies {
     implementation 'org.junit.jupiter:junit-jupiter:5.4.2'
-    def deps = rootProject.ext.dependencies
     implementation project(':ancf-common')
     implementation project(':ancf-service-oss')
     implementation project(':ancf-service-auth')
     implementation project(':ancf-service-cache')
-    //mysql驱动
-    implementation deps.graphql_extended_scalars
-    implementation deps.redis
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }

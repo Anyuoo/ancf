@@ -1,0 +1,5 @@
+dependencies {
+    implementation project(':ancf-common')
+    implementation project(':ancf-service-auth')
+    implementation project(':ancf-service-oss')
+}

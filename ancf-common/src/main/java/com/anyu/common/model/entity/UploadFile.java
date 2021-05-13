@@ -23,6 +23,10 @@ public class UploadFile extends BaseEntity {
      */
     @TableId(type = IdType.AUTO)
     private Long id;
+    /**
+     * 名称
+     */
+    private String name;
 
     /**
      * 用户id
@@ -32,6 +36,11 @@ public class UploadFile extends BaseEntity {
      * 文件类型
      */
     private FileType type;
+
+    /**
+     *oss 文件夹
+     */
+    private String folder;
     /**
      * OSS资源位置
      */

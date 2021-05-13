@@ -6,6 +6,4 @@ dependencies {
     implementation project(':ancf-service-auth')
     implementation project(':ancf-service-cache')
     implementation project(':ancf-service-like')
-    implementation deps.graphql_extended_scalars
-    implementation deps.redis
 }

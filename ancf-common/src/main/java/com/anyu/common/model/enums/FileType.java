@@ -23,11 +23,11 @@ public enum FileType implements IEnumsCode {
 
     @Override
     public int getCode() {
-        return 0;
+        return code;
     }
 
     @Override
     public String getDesc() {
-        return null;
+        return desc;
     }
 }

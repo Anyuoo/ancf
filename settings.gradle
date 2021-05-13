@@ -10,4 +10,5 @@ include 'ancf-service-cache'
 include 'ancf-service-video'
 include 'ancf-service-comment'
 include 'ancf-service-like'
+include 'ancf-service-upload'
 

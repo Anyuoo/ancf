@@ -15,12 +15,5 @@ public class VideoMutationResolver implements GraphQLMutationResolver {
     @Resource
     private OssService ossService;
 
-    public Optional<String> uploadVideoCover(@NotNull Part cover) {
-        return ossService.uploadVideoCover(cover);
-    }
 
-    public Boolean uploadVideo(@NotNull VideoInput input) {
-        return false;
-
-    }
 }

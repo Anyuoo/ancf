@@ -11,6 +11,6 @@ import javax.servlet.http.Part;
 public class VideoInput {
     private String title;
     private String desc;
-    private Part video;
-    private Part cover;
+    private String videoUrl;
+    private Part coverUrl;
 }

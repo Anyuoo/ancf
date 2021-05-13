@@ -8,8 +8,10 @@ package com.anyu.ancf.model;
  * @since 2021/5/10
  */
 public enum FileFolder {
-    FILE_AVATAR("avatar", "头像文件夹"),
-    FILE_VIDEO_COVER("video-cover", "视频封面文件夹"),
+    AVATAR("avatar", "头像文件夹"),
+    VIDEO_COVER("video-cover", "视频封面文件夹"),
+    PICTURE("picture", "图片文件夹"),
+    VIDEO("video", "视频文件夹"),
     ;
 
     /* 路径 */
