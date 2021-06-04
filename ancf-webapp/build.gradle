@@ -1,14 +1,16 @@
 dependencies {
     def deps = rootProject.ext.dependencies
+
     implementation project(':ancf-common')
     implementation project(':ancf-service-user')
     implementation project(':ancf-service-post')
     implementation project(':ancf-service-msg')
-    // to embed Altair tool
+    implementation project(':ancf-service-video')
+    implementation project(':ancf-service-comment')
+    implementation project(':ancf-service-upload')
+
     runtimeOnly deps.graphql_altair
-    // to embed GraphiQL tool
     runtimeOnly deps.graphiql
-    // to embed Voyager tool
     runtimeOnly deps.graphql_voyager
 }
 

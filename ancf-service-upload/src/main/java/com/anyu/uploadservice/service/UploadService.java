@@ -76,4 +76,9 @@ public class UploadService {
     public List<UploadFile> listRmdVideoCovers() {
         return uploadFileService.listRmdVideoCovers(authService.getValidCUId());
     }
+
+    public List<UploadFile> listHotPictures() {
+        return uploadFileService.listHostPictures();
+    }
+
 }

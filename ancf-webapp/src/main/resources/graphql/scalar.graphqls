@@ -1,3 +1,4 @@
 scalar DateTime
 scalar Object
 scalar Date
+scalar Upload

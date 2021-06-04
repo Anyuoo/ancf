@@ -75,4 +75,11 @@ public class UploadFileService extends ServiceImpl<UploadFileMapper, UploadFile>
                 .last("limit 10")
                 .list();
     }
+
+    public List<UploadFile> listHostPictures() {
+        return lambdaQuery()
+                .eq(UploadFile::getType, FileType.PICTURE)
+                .last("limit 10")
+                .list();
+    }
 }

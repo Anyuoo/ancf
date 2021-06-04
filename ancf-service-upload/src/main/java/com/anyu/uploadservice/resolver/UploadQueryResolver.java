@@ -24,4 +24,8 @@ public class UploadQueryResolver implements GraphQLQueryResolver {
     public List<UploadFile> listRmdVideoCovers() {
         return uploadService.listRmdVideoCovers();
     }
+
+    public List<UploadFile> listHotPictures() {
+        return uploadService.listHotPictures();
+    }
 }

@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -20,7 +21,7 @@ public class UserInput {
      */
     @NotBlank(message = "昵称不能为空")
     private String nickname;
-    /*
+    /**
      *生日
      */
     @NotNull(message = "生日不能为空")

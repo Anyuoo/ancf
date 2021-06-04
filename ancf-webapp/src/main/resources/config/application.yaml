@@ -1,9 +1,9 @@
 server:
   port: 8050
-
 spring:
   application:
     name: AnCF
+#  数据源配置
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -18,7 +18,7 @@ spring:
       maximum-pool-size: 12
       minimum-idle: 10
       pool-name: GuliHikariPool
-
+#序列化配置
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
@@ -29,6 +29,7 @@ spring:
     username: anyuzhao@qq.com
     password: zngjtedtoxzhdfca
     protocol: smtps
+#    Redis配置
   redis:
     host: 172.17.0.1
     port: 6379
@@ -36,6 +37,11 @@ spring:
 
   main:
     allow-bean-definition-overriding: true
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+#mybatis-plus 配置
 mybatis-plus:
   global-config:
     db-config:
@@ -47,44 +53,21 @@ mybatis-plus:
     #枚举包
   type-enums-package: com.anyu.common.model.enums
 
-#
-#graphql:
-#  tools:
-#    use-default-objectmapper: true
-#    schema-location-pattern: "**/*.graphqls"
-#    servlet:
-#      enabled: true
-#      # Sets the path where GraphQL servlet will be exposed. If not specified defaults to "/graphql"
-#      mapping: /graphql
-#      cors-enabled: false
-#      cors:
-#        allowed-origins: http://localhost:8080
-#        allowed-methods: GET, HEAD, POST
-#      # if you want to @ExceptionHandler annotation for custom GraphQLErrors
-#      exception-handlers-enabled: false
-#      context-setting: PER_REQUEST_WITH_INSTRUMENTATION
 
 graphiql:
   cdn:
     enabled: true
 
-#aliyun OSS 配置
-aliyun:
-  oss:
-    bucket-name: ancf
-    endpoint: oss-cn-chengdu.aliyuncs.com
-    key-id: LTAI4GJR7WPEATJpoJZCT7Xq
-    key-secret: DB53VQf8BZ4FlXHHw6zr1GxinViYaQ
-
+#jwt配置
 app:
   jwt:
     aud: add
     iss: anyu
-
+#日志配置
 logging:
   level:
     com.anyu: debug
-
+#graphql配置
 graphql:
   servlet:
     enabled: true
@@ -97,8 +80,14 @@ graphql:
       allow-credentials: true
       allowed-headers: "*"
 
-
-
 #    subscriptions:
 #      websocket:
 #        path: /subscriptions
+
+#aliyun OSS 配置
+aliyun:
+  oss:
+    bucket-name: ancf
+    endpoint: oss-cn-chengdu.aliyuncs.com
+    key-id: LTAI5t849BE4hv1eR2pN49HZ
+    key-secret: sGyO6n6D2jMjJnWVJOCBmFELk7rTTq

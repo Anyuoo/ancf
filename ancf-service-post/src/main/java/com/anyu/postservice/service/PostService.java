@@ -109,7 +109,6 @@ public class PostService extends ServiceImpl<PostMapper, Post> implements IServi
      * @param condition 条件
      */
     public List<Post> listPostAfter(int size, Long postId, PostPageCondition condition) {
-        System.out.println("size" + size + "ssss" + "postid:" + postId);
         if (size < 1)
             size = GlobalConstant.PAGE_FIRST;
         final var chainWrapper = lambdaQuery();

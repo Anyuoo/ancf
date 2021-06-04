@@ -13,6 +13,8 @@ extend type Query {
     listRmdVideos: [UploadFile]
 #    推荐视频
     listRmdVideoCovers:[UploadFile]
+#    热门照片
+    listHotPictures:[UploadFile]
 }
 
 #上传文件信息
