@@ -1,0 +1,6 @@
+com/anyu/uploadservice/service/UploadService.java
+ com.anyu.uploadservice.service.UploadService
+com/anyu/uploadservice/resolver/UploadQueryResolver.java
+ com.anyu.uploadservice.resolver.UploadQueryResolver
+com/anyu/uploadservice/resolver/UploadMutationResolver.java
+ com.anyu.uploadservice.resolver.UploadMutationResolver

@@ -1,0 +1,41 @@
+extend type Mutation {
+#    上传图片
+    uploadPictures(pictures: [Upload!]!): [UploadFile]
+    #视频封面
+    uploadVideoCover(cover:Upload!): UploadFile
+    #视频上传
+    uploadVideo(video:Upload!): UploadFile
+}
+extend type Query {
+#    查询图片列表
+    listCUPictures: [UploadFile]
+#推荐视频封面
+    listRmdVideos: [UploadFile]
+#    推荐视频
+    listRmdVideoCovers:[UploadFile]
+#    热门照片
+    listHotPictures:[UploadFile]
+}
+
+#上传文件信息
+type UploadFile{
+#    id
+    id:ID
+#    用户id
+    userId:ID
+#    文件名
+    name: String
+#    文件类型
+    type:FileType
+#    OSS资源连接
+    url:String
+#    上传时间
+    createTime: DateTime
+}
+#文件类型
+enum FileType {
+#    图片
+    PICTURE
+#    视频
+    VIDEO
+}

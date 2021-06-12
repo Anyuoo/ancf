@@ -1,0 +1,26 @@
+extend type Mutation{
+    publishVideo(input:VideoInput!):Boolean
+}
+extend type Query {
+    listVideos(size:Int,after:String): VideoVoConnection @connection(for: "VideoVo")
+}
+#视频上传参数
+input VideoInput{
+#    标题
+    title:String!
+#    描述
+    desc:String!
+#    视频资源
+    videoUrl:String!
+#    封面
+    coverUrl:String!
+}
+type VideoVo{
+    id:ID
+    publisher: User
+    title:String
+    desc:String
+    videoUrl:String
+    coverUrl:String
+
+}

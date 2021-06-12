@@ -1,0 +1,16 @@
+com/anyu/videoservice/mapper/VideoMapper.java
+ com.anyu.videoservice.mapper.VideoMapper
+com/anyu/videoservice/service/VideoService.java
+ com.anyu.videoservice.service.VideoService
+com/anyu/videoservice/resolver/VideoVoResolver.java
+ com.anyu.videoservice.resolver.VideoVoResolver
+com/anyu/videoservice/resolver/VideoMutationResolver.java
+ com.anyu.videoservice.resolver.VideoMutationResolver
+com/anyu/videoservice/model/VideoPageCondition.java
+ com.anyu.videoservice.model.VideoPageCondition
+com/anyu/videoservice/model/VideoVo.java
+ com.anyu.videoservice.model.VideoVo
+com/anyu/videoservice/resolver/VideoQueryResolver.java
+ com.anyu.videoservice.resolver.VideoQueryResolver
+com/anyu/videoservice/model/VideoInput.java
+ com.anyu.videoservice.model.VideoInput
